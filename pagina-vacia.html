@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Página vacía — Plantilla imprimible · Aula de Cómic ULPGC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f3ede1;
+    --paper2: #ebe3d2;
+    --ink: #1a1410;
+    --red: #b8341d;
+    --gold: #a8852d;
+    --serif: 'Shippori Mincho B1', Georgia, serif;
+    --mono:  'JetBrains Mono', ui-monospace, monospace;
+    --soft: rgba(26, 20, 16, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--serif);
+    color: var(--ink);
+    background: #ddd;
+    line-height: 1.5;
+  }
+  a { color: inherit; }
+
+  @page { size: A4; margin: 12mm 14mm; }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--paper);
+    margin: 14px auto;
+    padding: 14mm 14mm 16mm;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    position: relative;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+  .sheet:last-child { page-break-after: auto; }
+
+  @media print {
+    body { background: var(--paper); }
+    .sheet { box-shadow: none; margin: 0; padding: 0; width: auto; min-height: auto; }
+    .toolbar { display: none !important; }
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+  }
+  .toolbar button, .toolbar a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .toolbar button:hover, .toolbar a:hover { background: var(--red); }
+  .toolbar .ghost { background: var(--paper); color: var(--ink); border: 1px solid var(--ink); }
+
+  /* HEAD */
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding-bottom: 6mm;
+    margin-bottom: 8mm;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .head-left .eyebrow {
+    font-family: var(--mono);
+    font-size: 9pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 3mm;
+  }
+  .head-left h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 24pt;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .head-left h1 em { color: var(--red); font-style: italic; font-weight: 500; }
+  .head-right {
+    display: grid;
+    gap: 2mm;
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.6);
+    text-align: right;
+  }
+  .head-right .line {
+    display: flex;
+    gap: 12px;
+    justify-content: end;
+    align-items: baseline;
+  }
+  .head-right strong {
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 11pt;
+    letter-spacing: 0;
+    text-transform: none;
+    min-width: 30mm;
+    border-bottom: 1px solid var(--ink);
+    text-align: left;
+    padding-left: 4mm;
+    padding-bottom: 1mm;
+  }
+  .head-right strong:empty::before { content: '\\00a0'; }
+
+  /* INSTRUCCIONES */
+  .instr {
+    background: var(--paper2);
+    border-left: 3px solid var(--red);
+    padding: 4mm 5mm;
+    margin-bottom: 8mm;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5mm;
+    align-items: start;
+  }
+  .instr-tag {
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.16em;
+    color: var(--red);
+    text-transform: uppercase;
+    padding-top: 1mm;
+  }
+  .instr-body {
+    font-family: var(--serif);
+    font-size: 10pt;
+    line-height: 1.55;
+    color: rgba(26,20,16,0.78);
+    text-wrap: pretty;
+  }
+  .instr-body strong { color: var(--ink); }
+
+  /* PÁGINA DE VIÑETAS */
+  .pagina-vinetas {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 0.85fr 1fr 1fr;
+    gap: 3mm;
+    border: 1.5px solid var(--ink);
+    padding: 3mm;
+    background: var(--paper);
+    position: relative;
+    min-height: 180mm;
+  }
+  .pagina-vinetas::before {
+    content: 'Lectura ← derecha a izquierda';
+    position: absolute;
+    top: -8mm;
+    right: 0;
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+  .pagina-vinetas > .vineta {
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.12em;
+    color: rgba(26,20,16,0.25);
+    text-transform: uppercase;
+  }
+  .vineta-num {
+    position: absolute;
+    top: 2mm;
+    left: 3mm;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 11pt;
+    color: var(--ink);
+  }
+  /* Bocadillos vacíos en algunas viñetas */
+  .bocadillo {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 50%/55%;
+    padding: 5mm 8mm;
+    min-width: 30mm;
+    min-height: 14mm;
+    position: relative;
+  }
+  .bocadillo::after {
+    content: '';
+    position: absolute;
+    bottom: -6mm;
+    left: 25%;
+    width: 8mm;
+    height: 8mm;
+    background: var(--paper);
+    border-right: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+    transform: rotate(45deg);
+  }
+  .ono-vacia {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 30pt;
+    color: rgba(184, 52, 29, 0.15);
+    text-transform: uppercase;
+    transform: rotate(-7deg);
+    pointer-events: none;
+  }
+
+  /* Distribución cuadrícula */
+  .vineta:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+  .vineta:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .vineta:nth-child(3) { grid-column: 2; grid-row: 2; }
+  .vineta:nth-child(4) { grid-column: 1 / 3; grid-row: 3; }
+  .vineta:nth-child(5) { grid-column: 1; grid-row: 4; }
+  .vineta:nth-child(6) { grid-column: 2; grid-row: 4; }
+
+  /* PIE */
+  .foot {
+    margin-top: 6mm;
+    padding-top: 4mm;
+    border-top: 1px solid var(--soft);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.55);
+  }
+  .foot strong { color: var(--red); font-weight: 500; }
+
+  /* ====== VARIANTE 6 viñetas vacías (rellena bocadillos) ====== */
+  .variante-2 .pagina-vinetas {
+    grid-template-rows: 1fr 0.9fr 0.9fr 1fr;
+  }
+  .variante-2 .vineta {
+    background: var(--paper);
+  }
+  .variante-2 .vineta-num { color: var(--red); }
+  .variante-2 .vineta-bocadillo-only { background: var(--paper); }
+
+  /* ====== VARIANTE 3 — solo onomatopeyas ====== */
+  .variante-3 .pagina-vinetas {
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .variante-3 .vineta:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+  .variante-3 .vineta:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .variante-3 .vineta:nth-child(3) { grid-column: 2; grid-row: 2; }
+  .variante-3 .vineta:nth-child(4) { grid-column: 1 / 3; grid-row: 3; }
+  .variante-3 .vineta:nth-child(5),
+  .variante-3 .vineta:nth-child(6) { display: none; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="recurso.html" class="ghost">← Volver al recurso</a>
+  <button onclick="window.print()">⎙ Imprimir / Guardar PDF</button>
+</div>
+
+<!-- ════════ HOJA 1 — RELLENA BOCADILLOS ════════ -->
+<section class="sheet">
+  <header class="head">
+    <div class="head-left">
+      <div class="eyebrow">Aula de Cómic ULPGC · Plantilla 01</div>
+      <h1>Página <em>vacía</em>: rellena los bocadillos.</h1>
+    </div>
+    <div class="head-right">
+      <div class="line">Nombre <strong></strong></div>
+      <div class="line">Curso  <strong></strong></div>
+      <div class="line">Fecha  <strong></strong></div>
+    </div>
+  </header>
+
+  <div class="instr">
+    <span class="instr-tag">Instrucciones</span>
+    <p class="instr-body">
+      Mira las seis viñetas vacías. <strong>Recuerda que el manga se lee de derecha a izquierda y de arriba abajo.</strong> Imagina la historia que se cuenta entre ellas y rellena los bocadillos con lo que dirían los personajes. No hace falta dibujar nada nuevo: con texto basta. Comparte tu versión con un compañero y comprueba en qué coincidís y en qué no.
+    </p>
+  </div>
+
+  <div class="pagina-vinetas">
+    <div class="vineta">
+      <span class="vineta-num">01</span>
+      <div class="bocadillo"></div>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">02</span>
+      <div class="bocadillo"></div>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">03</span>
+      <div class="bocadillo"></div>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">04</span>
+      <div class="bocadillo"></div>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">05</span>
+      <div class="bocadillo"></div>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">06</span>
+      <div class="bocadillo"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Plantilla 01 / 03 · Rellena bocadillos</span>
+    <span>Aula de Cómic ULPGC · <strong>Versión imprimible</strong></span>
+  </div>
+</section>
+
+<!-- ════════ HOJA 2 — DIBUJA TU HISTORIA ════════ -->
+<section class="sheet">
+  <header class="head">
+    <div class="head-left">
+      <div class="eyebrow">Aula de Cómic ULPGC · Plantilla 02</div>
+      <h1>Página <em>vacía</em>: dibuja tu propia historia.</h1>
+    </div>
+    <div class="head-right">
+      <div class="line">Nombre <strong></strong></div>
+      <div class="line">Curso  <strong></strong></div>
+      <div class="line">Fecha  <strong></strong></div>
+    </div>
+  </header>
+
+  <div class="instr">
+    <span class="instr-tag">Instrucciones</span>
+    <p class="instr-body">
+      Dibuja una historia en seis viñetas. <strong>Algo que te haya pasado hoy</strong>, o algo que te gustaría que pasara. La primera viñeta es la más grande: ahí presentas a los personajes o el lugar. La última, igual de grande: ahí pasa lo importante. No hace falta dibujar bien: con figuras sencillas basta. Si quieres, añade <strong>una onomatopeya</strong> grande en alguna viñeta.
+    </p>
+  </div>
+
+  <div class="pagina-vinetas">
+    <div class="vineta"><span class="vineta-num">01</span></div>
+    <div class="vineta"><span class="vineta-num">02</span></div>
+    <div class="vineta"><span class="vineta-num">03</span></div>
+    <div class="vineta"><span class="vineta-num">04</span></div>
+    <div class="vineta"><span class="vineta-num">05</span></div>
+    <div class="vineta"><span class="vineta-num">06</span></div>
+  </div>
+
+  <div class="foot">
+    <span>Plantilla 02 / 03 · Dibuja tu historia</span>
+    <span>Aula de Cómic ULPGC · <strong>Versión imprimible</strong></span>
+  </div>
+</section>
+
+<!-- ════════ HOJA 3 — INVENTA LAS ONOMATOPEYAS ════════ -->
+<section class="sheet variante-3">
+  <header class="head">
+    <div class="head-left">
+      <div class="eyebrow">Aula de Cómic ULPGC · Plantilla 03</div>
+      <h1>Inventa las <em>onomatopeyas</em>.</h1>
+    </div>
+    <div class="head-right">
+      <div class="line">Nombre <strong></strong></div>
+      <div class="line">Curso  <strong></strong></div>
+      <div class="line">Fecha  <strong></strong></div>
+    </div>
+  </header>
+
+  <div class="instr">
+    <span class="instr-tag">Instrucciones</span>
+    <p class="instr-body">
+      Las onomatopeyas del manga no son solo ruidos: también pueden ser <strong>silencios</strong> (シーン) o <strong>emociones</strong> (ドキドキ, corazón acelerado). En cada viñeta, escribe en GRANDE la onomatopeya que mejor describa lo que pasa ahí: <em>¡PUM!</em>, <em>¡ZAS!</em>, <em>silencio</em>, <em>nervios</em>, lo que tú quieras. Píntala como si se viera desde lejos.
+    </p>
+  </div>
+
+  <div class="pagina-vinetas">
+    <div class="vineta">
+      <span class="vineta-num">01</span>
+      <span class="ono-vacia">¿…?</span>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">02</span>
+      <span class="ono-vacia">¿…?</span>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">03</span>
+      <span class="ono-vacia">¿…?</span>
+    </div>
+    <div class="vineta">
+      <span class="vineta-num">04</span>
+      <span class="ono-vacia">¿…?</span>
+    </div>
+    <div class="vineta"></div>
+    <div class="vineta"></div>
+  </div>
+
+  <div class="foot">
+    <span>Plantilla 03 / 03 · Onomatopeyas</span>
+    <span>Aula de Cómic ULPGC · <strong>Versión imprimible</strong></span>
+  </div>
+</section>
+
+</body>
+</html>

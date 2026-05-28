@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0e0a04">
+<meta name="description" content="Sesión de formación docente sobre el manga como recurso didáctico: marco pedagógico, decálogo de mediación, protocolo de aula y anatomía de la página. Aula de Cómic · Biblioteca Campus del Obelisco · ULPGC.">
+<meta name="author" content="Daniel Becerra Romero (Dir.) — Aula de Cómic, Facultad de Ciencias de la Educación, ULPGC">
+<meta name="generator" content="Manga como recurso para el aula · v5.10">
+<title>Manga en el aula — Sesión de formación docente · ULPGC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f3ede1;
+    --paper2: #ebe3d2;
+    --ink: #1a1410;
+    --red: #b8341d;
+    --gold: #a8852d;
+    --ed-serif: 'Shippori Mincho B1', Georgia, serif;
+    --ed-mono:  'JetBrains Mono', ui-monospace, monospace;
+    --ed-display:'Cinzel', serif;
+    --soft: rgba(26, 20, 16, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  deck-stage { background: var(--paper); }
+
+  /* Cada slide: 1920×1080, fondo papel */
+  section {
+    width: 1920px;
+    height: 1080px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ed-serif);
+    padding: 88px 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Cabecera/pie comunes */
+  .s-head, .s-foot {
+    position: absolute;
+    left: 120px;
+    right: 120px;
+    font-family: var(--ed-mono);
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(26, 20, 16, 0.55);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .s-head { top: 56px; }
+  .s-head::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--ink);
+  }
+  .s-foot { bottom: 56px; }
+  .s-foot::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--soft);
+  }
+
+  /* COVER */
+  .cover {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    height: 100%;
+    align-items: end;
+    gap: 64px;
+  }
+  .cover-eyebrow {
+    font-family: var(--ed-mono);
+    font-size: 24px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .cover-eyebrow::after { content:''; flex:1; height:1.5px; background: var(--red); }
+  .cover h1 {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 124px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 48px;
+    max-width: 1280px;
+  }
+  .cover h1 em { color: var(--red); font-style: italic; font-weight: 500; }
+  .cover-lede {
+    font-family: var(--ed-serif);
+    font-size: 30px;
+    line-height: 1.4;
+    color: rgba(26,20,16,0.72);
+    max-width: 980px;
+    margin-bottom: 56px;
+    text-wrap: pretty;
+  }
+  .cover-attr {
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+    font-family: var(--ed-mono);
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.6);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .cover-attr strong {
+    display: block;
+    font-family: var(--ed-serif);
+    font-size: 38px;
+    color: var(--ink);
+    margin-top: 8px;
+    letter-spacing: -0.015em;
+    text-transform: none;
+    font-weight: 600;
+  }
+  .cover-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 48px;
+    border-left: 1.5px solid var(--ink);
+    height: 100%;
+    align-self: stretch;
+  }
+  .tategaki {
+    writing-mode: vertical-rl;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px;
+    letter-spacing: 0.4em;
+    color: var(--red);
+  }
+  .stamp {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 1.5px solid var(--red);
+    color: var(--red);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-family: var(--ed-mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    transform: rotate(-7deg);
+    position: relative;
+  }
+  .stamp::before {
+    content:''; position: absolute; inset: 8px;
+    border: 0.5px solid var(--red);
+    border-radius: 50%;
+  }
+  .stamp strong {
+    display: block;
+    font-family: var(--ed-serif);
+    font-size: 38px;
+    margin: 6px 0;
+    letter-spacing: -0.005em;
+    color: var(--red);
+    text-transform: none;
+    font-weight: 600;
+  }
+
+  /* SLIDE HEADER (common, not cover) */
+  .sec-eyebrow {
+    font-family: var(--ed-mono);
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin: 40px 0 18px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .sec-eyebrow::after { content:''; flex:1; height: 1px; background: var(--red); }
+  .sec-title {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 108px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    text-wrap: balance;
+    max-width: 1500px;
+  }
+  .sec-title em { color: var(--red); font-style: italic; font-weight: 500; }
+  .sec-kicker {
+    font-family: var(--ed-serif);
+    font-size: 30px;
+    line-height: 1.4;
+    color: rgba(26,20,16,0.7);
+    max-width: 1300px;
+    text-wrap: pretty;
+  }
+
+  /* SLIDE: title + grid */
+  .grid-3x2 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0;
+    border: 1.5px solid var(--ink);
+    margin-top: 40px;
+    height: 540px;
+    margin-bottom: 60px;
+  }
+  .grid-3x2 > div {
+    padding: 36px 36px;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .grid-3x2 > div:nth-child(3n) { border-right: none; }
+  .grid-3x2 > div:nth-last-child(-n+3) { border-bottom: none; }
+  .grid-3x2 > div.featured { background: var(--ink); color: var(--paper); }
+  .grid-3x2 > div.featured .gn { color: var(--red); }
+  .grid-3x2 > div.featured .gb { color: rgba(243,237,225,0.78); }
+  .gn {
+    font-family: var(--ed-mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+  .gt {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .gb {
+    font-family: var(--ed-serif);
+    font-size: 20px;
+    line-height: 1.45;
+    color: rgba(26,20,16,0.75);
+    margin-top: auto;
+    text-wrap: pretty;
+  }
+
+  /* SLIDE: decálogo 5 cols x 1 */
+  .dec-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1.5px solid var(--ink);
+    margin-top: 40px;
+    height: 580px;
+  }
+  .dec-row > div {
+    padding: 28px 24px;
+    border-right: 1px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .dec-row > div:last-child { border-right: none; }
+  .dn {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 88px;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--red);
+  }
+  .dn small {
+    display: block;
+    font-family: var(--ed-mono);
+    font-size: 11px;
+    color: var(--ink);
+    opacity: 0.55;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+  .dt {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+  }
+  .db {
+    font-family: var(--ed-serif);
+    font-size: 16px;
+    line-height: 1.45;
+    color: rgba(26,20,16,0.7);
+    margin-top: auto;
+  }
+
+  /* SLIDE: protocolo 3 cols */
+  .proto-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1.5px solid var(--ink);
+    margin-top: 36px;
+    height: 620px;
+  }
+  .proto-3 > article {
+    padding: 36px 36px;
+    border-right: 1px solid var(--ink);
+  }
+  .proto-3 > article:last-child { border-right: none; }
+  .pf {
+    font-family: var(--ed-mono);
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pt {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .proto-3 ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .proto-3 li {
+    font-family: var(--ed-serif);
+    font-size: 21px;
+    line-height: 1.45;
+    color: rgba(26,20,16,0.78);
+    padding-left: 24px;
+    position: relative;
+    text-wrap: pretty;
+  }
+  .proto-3 li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 0.5;
+  }
+  .proto-3 li strong { font-weight: 600; color: var(--ink); }
+
+  /* SLIDE: anatomía */
+  .anat-grid {
+    display: grid;
+    grid-template-columns: 480px 1fr;
+    gap: 48px;
+    margin-top: 36px;
+    height: 620px;
+  }
+  .anat-pg {
+    background: var(--paper2);
+    border: 1.5px solid var(--ink);
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 0.7fr 1fr;
+    gap: 8px;
+    position: relative;
+  }
+  .anat-pg > [data-area] {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ed-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(26,20,16,0.45);
+  }
+  .anat-pg [data-area="A"] { grid-column: 1/3; grid-row: 1; background: var(--ink); color: rgba(243,237,225,0.4); }
+  .anat-pg [data-area="A"]::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-75deg, transparent 0 6px, rgba(243,237,225,0.16) 6px 7px);
+  }
+  .anat-pg [data-area="B"] { grid-column: 1; grid-row: 2; }
+  .anat-pg [data-area="C"] { grid-column: 2; grid-row: 2; background: var(--red); color: rgba(243,237,225,0.5); }
+  .anat-pg [data-area="C"]::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(243,237,225,0.7) 1px, transparent 1.5px);
+    background-size: 8px 8px;
+    opacity: 0.4;
+  }
+  .anat-pg [data-area="D"] { grid-column: 1/3; grid-row: 3; }
+  .anat-bub {
+    position: absolute;
+    top: 14%;
+    left: 8%;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 50%/60%;
+    padding: 10px 18px;
+    font-family: var(--ed-serif);
+    font-size: 22px;
+    z-index: 4;
+  }
+  .anat-bub::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 28%;
+    width: 14px;
+    height: 14px;
+    background: var(--paper);
+    border-right: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+    transform: rotate(45deg);
+  }
+  .anat-ono {
+    position: absolute;
+    top: 38%;
+    right: 9%;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 78px;
+    color: var(--paper);
+    -webkit-text-stroke: 2px var(--ink);
+    text-shadow: 6px 6px 0 var(--red);
+    transform: rotate(-7deg);
+    z-index: 4;
+    text-transform: uppercase;
+  }
+  .anat-legend { display: flex; flex-direction: column; gap: 20px; }
+  .anat-leg-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 18px;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px dotted var(--soft);
+  }
+  .anat-leg-item:last-child { border-bottom: none; }
+  .anat-leg-mark {
+    font-family: var(--ed-mono);
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    border: 1px solid var(--ink);
+    padding: 4px 10px;
+    background: var(--paper);
+    align-self: start;
+  }
+  .anat-leg-name {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+  }
+  .anat-leg-name small {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: rgba(26,20,16,0.55);
+    margin-left: 10px;
+  }
+  .anat-leg-d {
+    grid-column: 1 / -1;
+    font-family: var(--ed-serif);
+    font-size: 18px;
+    line-height: 1.45;
+    color: rgba(26,20,16,0.72);
+    margin-top: 6px;
+    text-wrap: pretty;
+  }
+
+  /* CIERRE */
+  .cierre {
+    display: grid;
+    grid-template-columns: 1fr 600px;
+    gap: 80px;
+    height: 100%;
+    align-items: center;
+  }
+  .cierre h2 {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 108px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin-bottom: 32px;
+    text-wrap: balance;
+  }
+  .cierre h2 em { color: var(--red); font-style: italic; font-weight: 500; }
+  .cierre p {
+    font-family: var(--ed-serif);
+    font-size: 28px;
+    line-height: 1.45;
+    color: rgba(26,20,16,0.72);
+    max-width: 900px;
+    margin-bottom: 28px;
+    text-wrap: pretty;
+  }
+  .cierre-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 56px 48px;
+    align-self: center;
+  }
+  .cierre-card .cap {
+    font-family: var(--ed-mono);
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 18px;
+  }
+  .cierre-card h3 {
+    font-family: var(--ed-serif);
+    font-weight: 600;
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+  .cierre-card ul { list-style: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(243,237,225,0.18); }
+  .cierre-card li {
+    font-family: var(--ed-serif);
+    font-size: 22px;
+    line-height: 1.6;
+    color: rgba(243,237,225,0.85);
+  }
+  .cierre-card li::before {
+    content: '·  ';
+    color: var(--red);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<deck-stage>
+
+  <!-- ════════ 01 · COVER ════════ -->
+  <section data-screen-label="01 Portada">
+    <div class="cover">
+      <div>
+        <div class="cover-eyebrow">Manga en el aula · Sesión de formación docente</div>
+        <h1>Leer en <em>viñetas</em><br/>también es leer.</h1>
+        <p class="cover-lede">Marco pedagógico, decálogo de mediación, protocolo de aula y anatomía de la página. Extracto del recurso <em>Las eras de Japón y el manga</em> · Aula de Cómic · ULPGC.</p>
+        <div class="cover-attr">
+          <div>Bloques<strong>4</strong></div>
+          <div>Razones<strong>6</strong></div>
+          <div>Pautas<strong>10</strong></div>
+          <div>Catálogo<strong>279</strong></div>
+        </div>
+      </div>
+      <aside class="cover-side">
+        <div class="tategaki">教室<span style="color:var(--ink)">の</span>漫画</div>
+        <div class="stamp">
+          Hecho por
+          <strong>docentes</strong>
+          para docentes
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · POR QUÉ ════════ -->
+  <section data-screen-label="02 Por qué">
+    <div class="s-head"><span>Capítulo I · Marco</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">Capítulo I · Marco</div>
+    <h2 class="sec-title">Por qué el manga <em>funciona</em> en el aula.</h2>
+    <p class="sec-kicker">Seis razones pedagógicas, ninguna decorativa, sostienen el resto del recurso.</p>
+    <div class="grid-3x2">
+      <div class="featured">
+        <div class="gn">— 01</div>
+        <div class="gt">Doble decodificación, imagen y texto</div>
+        <p class="gb">Lectura multimodal — exactamente lo que el currículo LOMLOE reconoce como competencia clave.</p>
+      </div>
+      <div>
+        <div class="gn">— 02</div>
+        <div class="gt">Densidad narrativa alta</div>
+        <p class="gb">Saltos temporales, puntos de vista, símbolo recurrente. Entrena músculo lector.</p>
+      </div>
+      <div>
+        <div class="gn">— 03</div>
+        <div class="gt">Cercanía cultural real</div>
+        <p class="gb">El alumnado ya lo lee fuera del aula. El aula lo enseña a leerlo críticamente.</p>
+      </div>
+      <div>
+        <div class="gn">— 04</div>
+        <div class="gt">Un manga para cada materia</div>
+        <p class="gb">Histórico, científico, biográfico, intimista. Ocho usos pedagógicos.</p>
+      </div>
+      <div>
+        <div class="gn">— 05</div>
+        <div class="gt">Puente hacia la lectura larga</div>
+        <p class="gb">El manga no compite con la novela: prepara para ella. Hábito lector sostenido.</p>
+      </div>
+      <div>
+        <div class="gn">— 06</div>
+        <div class="gt">Trabaja la elipsis</div>
+        <p class="gb">El <em>ma</em> entre viñetas es inferencia activa. La mejor escuela de lectura entre líneas.</p>
+      </div>
+    </div>
+    <div class="s-foot"><span>I · Por qué</span><span>02 / 08</span></div>
+  </section>
+
+  <!-- ════════ 03 · DECÁLOGO 1 ════════ -->
+  <section data-screen-label="03 Decálogo I">
+    <div class="s-head"><span>Capítulo II · Marco</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">Capítulo II · Marco</div>
+    <h2 class="sec-title">Decálogo de <em>mediación</em>.</h2>
+    <p class="sec-kicker">Cinco pautas para preparar y abrir la lectura. Las otras cinco, en la siguiente.</p>
+    <div class="dec-row">
+      <div>
+        <div class="dn"><small>Pauta</small>01</div>
+        <div class="dt">Lee tú primero, entera.</div>
+        <p class="db">No selecciones un capítulo sin haber leído el tomo completo.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>02</div>
+        <div class="dt">Encuadra antes de leer.</div>
+        <p class="db">Avisa del tema y pacta un acuerdo de respeto. La advertencia sostiene la lectura.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>03</div>
+        <div class="dt">Enseña el código primero.</div>
+        <p class="db">Viñeta, bocadillo, onomatopeya, líneas, calle, RTL — antes de pedir interpretación.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>04</div>
+        <div class="dt">Pregunta por la imagen.</div>
+        <p class="db">"¿Qué se ve, qué no se ve, por qué dibujado así?". No solo argumento.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>05</div>
+        <div class="dt">Trabaja la calle, no la viñeta.</div>
+        <p class="db">El espacio entre dos viñetas — el <em>ma</em> — es donde ocurre la inferencia.</p>
+      </div>
+    </div>
+    <div class="s-foot"><span>II · Decálogo · pautas 01—05</span><span>03 / 08</span></div>
+  </section>
+
+  <!-- ════════ 04 · DECÁLOGO 2 ════════ -->
+  <section data-screen-label="04 Decálogo II">
+    <div class="s-head"><span>Capítulo II · Marco</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">Capítulo II · Marco — cont.</div>
+    <h2 class="sec-title">Decálogo de <em>mediación</em>.</h2>
+    <p class="sec-kicker">Cinco pautas para cerrar y proyectar lo leído.</p>
+    <div class="dec-row">
+      <div>
+        <div class="dn"><small>Pauta</small>06</div>
+        <div class="dt">Modera, no opines.</div>
+        <p class="db">Devuelve la pregunta al grupo. Tu lectura es una más, no la canónica.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>07</div>
+        <div class="dt">Conecta con lo conocido.</div>
+        <p class="db">Cruza el manga con un texto, una imagen o una experiencia previa.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>08</div>
+        <div class="dt">Permite la lectura voluntaria.</div>
+        <p class="db">Selección visible en aula sin tarea asociada. La animación lectora no obliga.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>09</div>
+        <div class="dt">Produce, no solo leas.</div>
+        <p class="db">Una página propia, un storyboard, un análisis. Lo que se compone, se entiende.</p>
+      </div>
+      <div>
+        <div class="dn"><small>Pauta</small>10</div>
+        <div class="dt">Vuelve al texto clásico.</div>
+        <p class="db">El manga es puerta de entrada, no destino. Salta al libro, al ensayo, al filme.</p>
+      </div>
+    </div>
+    <div class="s-foot"><span>II · Decálogo · pautas 06—10</span><span>04 / 08</span></div>
+  </section>
+
+  <!-- ════════ 05 · PROTOCOLO ════════ -->
+  <section data-screen-label="05 Protocolo">
+    <div class="s-head"><span>Capítulo III · Marco</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">Capítulo III · Marco</div>
+    <h2 class="sec-title">Antes, durante y después de <em>leer</em>.</h2>
+    <p class="sec-kicker">Protocolo de mediación en tres fases. Tiempos orientativos: 15 / 25 / 10 min.</p>
+    <div class="proto-3">
+      <article>
+        <div class="pf">01 · Antes</div>
+        <h3 class="pt">Preparar el terreno</h3>
+        <ul>
+          <li><strong>Enseña el código.</strong> Viñeta, bocadillo, onomatopeya, RTL.</li>
+          <li><strong>Encuadra el tema.</strong> Nombra lo sensible si lo hay.</li>
+          <li><strong>Activa lo que ya saben.</strong> Cruza referentes antes.</li>
+          <li><strong>Fija un propósito.</strong> "Vamos a observar X".</li>
+          <li><strong>Pacta acuerdo de respeto.</strong> La conversación lo necesitará.</li>
+        </ul>
+      </article>
+      <article>
+        <div class="pf">02 · Durante</div>
+        <h3 class="pt">Acompañar la lectura</h3>
+        <ul>
+          <li><strong>Lectura silenciosa primero.</strong> Marca dos viñetas.</li>
+          <li><strong>Parar en página clave.</strong> Proyectada, en grande, abre conversación.</li>
+          <li><strong>Pregunta por la imagen.</strong> No solo por el texto.</li>
+          <li><strong>Atiende el ritmo.</strong> Regula el tempo del grupo.</li>
+          <li><strong>Permite el silencio.</strong> Deja que la página resuene.</li>
+        </ul>
+      </article>
+      <article>
+        <div class="pf">03 · Después</div>
+        <h3 class="pt">Cerrar y proyectar</h3>
+        <ul>
+          <li><strong>Coloquio en círculo.</strong> Cada lector argumenta una viñeta.</li>
+          <li><strong>Escritura breve.</strong> Tres líneas en cuaderno.</li>
+          <li><strong>Producción visual.</strong> Página propia o análisis.</li>
+          <li><strong>Salto al clásico.</strong> Novela, ensayo, filme.</li>
+          <li><strong>Evaluación honesta.</strong> Diana de aprendizaje, no nota.</li>
+        </ul>
+      </article>
+    </div>
+    <div class="s-foot"><span>III · Protocolo</span><span>05 / 08</span></div>
+  </section>
+
+  <!-- ════════ 06 · ANATOMÍA ════════ -->
+  <section data-screen-label="06 Anatomía">
+    <div class="s-head"><span>Capítulo IV · Marco</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">Capítulo IV · Marco</div>
+    <h2 class="sec-title">Cómo leer una <em>página</em>.</h2>
+    <p class="sec-kicker">Anatomía visual de los seis elementos básicos. Para la primera sesión con el alumnado.</p>
+    <div class="anat-grid">
+      <figure class="anat-pg" role="img" aria-label="Página manga esquemática">
+        <div data-area="A">A · Líneas cinéticas</div>
+        <div data-area="B">B · Viñeta neutra</div>
+        <div data-area="C">C · Trama (halftone)</div>
+        <div data-area="D">D · Resolución</div>
+        <div class="anat-bub">«¿Lo ves?»</div>
+        <div class="anat-ono">¡ZAS!</div>
+      </figure>
+      <div class="anat-legend">
+        <div class="anat-leg-item">
+          <span class="anat-leg-mark">A</span>
+          <span class="anat-leg-name">Koma <small>コマ — viñeta</small></span>
+          <p class="anat-leg-d">Unidad mínima. Su tamaño marca el ritmo: una a página entera detiene; cuatro pequeñas aceleran.</p>
+        </div>
+        <div class="anat-leg-item">
+          <span class="anat-leg-mark">B</span>
+          <span class="anat-leg-name">Fukidashi <small>吹き出し — bocadillo</small></span>
+          <p class="anat-leg-d">Más de una docena de formas. La forma cuenta tanto como el texto.</p>
+        </div>
+        <div class="anat-leg-item">
+          <span class="anat-leg-mark">C</span>
+          <span class="anat-leg-name">Onomatopeya <small>擬音語</small></span>
+          <p class="anat-leg-d">No solo ruidos: también emociones y ambientes (ドキドキ, シーン).</p>
+        </div>
+        <div class="anat-leg-item">
+          <span class="anat-leg-mark">·</span>
+          <span class="anat-leg-name">Ma <small>間 — calle</small></span>
+          <p class="anat-leg-d">El espacio entre viñetas. La «clausura» de McCloud. Inferencia activa.</p>
+        </div>
+        <div class="anat-leg-item">
+          <span class="anat-leg-mark">↩</span>
+          <span class="anat-leg-name">Lectura RTL</span>
+          <p class="anat-leg-d">De derecha a izquierda. Editorial original respeta el sentido.</p>
+        </div>
+      </div>
+    </div>
+    <div class="s-foot"><span>IV · Anatomía</span><span>06 / 08</span></div>
+  </section>
+
+  <!-- ════════ 07 · EL FONDO ════════ -->
+  <section data-screen-label="07 El fondo">
+    <div class="s-head"><span>El recurso</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="sec-eyebrow">El fondo</div>
+    <h2 class="sec-title">279 títulos. <em>Cada uno</em>, una puerta.</h2>
+    <p class="sec-kicker">El fondo Aula de Cómic catalogado para uso docente: filtros de etapa, área, sensibilidad. Enlace directo al OPAC para préstamo.</p>
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 80px;">
+      <div style="border:1.5px solid var(--ink); padding: 32px; min-height: 280px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="font-family:var(--ed-mono); font-size:14px; letter-spacing:.16em; color:var(--red); text-transform:uppercase;">01 · Etapas</div>
+        <div style="font-family:var(--ed-serif); font-weight:600; font-size:64px; line-height:.9; color:var(--ink);">5</div>
+        <p style="font-family:var(--ed-serif); font-size:20px; line-height:1.45; color:rgba(26,20,16,.7); margin-top:auto;">De Infantil a Universidad. Cada título tiene asignados los niveles para los que es adecuado.</p>
+      </div>
+      <div style="border:1.5px solid var(--ink); padding: 32px; min-height: 280px; display: flex; flex-direction: column; gap: 16px; background: var(--ink); color: var(--paper);">
+        <div style="font-family:var(--ed-mono); font-size:14px; letter-spacing:.16em; color:var(--red); text-transform:uppercase;">02 · Usos pedagógicos</div>
+        <div style="font-family:var(--ed-serif); font-weight:600; font-size:64px; line-height:.9; color:var(--paper);">8</div>
+        <p style="font-family:var(--ed-serif); font-size:20px; line-height:1.45; color:rgba(243,237,225,.78); margin-top:auto;">Historia, ciencia, filosofía, lengua, emocional, género, inclusión, visual.</p>
+      </div>
+      <div style="border:1.5px solid var(--ink); padding: 32px; min-height: 280px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="font-family:var(--ed-mono); font-size:14px; letter-spacing:.16em; color:var(--red); text-transform:uppercase;">03 · Eras históricas</div>
+        <div style="font-family:var(--ed-serif); font-weight:600; font-size:64px; line-height:.9; color:var(--ink);">9</div>
+        <p style="font-family:var(--ed-serif); font-size:20px; line-height:1.45; color:rgba(26,20,16,.7); margin-top:auto;">De Heian a Reiwa. Línea del tiempo cronológica de 57 títulos contextualizados.</p>
+      </div>
+      <div style="border:1.5px solid var(--ink); padding: 32px; min-height: 280px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="font-family:var(--ed-mono); font-size:14px; letter-spacing:.16em; color:var(--red); text-transform:uppercase;">04 · Advertencias</div>
+        <div style="font-family:var(--ed-serif); font-weight:600; font-size:64px; line-height:.9; color:var(--red);">21</div>
+        <p style="font-family:var(--ed-serif); font-size:20px; line-height:1.45; color:rgba(26,20,16,.7); margin-top:auto;">Títulos marcados con sensibilidad (violencia, contenido adulto, temas duros). Filtrables.</p>
+      </div>
+    </div>
+    <div class="s-foot"><span>El fondo · Cifras</span><span>07 / 08</span></div>
+  </section>
+
+  <!-- ════════ 08 · CIERRE ════════ -->
+  <section data-screen-label="08 Cierre">
+    <div class="s-head"><span>Cierre</span><span>Aula de Cómic · ULPGC</span></div>
+    <div class="cierre">
+      <div>
+        <div class="sec-eyebrow" style="margin-top:0;">Próximo paso</div>
+        <h2>El recurso<br/>está <em>en línea</em>.</h2>
+        <p>Línea del tiempo interactiva, catálogo filtrable, generador de viñetas, situaciones LOMLOE completas, itinerarios universitarios. Todo navegable y para préstamo en el OPAC ULPGC.</p>
+        <p style="font-family:var(--ed-mono); font-size:18px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); border-top: 1.5px solid var(--ink); padding-top: 24px; max-width: 700px;">
+          Biblioteca Campus del Obelisco<br/>Aula de Cómic · ULPGC
+        </p>
+      </div>
+      <div class="cierre-card">
+        <div class="cap">El equipo</div>
+        <h3>Manga como recurso didáctico</h3>
+        <p style="color: rgba(243,237,225,0.82); font-size: 22px; line-height: 1.5;">Dir. Daniel Becerra Romero</p>
+        <ul>
+          <li>Paula Arocha Moros</li>
+          <li>Lucía Hernández Chio</li>
+          <li>Daniel Hernández García</li>
+          <li>Zaira Rodríguez Panadero</li>
+        </ul>
+        <p style="font-family: var(--ed-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,237,225,0.45); margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(243,237,225,0.16);">
+          Facultad de Ciencias de la Educación<br/>
+          Universidad de Las Palmas de Gran Canaria<br/>
+          CC BY-NC 4.0
+        </p>
+      </div>
+    </div>
+    <div class="s-foot"><span>Cierre</span><span>08 / 08</span></div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+<script type="application/json" id="speaker-notes">
+[
+  "Bienvenidos. Esta sesión presenta el marco pedagógico del recurso Aula de Cómic. No vamos a hablar de qué manga leer, sino de por qué y cómo llevarlo al aula. Cuatro bloques: por qué funciona, decálogo de mediación, protocolo de aula, anatomía de la página.",
+  "Empezamos por la justificación. Estas seis razones no son datos de encuesta, son principios pedagógicos. La doble decodificación es lo central — la primera razón que pongo en negro. Si en el claustro alguien os pregunta 'por qué manga', responded por aquí.",
+  "Cinco primeras pautas: la 01 parece obvia y casi nadie la cumple. La 03 — enseña el código primero — es la que más cambia los resultados. La 05 sobre la calle entre viñetas viene de Scott McCloud; el glosario del recurso lo cita.",
+  "Cinco últimas. La 06 — modera, no opines — es difícil para docentes que llevamos años explicando. La 10 es importante: el manga no es destino, es puerta. Si nuestros alumnos solo leen manga, no hemos terminado el trabajo.",
+  "Protocolo en tres fases. Esquema clásico de Solé aplicado al manga. No es nuevo, es disciplina. La fase 'Durante' es donde más fácil se desordena la clase si no hay anclajes claros — preparad esos puntos de parada de antemano.",
+  "Esta lámina es para llevarla impresa al aula la primera sesión. Los seis elementos están en el glosario del recurso. Si pasáis quince minutos solo en esta página antes de leer nada, ahorráis horas después.",
+  "El catálogo es la columna vertebral. 279 títulos clasificados con criterio pedagógico. Filtrable por etapa, área y sensibilidad. Y cada ficha tiene su enlace al OPAC: el préstamo está a un clic.",
+  "Esto está en línea, en producción. Las credenciales del equipo en pantalla. Cualquier mejora, dudas o casos de uso documentables: contactad con la biblioteca. Gracias."
+]
+</script>
+
+</body>
+</html>

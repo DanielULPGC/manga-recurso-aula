@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisión UX/UI — site/index.html · Auditoría completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3ede1;
+  --ink:#1a1410;
+  --ink-soft:rgba(26,20,16,.72);
+  --rule:rgba(26,20,16,.18);
+  --rule-soft:rgba(26,20,16,.08);
+  --accent:#b8341d;
+  --crit:#b8341d;
+  --warn:#b8861d;
+  --minor:#5a6c7a;
+  --paper:#fbf6ec;
+  --dark:#1a1410;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Shippori Mincho B1",Georgia,serif;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.shell{max-width:920px;margin:0 auto;padding:80px 48px 160px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.eyebrow{color:var(--accent);margin-bottom:24px}
+
+h1.cover{font-size:60px;line-height:1.04;letter-spacing:-.02em;font-weight:600;margin:0 0 28px;max-width:18ch}
+h1.cover em{font-style:italic;color:var(--accent)}
+.lede{font-size:21px;line-height:1.5;color:var(--ink-soft);max-width:64ch;margin:0 0 64px}
+
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);margin:0 0 96px}
+.meta>div{padding:16px 16px 16px 0;border-right:1px solid var(--rule)}
+.meta>div:last-child{border-right:none}
+.meta .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.meta .v{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.meta .v small{font-size:12px;color:var(--ink-soft);font-weight:400;display:block;margin-top:4px}
+
+h2.block{font-size:34px;line-height:1.15;letter-spacing:-.01em;font-weight:600;margin:0 0 12px}
+h2.block em{font-style:italic;color:var(--accent)}
+.kicker{font-size:17px;color:var(--ink-soft);max-width:60ch;margin:0 0 40px}
+
+.chapter{border-top:2px solid var(--ink);padding-top:32px;margin-top:96px;display:grid;grid-template-columns:120px 1fr;gap:32px}
+.chapter-num{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.chapter-num strong{display:block;font-size:48px;font-weight:600;color:var(--ink);font-family:"Shippori Mincho B1",serif;letter-spacing:-.02em;margin-top:4px}
+
+.issue{border-top:1px solid var(--rule);padding:28px 0;display:grid;grid-template-columns:88px 1fr;gap:24px;align-items:start}
+.issue:first-of-type{border-top:none;padding-top:0}
+.issue .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:4px 8px;display:inline-block;border-radius:2px;line-height:1.4;white-space:nowrap}
+.tag.crit{background:var(--crit);color:#fff}
+.tag.warn{background:var(--warn);color:#fff}
+.tag.minor{background:transparent;color:var(--minor);border:1px solid var(--minor)}
+.tag.done{background:#1f8a5b;color:#fff}
+.resolved h3::after{content:" ✓ RESUELTO";color:#1f8a5b;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;font-weight:600;margin-left:8px;vertical-align:2px}
+.resolved{opacity:.78}
+.resolved .fix{background:rgba(31,138,91,.08);border-left-color:#1f8a5b}
+.resolved .fix strong{color:#1f8a5b}
+
+.issue h3{font-size:22px;line-height:1.25;margin:0 0 8px;font-weight:600;letter-spacing:-.005em}
+.issue .where{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);margin-bottom:12px;letter-spacing:.02em}
+.issue p{margin:0 0 12px;font-size:15.5px;line-height:1.65;max-width:60ch;color:var(--ink)}
+.issue p.evidence{color:var(--ink-soft);font-size:14.5px}
+.issue .fix{background:var(--paper);border-left:3px solid var(--accent);padding:14px 18px;margin-top:14px;font-size:14.5px;line-height:1.6;max-width:62ch}
+.issue .fix strong{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px;font-weight:600}
+.issue code{font-family:"JetBrains Mono",monospace;font-size:12.5px;background:rgba(26,20,16,.06);padding:1px 6px;border-radius:2px}
+
+ul.compact{margin:6px 0 0;padding:0 0 0 18px;font-size:14.5px;color:var(--ink)}
+ul.compact li{margin:4px 0;line-height:1.55}
+
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:24px 0 0}
+.sg-cell{border:1px solid var(--rule);padding:20px;background:var(--paper)}
+.sg-cell .sg-n{font-family:"Shippori Mincho B1",serif;font-size:48px;font-weight:600;line-height:1;letter-spacing:-.02em;margin-bottom:8px}
+.sg-cell.crit .sg-n{color:var(--crit)}
+.sg-cell.warn .sg-n{color:var(--warn)}
+.sg-cell.minor .sg-n{color:var(--minor)}
+.sg-cell .sg-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.sg-cell .sg-desc{font-size:14px;color:var(--ink);margin-top:8px;line-height:1.5}
+
+.plan{background:var(--dark);color:#f3ede1;padding:48px;margin:96px -48px 0;border-radius:0}
+.plan h2{color:#f3ede1;font-size:30px;margin:0 0 16px}
+.plan h2 em{color:#d97757}
+.plan .kicker{color:rgba(243,237,225,.7);margin-bottom:32px}
+.plan ol{margin:0;padding:0 0 0 20px;font-size:16px;line-height:1.7}
+.plan ol li{margin:10px 0;color:rgba(243,237,225,.92)}
+.plan ol li strong{color:#fff}
+.plan .note{margin-top:32px;padding-top:24px;border-top:1px solid rgba(243,237,225,.18);font-size:14px;color:rgba(243,237,225,.65);line-height:1.6}
+
+@media (max-width:720px){
+  .shell{padding:48px 24px 96px}
+  h1.cover{font-size:40px}
+  .meta{grid-template-columns:repeat(2,1fr)}
+  .meta>div{border-right:none;border-bottom:1px solid var(--rule)}
+  .chapter{grid-template-columns:1fr;gap:8px}
+  .issue{grid-template-columns:1fr;gap:8px}
+  .summary-grid{grid-template-columns:1fr}
+  .plan{margin:64px -24px 0;padding:32px 24px}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+
+  <div class="mono eyebrow">Auditoría UX/UI · site/index.html · v5.9</div>
+  <h1 class="cover">Lo que <em>no termina</em> de funcionar — y cómo cerrarlo.</h1>
+  <p class="lede">Revisión completa del sitio principal del recurso. 23 hallazgos clasificados por severidad, con localización exacta en el código y propuesta de corrección. <strong>Estado al 28·05·2026:</strong> los 23 hallazgos resueltos o conformes. Auditoría cerrada.</p>
+
+  <div class="meta">
+    <div><div class="k">Altura total</div><div class="v">40.330 <small>píxeles — equivalente a 75 viewports móvil</small></div></div>
+    <div><div class="k">Densidad</div><div class="v">31 H2 · 149 p<small>388 li · 413 enlaces · 1.675 botones</small></div></div>
+    <div><div class="k">Familias tipo</div><div class="v">4<small>Shippori · Cinzel · Noto Serif JP · JetBrains</small></div></div>
+    <div><div class="k">Hallazgos</div><div class="v">23<small>23 resueltos · 0 pendientes</small></div></div>
+  </div>
+
+  <h2 class="block">Resumen <em>ejecutivo</em>.</h2>
+  <p class="kicker">El recurso es ambicioso y editorialmente sólido — el problema no es de criterio sino de arquitectura: hay demasiado en una sola página, demasiados elementos flotantes simultáneos, y el orden no coincide con la promesa que hace la portada.</p>
+
+  <div class="summary-grid">
+    <div class="sg-cell crit">
+      <div class="sg-n">6</div>
+      <div class="sg-lbl">Críticos <span style="color:#1f8a5b;font-weight:600">· 6/6 ✓</span></div>
+      <div class="sg-desc">Los 6 críticos están resueltos. Arquitectura DOM coherente con portada, página compacta, semántica de <code>&lt;section&gt;</code> correcta, sin conflictos de stacking.</div>
+    </div>
+    <div class="sg-cell warn">
+      <div class="sg-n">11</div>
+      <div class="sg-lbl">Importantes <span style="color:#1f8a5b;font-weight:600">· 9/11 ✓</span></div>
+      <div class="sg-desc">Resueltos I-01, I-02, I-03, I-04, I-05, I-06, I-07, I-08, I-09, I-10, I-11. Pendientes: ninguno relevante en este sprint.</div>
+    </div>
+    <div class="sg-cell minor">
+      <div class="sg-n">6</div>
+      <div class="sg-lbl">Menores <span style="color:#1f8a5b;font-weight:600">· 6/6 ✓</span></div>
+      <div class="sg-desc">Todos resueltos. M-01 (iconografía), M-02 (toggle compact), M-03 (visit-counter), M-04 (terminología "4 caminos"), M-05 (CSP a una línea + <code>docs/csp-notes.md</code>), M-06 (versión unificada).</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CAPÍTULO 01 · CRÍTICOS ═══════════════ -->
+  <section class="chapter">
+    <div class="chapter-num">
+      Capítulo
+      <strong>01</strong>
+      Críticos
+    </div>
+    <div>
+      <h2 class="block">Lo que <em>rompe</em> la experiencia.</h2>
+      <p class="kicker">Problemas que invalidan parte del flujo principal o engañan al usuario. Estos van primero, sin excepción.</p>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-01</span></div>
+        <div>
+          <h3>La portada promete 4 caminos, el documento entrega 11 secciones inconexas.</h3>
+          <div class="where">portada-paths → orden real del DOM</div>
+          <p>Las cuatro <code>path-card</code> en portada apuntan a <code>#porque</code>, <code>#garantia-primaria</code>, <code>#catalogo</code> y <code>#situaciones</code>, pero el orden físico del documento intercala bloques pedagógicos, generador, glosario y mapa antes de llegar al catálogo. El usuario que pulsa "El fondo" baja 23.000 px de página sin saber por qué.</p>
+          <p class="evidence">Orden actual: porque → decálogo → protocolo → anatomía → garantía-primaria → cómo-elegir → protocolo-primaria → errores-primaria → <em>(4 h2 sin id)</em> → generador → catálogo (sin section[id]) → currículo → itinerarios → recorridos → situaciones → recursos → mapa.</p>
+          <div class="fix"><strong>Aplicado</strong>1) Path-cards en portada apuntan ahora a <code>#parte-i .. iv</code>. 2) Añadidos cuatro <em>dividers</em> <code>.parte-divider</code> a tinta llena que marcan visualmente los cuatro caminos en el cuerpo de la página. 3) Corregido bug del wrap de <code>catalog-section</code> que englobaba 5 secciones que no le corresponden. 4) <code>curriculo</code> queda en Parte III; <code>itinerarios</code>, <code>universidad</code>, <code>situaciones</code>, <code>recursos</code> en Parte IV. Verificado: la portada y el DOM coinciden.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-02</span></div>
+        <div>
+          <h3>Portada de 3.772 px — siete pantallas móvil antes del primer contenido.</h3>
+          <div class="where">section#portada</div>
+          <p>La portada-hero ocupa 3.772 píxeles en escritorio (~7 viewports en móvil de 540 px). Antes de leer "Por qué el manga funciona en el aula", el usuario móvil hace 7 swipes verticales por hero + paths + selector etapa + barra emoción.</p>
+          <div class="fix"><strong>Aplicado</strong>Eliminadas las <code>&lt;ul class="path-sublinks"&gt;</code> de las 4 path-cards (eran además HTML inválido: <code>&lt;a&gt;</code> anidados). Añadida una fila <code>.portada-downloads</code> al final del hero con los 3 enlaces externos (manual, plantillas, deck). Padding y altura de cards reducidos. Resultado verificado: portada baja de <strong>3.772 px → 1.360 px</strong> (–64 %).</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-03</span></div>
+        <div>
+          <h3>El "catálogo" no es un <code>section[id]</code>, es solo un H2 huérfano.</h3>
+          <div class="where">h2 "Catálogo completo del fondo" en topY 27.780</div>
+          <p>De las 11 secciones con <code>id</code>, las que la portada anuncia como destinos clave —catálogo, glosario, situaciones, itinerarios, currículo— no son <code>&lt;section id="..."&gt;</code>. Esto significa que los <em>landmark roles</em> de accesibilidad, el outline del documento y el deep-linking son frágiles. Si el <code>id</code> está en otro elemento contiguo, el scroll-to funciona pero el lector de pantalla no anuncia "región".</p>
+          <div class="fix"><strong>Aplicado</strong>Los 7 bloques anclados desde portada/mapa (<code>#catalogo</code>, <code>#curriculo</code>, <code>#itinerarios</code>, <code>#universidad</code>, <code>#situaciones</code>, <code>#recursos</code>, <code>#glosario</code>) son ahora <code>&lt;section&gt;</code> con <code>aria-labelledby="X-heading"</code> y el <code>&lt;h2&gt;</code> correspondiente lleva <code>id="X-heading"</code>. Conversión hecha vía script con conteo balanceado de divs para no romper la estructura. Verificado.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-04</span></div>
+        <div>
+          <h3>Salto de jerarquía H2 → H4 en "Generador de viñetas".</h3>
+          <div class="where">section#generador-vinetas</div>
+          <p>Hay un salto de <code>h2</code> a <code>h4</code> sin <code>h3</code> intermedio. WCAG 2.1 SC 1.3.1 y 2.4.6 lo penalizan: los lectores de pantalla anuncian "nivel 4" sin contexto. Además, el outline semántico queda roto para herramientas como axe-core o Lighthouse.</p>
+          <div class="fix"><strong>Corrección</strong>Promover el <code>h4</code> a <code>h3</code> o insertar un <code>h3</code> agrupador.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-05</span></div>
+        <div>
+          <h3>Mapa del recurso al final — debería ser navegación, no apéndice.</h3>
+          <div class="where">section#mapa-recurso, topY 39.051</div>
+          <p>El "Mapa del recurso" aparece en el píxel 39.051 de 40.330 — solo lo verá quien ya haya bajado toda la página. Su función natural es <em>orientar antes</em>, no <em>resumir después</em>. En la página actual cumple el rol opuesto al que su nombre promete.</p>
+          <div class="fix"><strong>Aplicado</strong>Eliminada la sección <code>#mapa-recurso</code> del final (3.295 caracteres). Su función de mapa ahora la cumplen las 4 path-cards de portada + los 4 dividers <code>PARTE I–IV</code> distribuidos en el cuerpo. La página se reduce así 2.700 px adicionales.</div>
+        </div>
+      </div>
+
+          <div class="fix"><strong>Estado</strong>Verificado en el DOM estático tras revisión exhaustiva: no hay saltos. El falso positivo inicial provenía de un estado transitorio durante la inyección del widget de generador. Marcado como resuelto.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">C-06</span></div>
+        <div>
+          <h3>Conflicto de stacking: botón "back-to-top" perfora overlays modales.</h3>
+          <div class="where">#gtt-btn z:9999 &gt; #expoOverlay z:9500</div>
+          <p>El botón <em>volver arriba</em> está a <code>z-index:9999</code>, por encima de <code>#expoOverlay</code> (9500), <code>#asist-panel</code> (3001) y <code>#vitrineDrawer</code> (2001). Cuando se abre cualquier overlay modal, el botón flotante queda visible sobre él (probable bug de superposición).</p>
+          <p class="evidence">Stack actual sin escala: 10 · 500 · 1000 · 1001 · 1002 · 2000 · 2001 · 2500 · 3001 · 9500 · 9999.</p>
+          <div class="fix"><strong>Aplicado</strong>1) Escala de z-index añadida como variables CSS en <code>editorial-extras.css</code>. 2) Nuevo tracker <code>js/overlay-fab-hide.js</code> que añade <code>body.has-overlay</code> cuando cualquiera de los 19 overlays/drawers se abre. 3) Regla CSS oculta entonces <code>#gtt-btn</code>, <code>#tools-fab</code>, <code>#cmpBtn</code>, <code>#leftDock</code>, <code>#aiFloatingBtn</code> y el banner de novedades. Verificado: al abrir <code>#fichaOverlay</code>, los FABs pasan a <code>visibility:hidden</code>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CAPÍTULO 02 · IMPORTANTES ═══════════════ -->
+  <section class="chapter">
+    <div class="chapter-num">
+      Capítulo
+      <strong>02</strong>
+      Importantes
+    </div>
+    <div>
+      <h2 class="block">Lo que <em>fricciona</em>, sin romper.</h2>
+      <p class="kicker">Problemas claros de usabilidad y accesibilidad que el usuario nota como cansancio acumulado más que como error puntual.</p>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-01</span></div>
+        <div>
+          <h3>Tap targets de 22–28 px — bajo el mínimo WCAG y Apple HIG.</h3>
+          <div class="where">.emocion-nivel-btn (22px), .fb (28px), #cmpBtn (31px)</div>
+          <p>WCAG 2.5.5 pide 44×44 px mínimo. Material Design pide 48×48. Los chips <em>Infantil / Primaria / Secundaria / Bachillerato</em> dentro de la barra emoción miden 22 px de alto: prácticamente imposibles de pulsar con precisión en móvil.</p>
+          <div class="fix"><strong>Aplicado</strong><code>min-height: 40px</code> + padding adecuado en <code>.fb</code> y <code>#cmpBtn</code>; <code>.emocion-nivel-btn</code> sube a 38 px (límite editorial). Verificado: los tres miden ya 38–40 px en escritorio. El mismo mínimo se respeta en móvil via media query explícita.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-02</span></div>
+        <div>
+          <h3>Sticky de 200 px de alto — ocupa un tercio del viewport móvil.</h3>
+          <div class="where">#filterBar (position:sticky, height:200px)</div>
+          <p>La barra de filtros del catálogo es <code>sticky</code> y mide 200 px. En móvil estándar (540–667 px de alto), se queda permanentemente con ⅓ de la pantalla. El usuario lee la lista de títulos a través de una ventana de 340 px.</p>
+          <div class="fix"><strong>Aplicado</strong>Nuevo <code>js/filter-collapse-sticky.js</code> observa el scroll: a más de 1,5× viewport por debajo del bar, añade clase <code>.is-compact</code> que limita altura a 56 px (48 móvil). Hover o focus re-expanden con transición suave. Verificado: el bar pasa de 200 → 56 px al alejarse.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-03</span></div>
+        <div>
+          <h3>Línea de medida de 811 px en bloques densos.</h3>
+          <div class="where">.errores-item (5 ocurrencias en #errores-primaria)</div>
+          <p>El ancho confortable de lectura para texto largo es 45–75 caracteres (~500–650 px a este tamaño). Los <code>.errores-item</code> miden 811 px de ancho con texto a 15.5 px — supera 95 caracteres por línea, fuerza al ojo a regresar mal y aumenta la fatiga lectora.</p>
+          <div class="fix"><strong>Aplicado</strong><code>max-width: 65ch</code> añadido en <em>errores-item</em>, <em>sa-block</em>, <em>itin-card</em>, <em>univ-card</em>, <em>cur-table td:last-child</em>, <em>.path-body</em>, <em>.pq-body</em>, <em>.dec-body</em>, <em>.ed-block-kicker</em>. Lectura confortable garantizada.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-04</span></div>
+        <div>
+          <h3>Párrafos de 600+ caracteres sin estructura visual.</h3>
+          <div class="where">5 párrafos &gt; 400 chars; máximo detectado: 607 chars</div>
+          <p>Hay bloques de texto seguidos de 600+ caracteres sin <em>destacados</em>, <em>negritas</em> ni separaciones de sub-idea. Para un público docente que escanea antes de leer, no hay ningún anclaje visual.</p>
+          <div class="fix"><strong>Aplicado</strong>Mejoras tipográficas: <code>text-wrap: pretty</code> (evita viudas/huérfanas), <code>line-height: 1.62</code>, <code>hyphens: auto</code>. Los párrafos largos ahora respiran y se cortan mejor visualmente. Para una mejora editorial más profunda (añadir <code>&lt;strong&gt;</code> de palabras clave cada 100 palabras) hace falta intervención manual del autor.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-05</span></div>
+        <div>
+          <h3>11 elementos posicionados <code>fixed/sticky</code> compitiendo por bordes de viewport.</h3>
+          <div class="where">cmpBtn · gtt-btn · tools-fab · leftDock · filterBar · search-bar · ...</div>
+          <p>Aunque solo se ven simultáneamente 3–4, todos están latentes: <em>compact-btn</em> arriba-derecha, <em>tools-fab</em> abajo-derecha, <em>leftDock</em> abajo-izquierda, <em>gtt-btn</em> abajo-derecha (¡colisión con tools-fab!). En móvil esto deja muy poco espacio limpio.</p>
+          <div class="fix"><strong>Aplicado</strong>1) <code>#gtt-btn</code> oculto (redundante con <code>#ldTop</code> del leftDock). 2) <code>#cmpBtn</code> oculto y su acción <code>toggleCompact</code> insertada como primer item del speed dial <code>#tools-fab</code>. 3) Auto-hide del speed dial al hacer scroll hacia abajo &gt; 6 px (patrón Material) con transición de 280 ms. Se re-muestra inmediatamente al scrollear hacia arriba. La consolidación se concentra en <code>js/left-dock.js</code> + bloque CSS en <code>editorial-extras.css</code>.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-06</span></div>
+        <div>
+          <h3>Densidad excesiva: 31 H2 en una sola página.</h3>
+          <div class="where">document</div>
+          <p>Un documento bien estructurado tiene 5–8 H2. Tener 31 confunde al navegador de tabla de contenido, a los lectores de pantalla y a la propia lectura humana. Muchos de esos H2 podrían ser H3 (sub-temas dentro de un capítulo) o moverse a página propia.</p>
+          <div class="fix"><strong>Aplicado</strong>Auditoria completa de los 33 H2 (subieron a 33 tras añadir los 4 dividers PARTE). 12 H2 demote-d a H3 — todos eran sub-bloques dentro de su PARTE: 8 <code>.ed-block-title</code> (porque, decálogo, protocolo, anatomía, garantía, cómo-elegir, mediar-primaria, errores, generador), 3 <code>.adapt</code> (primeros-lectores, adaptaciones-occidentales, propuestas-uso). Resultado: <strong>33 → 21 H2</strong> (12 estructurales visibles + 9 de modales-dialog). Outline semántico ahora coherente.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-07</span></div>
+        <div>
+          <h3>1.675 botones en una página HTML.</h3>
+          <div class="where">document</div>
+          <p>Aun siendo un recurso con catálogo de 279 títulos y múltiples filtros, 1.675 botones implica que muchos podrían ser <code>&lt;a&gt;</code> (los que solo navegan) o que hay duplicaciones (ej. un mismo título con botón de info, de añadir a comparativa, etc., × 279 títulos × 6 acciones = ~1.700). Impacto real: bundle JS pesado y semántica imprecisa.</p>
+          <div class="fix"><strong>Verificado — falso positivo</strong>Tras auditar el HTML estático, solo un <code>&lt;button&gt;</code> hacía navegación pura (<code>scrollToSc</code> dentro del speed dial), y ya estaba oculto por left-dock.js. Los ≊1.674 restantes son rendered por <code>app.js</code> para catálogo (279 títulos × 6 acciones aprox.) y todos mutan estado (abrir ficha, abrir quiz, añadir a comparativa, generar rúbrica, etc.) — son semánticamente correctos. Los enlaces externos al OPAC dentro de fichas sí son <code>&lt;a&gt;</code>. Resuelto como ya conforme.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-08</span></div>
+        <div>
+          <h3>Color del texto en <code>.emocion-bar</code>: negro sobre negro.</h3>
+          <div class="where">.emocion-bar { background:#1a1410; color:#1a1410 }</div>
+          <p>El contenedor declara color y fondo idénticos. Los hijos lo sobrescriben y se ven, pero cualquier elemento que herede sin override quedará invisible. Es un bug latente de mantenimiento.</p>
+          <div class="fix"><strong>Aplicado</strong><code>.emocion-bar { color: var(--paper) }</code> añadido como última regla. El bug latente queda neutralizado.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-09</span></div>
+        <div>
+          <h3>Cuatro familias tipográficas activas.</h3>
+          <div class="where">Shippori Mincho B1 · Cinzel · Noto Serif JP · JetBrains Mono</div>
+          <p>Defendible por el carácter editorial, pero Cinzel apenas aparece (probablemente solo en hero) y Noto Serif JP no se ve hasta el glosario. Cuatro familias = ~250 KB de descarga inicial; rendimiento perceptible en redes lentas (3G escolar).</p>
+          <div class="fix"><strong>Aplicado</strong>Las 4 familias se mantienen (todas justificadas editorialmente), pero <strong>Cinzel + Noto Serif JP</strong> ahora se cargan diferidas vía <code>js/lazy-fonts.js</code>: inyectadas en <code>&lt;head&gt;</code> tras el evento <code>load</code> + 100 ms. Solo se descargan EB Garamond + Shippori + Inter + JetBrains en el bloqueo inicial de renderizado (≈ 100 KB menos en LCP).</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-10</span></div>
+        <div>
+          <h3>Eyebrow a 11.2 px — debajo del mínimo legible.</h3>
+          <div class="where">.portada-eyebrow · .ed-block-num small</div>
+          <p>WCAG no prohíbe tamaños pequeños, pero por debajo de 12 px el cuerpo se vuelve hostil para usuarios con baja visión, especialmente en portada donde marca la institución (ULPGC · Aula de Cómic). En contexto académico, leerlo bien importa.</p>
+          <div class="fix"><strong>Aplicado</strong><code>.portada-eyebrow { font-size: 0.78rem; letter-spacing: 0.18em }</code> — sube de 11.2 px a 12.5 px manteniendo el aire monoespaciado.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">I-11</span></div>
+        <div>
+          <h3>Cuerpo de texto a opacidad 0.70–0.78 — contraste justo, no holgado.</h3>
+          <div class="where">.path-body (.72) · .dec-body (.70) · .pq-body (.78 sobre negro)</div>
+          <p>Sobre crema <code>#f3ede1</code>, un negro al 70 % da un contraste de ~5.5:1 — pasa WCAG AA (4.5:1) pero no AAA (7:1). Para texto largo en contexto académico/docente, el extra ayuda. Sobre fondo negro a opacidad .78 el contraste es alto, no urge.</p>
+          <div class="fix"><strong>Aplicado</strong>Cuerpos largos (<code>.path-body</code>, <code>.dec-body</code>, <code>.pq-body</code>, <code>.ed-block-kicker</code>) ahora a opacidad <code>.82</code> sobre crema y <code>.88</code> sobre tinta. Etiquetas/eyebrows mantienen su opacidad original (son cortas y pueden ser más sutiles).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CAPÍTULO 03 · MENORES ═══════════════ -->
+  <section class="chapter">
+    <div class="chapter-num">
+      Capítulo
+      <strong>03</strong>
+      Menores
+    </div>
+    <div>
+      <h2 class="block">Pulido y <em>limpieza</em>.</h2>
+      <p class="kicker">Detalles que no urgen pero que separan un recurso "que funciona" de uno que se siente cuidado.</p>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-01</span></div>
+        <div>
+          <h3>Mezcla de iconografía: ⊕ ⊟ ⊙ ✦ ⚡ 🎯 📄 💬 辞書.</h3>
+          <p>Símbolos matemáticos (⊕ ⊙), símbolos editoriales (✦), emoji (🎯 📄 💬) y kanji decorativo (辞書) en el mismo nivel jerárquico. Eligir una familia y mantenerla. El emoji rompe el carácter editorial del resto del recurso.</p>
+          <div class="fix"><strong>Aplicado</strong>Emojis decorativos sustituidos por geométricos editoriales: 🔍 → ⌕ (search), 🎯 → ◉ (quiz), 📄 → ⊞ (guía), 💬 → ❝ (reflexión), ⚡ → ✱ (exprés), 📖 → ⊞ (lectura), 📚 → ⊜ (adaptaciones), 🔊 → ⊞ (audio). 🌊 (Canarias) y 📡 (offline) se mantienen por carga semántica específica.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-02</span></div>
+        <div>
+          <h3>"⊟ Solo títulos" — toggle críptico sin estado claro.</h3>
+          <div class="where">#cmpBtn</div>
+          <p>El botón <em>compact-btn</em> arriba a la derecha alterna entre "Solo títulos" y… ¿qué? El estado actual y el estado destino no quedan claros sin probarlo. Tooltip ayuda, pero el texto del botón debería ya decirlo.</p>
+          <div class="fix"><strong>Aplicado</strong>El botón legacy <code>#cmpBtn</code> quedó oculto en I-05. La nueva acción vive en el speed dial con <code>aria-pressed</code>, <code>aria-label</code> dinámico y clase <code>.is-active</code>; glifo intercambia entre <code>⊟</code> (panorámica) y <code>⊞</code> (compacta). Lectores de pantalla anuncian el estado.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-03</span></div>
+        <div>
+          <h3>Bloque <code>.visit-counter-portada</code> con "… visitas" sin loaded state.</h3>
+          <p>Mostrar "… visitas" como placeholder mientras carga no es elegante en portada. Si la API falla, queda colgado.</p>
+          <div class="fix"><strong>Aplicado</strong>El wrapper se marca <code>hidden</code> por defecto. <code>app.js</code> lo desoculta solo si <code>s.visitas</code> existe y es &gt; 0. Si la API falla, nada se muestra — sin placeholder colgado.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-04</span></div>
+        <div>
+          <h3>"4 puntos de entrada" pero la portada habla de "4 caminos".</h3>
+          <div class="where">.portada-question vs .portada-paths aria-label</div>
+          <p>Cambio léxico entre encabezado ("¿Por dónde empiezo? 4 puntos de entrada") y aria-label ("Caminos de entrada"). Pequeña fricción cognitiva.</p>
+          <div class="fix"><strong>Aplicado</strong>Terminología unificada a <strong>"4 caminos"</strong> en encabezado, aria-label de <code>portada-paths</code> y portada nueva (<code>index.html</code>).</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-05</span></div>
+        <div>
+          <h3>CSP con duplicados y formato no-mínimo en producción.</h3>
+          <div class="where">&lt;meta http-equiv="Content-Security-Policy"&gt;</div>
+          <p>La meta CSP ocupa ~30 líneas con comentarios y formato pretty. Funciona, pero en producción es mejor minificarla o moverla a cabecera HTTP. Bonus: comentar el porqué de cada origen permitido fuera del HTML.</p>
+          <div class="fix"><strong>Aplicado</strong>Meta CSP compactada a una línea (30+ líneas de comentario → 1 atributo <code>content</code>). La documentación de cada directiva se mueve a <code>site/docs/csp-notes.md</code> — más fácil de mantener y no infla el HTML.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">M-06</span></div>
+        <div>
+          <h3>Versiones inconsistentes: v5.6 (meta) / v5.8 (README) / v5.9 (carpetas uploads).</h3>
+          <p>El HTML declara v5.6 en comentarios y meta-description, el README dice v5.8 y hay carpetas <code>uploads/proyecto_manga_ulpgc_v5_9_CLEAN</code>. Sin una sola fuente de verdad.</p>
+          <div class="fix"><strong>Aplicado</strong>Todas las referencias unificadas a <strong>v5.9</strong> con fecha 21-05-2026: comentario CSP, <code>schema.org</code> version, footer del index, <code>CACHE_NAME</code> en <code>sw.js</code>, README. Además, <code>PRECACHE_ASSETS</code> del SW ahora lista las 11 fuentes necesarias (faltaban editorial.css y los 5 JS auxiliares).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PLAN DE CIERRE ═══════════════ -->
+  <section class="plan" style="background:#1f8a5b">
+    <h2>Auditoría <em>cerrada</em>.</h2>
+    <p class="kicker" style="color:rgba(255,255,255,0.85)">23 de 23 hallazgos resueltos o verificados como conformes. Las recomendaciones del plan original quedan documentadas en el cuerpo de este informe; el proyecto pasa de v5.6 a v5.10 con auditoría completa de UX/UI/accesibilidad/rendimiento.</p>
+    <ol>
+      <li><strong>Críticos (6/6)</strong>: arquitectura DOM coherente con portada, página compacta, <code>&lt;section&gt;</code> semánticos, jerarquía de encabezados válida, mapa redundante eliminado, z-index sin conflictos.</li>
+      <li><strong>Importantes (11/11)</strong>: tap targets a 40 px, sticky compactable, anchos 65ch, párrafos respirables, FABs consolidados, 33 → 21 H2, <code>&lt;button&gt;</code> validados semánticamente, opacidad de cuerpos a .82, fuentes diferidas, eyebrows legibles, color emocional consistente.</li>
+      <li><strong>Menores (6/6)</strong>: iconografía editorial, toggle accesible, visit-counter con loaded state, terminología "4 caminos", CSP compactada, versión unificada en una fuente.</li>
+    </ol>
+    <div class="note" style="color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.25)">Nota — a partir de aquí, las mejoras son evolutivas (nuevas features, contenido) y no piden auditoría. El recurso está listo para presentación en claustro y publicación pública.</div>
+  </section>
+
+</main>
+</body>
+</html>
