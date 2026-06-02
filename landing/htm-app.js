@@ -141,24 +141,22 @@
       <section id="top" className="relative min-h-screen flex flex-col overflow-hidden">
         <${CinematicBg} image="img/banner-ulpgc-aulacomic.jpg" tint="red" intensity=${0.9} />
         <${Nav} />
-        <div className="relative z-10 flex-1 flex items-start px-6 lg:px-12 pt-24 md:pt-28 pb-10">
+        <div className="relative z-10 flex-1 flex items-center px-6 lg:px-12 pt-28 pb-12">
           <div className="max-w-5xl mx-auto w-full text-center">
-            <div className="inline-block mb-6">
+            <${motion.div} ...${fadeUp} transition=${{...ease, delay:0.4}} className="inline-block mb-8">
               <${Pill} className="!py-1 !px-1">
                 <span className="bg-paper text-ink2 px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-kicker font-mono">Nuevo</span>
-                <span className="pr-3 text-paper/90 font-mono text-[11px] uppercase tracking-kicker">v5.10 — Itinerarios Infantil + Primaria ya disponibles</span>
+                <span className="pr-3 text-paper/90 font-mono text-[11px] uppercase tracking-kicker">v5.9 — Itinerarios Infantil + Primaria ya disponibles</span>
               </>
-            </div>
-            <div className="font-mono text-[11px] uppercase tracking-kicker text-paper/70 mb-5">
+            </>
+            <${motion.div} ...${fadeUp} transition=${{...ease, delay:0.5}} className="font-mono text-[11px] uppercase tracking-kicker text-paper/70 mb-6">
               Aula de Cómic · Biblioteca Campus del Obelisco · ULPGC
-            </div>
-            <h1 className="font-heading italic text-paper text-[3.1rem] md:text-7xl lg:text-8xl leading-[0.95] tracking-normal font-semibold mb-4">
-              El manga como recurso didáctico.
-            </h1>
-            <p className="mx-auto max-w-2xl text-paper/80 text-lg md:text-xl leading-relaxed font-body mb-7">
+            </>
+            <${BlurText} text="El manga como recurso didáctico." italic delay=${0.7} stagger=${140} className="font-heading text-paper text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] tracking-[-0.03em] font-semibold mb-6 justify-center" tag="h1" />
+            <${motion.p} ...${fadeUp} transition=${{...ease, delay:1.15}} className="mx-auto max-w-2xl text-paper/80 text-lg md:text-xl leading-relaxed font-body mb-10">
               Marco pedagógico, catálogo curado de <em className="text-gold not-italic font-medium">279 títulos</em>, situaciones LOMLOE listas e itinerarios por etapa.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+            </>
+            <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.35}} className="flex flex-wrap items-center justify-center gap-4 mb-16">
               <${PaperBtn} href="recurso.html#parte-i" className="!px-7 !py-3.5 text-[12px]">
                 Entrar al recurso <${ArrowUpRight} size=${16} />
               </>
@@ -168,22 +166,22 @@
                 </span>
                 Ver línea del tiempo
               </a>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            </>
+            <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.55}} className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
               <${StatCard} icon=${html`<${IconBook} />`}  number="279" suffix="títulos" label="Catálogo curado del fondo Aula de Cómic" />
               <${StatCard} icon=${html`<${IconClock} />`} number="9"   suffix="eras"     label="De Heian (s. XII) a Reiwa contemporánea" />
               <${StatCard} icon=${html`<${IconGlobe} />`} number="5"   suffix="niveles"  label="De Infantil a Universidad · LOMLOE" />
-            </div>
+            </>
           </div>
         </div>
-        <div className="relative z-10 pb-8 px-6 lg:px-12">
+        <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.7}} className="relative z-10 pb-8 px-6 lg:px-12">
           <div className="flex flex-col items-center gap-5 max-w-5xl mx-auto">
             <${Pill}>Construido sobre el fondo de la Biblioteca del Campus del Obelisco</>
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14 text-paper/70 font-heading italic text-xl md:text-2xl tracking-tight">
               <span>Tezuka</span><span>·</span><span>Urasawa</span><span>·</span><span>Taniguchi</span><span>·</span><span>Hokusai</span><span>·</span><span>Tatsumi</span>
             </div>
           </div>
-        </div>
+        </>
       </section>
     `;
   }
@@ -349,7 +347,7 @@
             </div>
           </div>
           <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-rule flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono uppercase tracking-kicker text-paper/55">
-            <span>El manga como recurso didáctico · v5.10 · CC BY-NC 4.0</span>
+            <span>El manga como recurso didáctico · v5.9 · CC BY-NC 4.0</span>
             <span>21 mayo 2026 · 279 títulos · 5 niveles · 9 eras</span>
           </div>
         </div>

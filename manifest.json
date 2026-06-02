@@ -48,21 +48,21 @@
       "name": "Catálogo de títulos",
       "short_name": "Catálogo",
       "description": "Accede al catálogo completo de 279 títulos del fondo",
-      "url": "./recurso.html#catalogo",
+      "url": "./#catalogo",
       "icons": [{ "src": "./icons/icon.svg", "sizes": "any" }]
     },
     {
       "name": "Situaciones de aprendizaje",
       "short_name": "SA LOMLOE",
       "description": "Situaciones de aprendizaje con estructura LOMLOE",
-      "url": "./recurso.html#situaciones",
+      "url": "./#situaciones",
       "icons": [{ "src": "./icons/icon.svg", "sizes": "any" }]
     },
     {
       "name": "Tabla currículo → manga",
       "short_name": "Currículo",
       "description": "Correspondencias entre contenidos curriculares y títulos del fondo",
-      "url": "./recurso.html#curriculo",
+      "url": "./#curriculo",
       "icons": [{ "src": "./icons/icon.svg", "sizes": "any" }]
     }
   ],

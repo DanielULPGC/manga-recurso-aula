@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════
    app.js — Las eras de Japón y el manga
    Biblioteca Campus del Obelisco · Aula de Cómic · ULPGC
-   Versión: 7.10 — Cierre 80%+: 265 títulos cubiertos (95%), quiz+ficha paridad
+   Versión: 7.8 — Cierre 80%+: 265 títulos cubiertos (95%), quiz+ficha paridad
    
    Depende de: datos.js (CATALOGO, USO_COLORES)
 ════════════════════════════════════════════════════════════════ */

@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   datos.js — Catálogo de 279 títulos manga · ULPGC — v5.10
+   datos.js — Catálogo de 279 títulos manga · ULPGC — v5.8
    Biblioteca Campus del Obelisco · Aula de Cómic
    Generado automáticamente desde el HTML original
 ════════════════════════════════════════════════════════ */
