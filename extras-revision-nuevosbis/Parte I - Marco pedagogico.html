@@ -1,0 +1,380 @@
+﻿<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificación · Parte I integrada (CSS real)</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Shippori+Mincho+B1:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/editorial.css">
+<link rel="stylesheet" href="css/editorial-extras.css">
+<link rel="stylesheet" href="css/marco-bloques.css">
+<link rel="stylesheet" href="css/marco-bloques-2.css">
+<link rel="stylesheet" href="css/estructura.css">
+<link rel="stylesheet" href="css/pendientes.css">
+<style>body{margin:0;background:var(--paper);}</style>
+</head><body>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#1a1410"/>
+    <rect x="20" y="18" width="60" height="64" fill="#f3ede1" stroke="#a8852d" stroke-width="1.5"/>
+    <rect x="26" y="24" width="22" height="22" fill="none" stroke="#1a1410" stroke-width="1.4"/>
+    <rect x="52" y="24" width="22" height="22" fill="none" stroke="#1a1410" stroke-width="1.4"/>
+    <rect x="26" y="50" width="48" height="26" fill="none" stroke="#1a1410" stroke-width="1.4"/>
+    <path d="M62 30 l4 -8 l2 7 l7 -2 l-6 4 l5 5 l-7 -2 l-1 7 l-3 -7 l-6 3 z" fill="#a8852d"/>
+    <text x="50" y="93" font-family="Georgia,serif" font-style="italic" font-size="9" fill="#c9a227" text-anchor="middle">漫画</text>
+  </svg>
+</template>
+<!-- ══════════════════ PARTE I ══════════════════ -->
+<div class="parte-divider" id="parte-i" data-screen-label="Parte I — Marco pedagógico">
+  <span class="parte-eyebrow">Parte I de IV</span>
+  <h2 class="parte-title">Marco <em>pedagógico</em>.</h2>
+  <p class="parte-lede">Por qué el manga funciona en el aula, decálogo de mediación, anatomía visual de la página y protocolo en tres fases. Material para preparar y defender la propuesta.</p>
+  <figure class="mb-art">
+    <div class="mb-art-plate"><span class="mb-seal">Edo · ukiyo-e</span><img src="img/hokusai-gran-ola.jpg" width="1280" height="883" loading="lazy" alt="«La gran ola de Kanagawa», estampa ukiyo-e de Katsushika Hokusai"><figcaption class="mb-cartela">Katsushika Hokusai · «La gran ola de Kanagawa» (神奈川沖浪裏), de <i>Treinta y seis vistas del monte Fuji</i> · c. 1831 · Dominio público — Wikimedia Commons</figcaption></div>
+    <p class="mb-art-note">Fue Hokusai quien popularizó la palabra <em>manga</em> con sus cuadernos de bocetos (<em>Hokusai Manga</em>, 1814). El puente entre la estampa del periodo Edo y la viñeta contemporánea es real: el mismo linaje visual que el alumnado ya reconoce.</p>
+  </figure>
+</div>
+
+<!-- ══════════════════ NAV FIJA + MAPA DE ENTRADA ══════════════════ -->
+<nav class="mb-nav" aria-label="Navegación de la Parte I">
+  <a class="mb-nav-home" href="#parte-i">Parte I · <b>Marco pedagógico</b></a>
+  <div class="mb-nav-list">
+    <a href="#porque"><span class="nv-n">I</span><span class="nv-label">Por qué</span></a>
+    <a href="#cruce"><span class="nv-n">II</span><span class="nv-label">Materias</span></a>
+    <a href="#decalogo"><span class="nv-n">III</span><span class="nv-label">Decálogo</span></a>
+    <a href="#protocolo"><span class="nv-n">IV</span><span class="nv-label">Protocolo</span></a>
+    <a href="#anatomia"><span class="nv-n">V</span><span class="nv-label">Anatomía</span></a>
+    <a href="#caso"><span class="nv-n">VI</span><span class="nv-label">En clase</span></a>
+    <a href="#raices"><span class="nv-n">·</span><span class="nv-label">Raíces</span></a>
+  </div>
+  <button type="button" class="mb-mode" id="modo-consulta" aria-pressed="false" title="Cambia entre lectura completa y vista compacta de consulta"><span class="md-leer">Leer</span><span class="md-cons">Consultar</span></button>
+  <div class="mb-nav-progress" aria-hidden="true"></div>
+</nav>
+
+<section class="mb-mapa" id="mapa" aria-label="Mapa del recurso">
+  <div>
+    <p class="mb-mapa-h">El recurso · cuatro partes</p>
+    <div class="mb-parts">
+      <a class="mb-part is-current" href="#parte-i"><span class="pt-n">I</span><span class="pt-t">Marco pedagógico</span><span class="pt-here">Estás aquí</span></a>
+      <a class="mb-part" href="../recurso.html#parte-ii"><span class="pt-n">II</span><span class="pt-t">Para etapas bajas</span><span class="pt-s">Infantil · Primaria</span></a>
+      <a class="mb-part" href="../recurso.html#parte-iii"><span class="pt-n">III</span><span class="pt-t">El fondo</span><span class="pt-s">279 títulos · glosario</span></a>
+      <a class="mb-part" href="../recurso.html#parte-iv"><span class="pt-n">IV</span><span class="pt-t">Llevar al aula</span><span class="pt-s">Situaciones · itinerarios</span></a>
+    </div>
+  </div>
+  <div>
+    <p class="mb-mapa-h">En esta parte · seis capítulos</p>
+    <ol class="mb-toc">
+      <li><a href="#porque"><span class="tc-n">I</span><span class="tc-t">Por qué el manga <em>funciona</em></span></a></li>
+      <li><a href="#cruce"><span class="tc-n">II</span><span class="tc-t">Un manga para cada <em>materia</em></span></a></li>
+      <li><a href="#decalogo"><span class="tc-n">III</span><span class="tc-t">Decálogo de <em>mediación</em></span></a></li>
+      <li><a href="#protocolo"><span class="tc-n">IV</span><span class="tc-t">Antes, durante y <em>después</em></span></a></li>
+      <li><a href="#anatomia"><span class="tc-n">V</span><span class="tc-t">Cómo leer una <em>página</em></span></a></li>
+      <li><a href="#caso"><span class="tc-n">VI</span><span class="tc-t">Una página, leída <em>en clase</em></span></a></li>
+      <li class="is-coda"><a href="#raices"><span class="tc-n">·</span><span class="tc-t">Coda · raíces <em>ukiyo-e</em></span></a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════ POR QUÉ EL MANGA EN EL AULA ══════════════════ -->
+<section class="ed-block" id="porque">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      I
+    </div>
+    <div>
+      <h3 class="ed-block-title">Por qué el manga <em>funciona</em> en el aula.</h3>
+      <p class="ed-block-kicker">No es novedad ni concesión generacional. Es un sistema de signos sofisticado y exigente: leerlo bien forma lectores. Seis razones pedagógicas, ninguna decorativa, sostienen el resto del recurso.</p>
+    </div>
+  </div>
+  <div class="mb-tira">
+  <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="10" y="13" width="100" height="54" rx="2" class="ln pf"/><circle cx="34" cy="36" r="6" class="gdf"/><path d="M14 60 L30 44 L42 54 L56 38 L70 58" class="ln"/><path d="M70 20 h30 a4 4 0 0 1 4 4 v9 a4 4 0 0 1 -4 4 h-16 l-6 6 v-6 h-8 a4 4 0 0 1 -4 -4 v-9 a4 4 0 0 1 4 -4 z" class="ln pf"/><line x1="78" y1="28" x2="98" y2="28" class="lnt"/><line x1="78" y1="33" x2="93" y2="33" class="lnt"/></svg><span class="mb-cap">Bocadillo sobre la imagen dibujada</span></div><div class="mb-rowtx"><div class="mb-rownum">01</div><div class="mb-rowin"><h4 class="mb-rowtitle">Doble decodificación, imagen y texto</h4><p class="mb-rowbody">El manga obliga a procesar lo verbal y lo visual al mismo tiempo. Esa lectura multimodal es lo que la alfabetización del siglo XXI exige y lo que la LOMLOE reconoce como competencia clave.</p></div></div></article>
+  <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="14" width="30" height="24" rx="1.5" class="ln pf"/><rect x="46" y="14" width="30" height="24" rx="1.5" class="ln pf"/><rect x="80" y="14" width="28" height="24" rx="1.5" class="ln pf"/><rect x="12" y="42" width="30" height="24" rx="1.5" class="ln pf"/><rect x="46" y="42" width="30" height="24" rx="1.5" class="ln pf"/><rect x="80" y="42" width="28" height="24" rx="1.5" class="ln pf"/></svg><span class="mb-cap">Una página, seis viñetas, saltos de tiempo</span></div><div class="mb-rowtx"><div class="mb-rownum">02</div><div class="mb-rowin"><h4 class="mb-rowtitle">Densidad narrativa alta</h4><p class="mb-rowbody">Una página puede contener varios saltos temporales, dos puntos de vista y un símbolo recurrente. Descifrarlo entrena músculo lector: anticipación, inferencia, jerarquía de información.</p></div></div></article>
+  <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="40" y="14" width="40" height="52" rx="2" class="ln pf"/><line x1="49" y1="14" x2="49" y2="66" class="lnt"/><line x1="56" y1="24" x2="74" y2="24" class="lnt"/><line x1="56" y1="31" x2="74" y2="31" class="lnt"/><line x1="56" y1="38" x2="68" y2="38" class="lnt"/><rect x="62" y="14" width="8" height="14" class="gdf"/></svg><span class="mb-cap">El tomo que ya leen fuera del aula</span></div><div class="mb-rowtx"><div class="mb-rownum">03</div><div class="mb-rowin"><h4 class="mb-rowtitle">Cercanía cultural real</h4><p class="mb-rowbody">Parte del alumnado ya lo lee fuera del aula. El recurso parte de un código que dominan parcialmente; el aula les enseña a leerlo críticamente, con vocabulario y herramientas.</p></div></div></article>
+  <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><line x1="14" y1="67" x2="108" y2="67" class="ln"/><rect x="18" y="30" width="11" height="37" class="ln t2"/><rect x="32" y="22" width="11" height="45" class="ln t1"/><rect x="46" y="34" width="11" height="33" class="ln t3"/><rect x="60" y="18" width="11" height="49" class="ln t1"/><rect x="74" y="28" width="11" height="39" class="ln t2"/><rect x="88" y="24" width="11" height="43" class="ln t1"/><rect x="60" y="18" width="11" height="49" class="gd" fill="none"/></svg><span class="mb-cap">Lomos por género: histórico, científico…</span></div><div class="mb-rowtx"><div class="mb-rownum">04</div><div class="mb-rowin"><h4 class="mb-rowtitle">Un manga para cada materia</h4><p class="mb-rowbody">No es solo shōnen de acción: hay manga histórico, científico, biográfico, ensayístico, intimista y filosófico. El fondo de 279 títulos cubre ocho usos pedagógicos distintos.</p></div></div></article>
+  <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="30" width="26" height="26" rx="2" class="ln pf"/><line x1="18" y1="37" x2="32" y2="37" class="lnt"/><line x1="18" y1="43" x2="32" y2="43" class="lnt"/><rect x="82" y="18" width="26" height="46" rx="2" class="ln pf"/><line x1="88" y1="26" x2="102" y2="26" class="lnt"/><line x1="88" y1="33" x2="102" y2="33" class="lnt"/><line x1="88" y1="40" x2="102" y2="40" class="lnt"/><line x1="88" y1="47" x2="98" y2="47" class="lnt"/><path d="M44 43 H74" class="gd"/><path d="M68 37 L76 43 L68 49" class="gd"/></svg><span class="mb-cap">Del tomo a la novela</span></div><div class="mb-rowtx"><div class="mb-rownum">05</div><div class="mb-rowin"><h4 class="mb-rowtitle">Puente hacia la lectura larga</h4><p class="mb-rowbody">Quien se engancha a Urasawa, Tezuka o Taniguchi adquiere un hábito de lectura sostenida que se transfiere a la novela. El manga no compite con el libro: lo prepara.</p></div></div></article>
+  <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="68" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="52" y="15" width="16" height="50" class="gband"/><line x1="60" y1="17" x2="60" y2="63" class="dash"/><circle cx="60" cy="40" r="3.4" class="gdf"/></svg><span class="mb-cap">La «calle» (ma) entre dos viñetas</span></div><div class="mb-rowtx"><div class="mb-rownum">06</div><div class="mb-rowin"><h4 class="mb-rowtitle">Trabaja la elipsis</h4><p class="mb-rowbody">El espacio entre viñetas —el ma— es donde el lector imagina lo que pasa. Inferencia activa en cada página, sin que el alumno lo perciba. La mejor escuela de lectura entre líneas.</p></div></div></article>
+  </div>
+</section>
+
+<!-- ══════════════════ UN MANGA PARA CADA MATERIA ══════════════════ -->
+<section class="ed-block" id="cruce">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      II
+    </div>
+    <div>
+      <h3 class="ed-block-title">Un manga para cada <em>materia</em>.</h3>
+      <p class="ed-block-kicker">La razón 04 en concreto: ocho usos pedagógicos, ocho lecturas y la competencia LOMLOE que cada una pone a trabajar. Una rejilla para defender la propuesta ante un departamento y para entrar al catálogo con un objetivo claro.</p>
+    </div>
+  </div>
+  <div class="mb-cruce">
+    <div class="mb-cruce-row is-head"><span>Materia · nivel</span><span>Lectura propuesta</span><span>Qué pone a trabajar</span></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Lengua y Literatura<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Pluto</b><span>Naoki Urasawa · 8 tomos</span><em>Intriga coral, saltos de punto de vista y estructura de novela negra.</em></div><div class="cx-comp"><span class="cx-tag">Comunicación lingüística</span>Reconstruir la trama desde voces que se contradicen; distinguir narrador y personaje.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Biología y Geología<small>ESO</small></div><div class="cx-obra"><b>Cells at Work!</b><span>Akane Shimizu · 6 tomos</span><em>El cuerpo humano narrado como una ciudad de células con oficios.</em></div><div class="cx-comp"><span class="cx-tag">Competencia STEM</span>Fijar funciones de glóbulos, plaquetas e inmunidad mediante la metáfora visual.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Geografía e Historia<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Vinland Saga</b><span>Makoto Yukimura · en curso</span><em>Expansión vikinga, violencia y el difícil tránsito a la paz.</em></div><div class="cx-comp"><span class="cx-tag">Conciencia histórica</span>Separar el dato histórico de la licencia narrativa; situar fuentes.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Física y Química<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Dr. Stone</b><span>Riichiro Inagaki · 26 tomos</span><em>Reconstruir la civilización reinventando cada tecnología desde cero.</em></div><div class="cx-comp"><span class="cx-tag">Competencia STEM</span>Seguir el método científico: hipótesis, experimento, escalado, error.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Valores · Tutoría<small>ESO</small></div><div class="cx-obra"><b>A Silent Voice</b><span>Yoshitoki Ōima · 7 tomos</span><em>Acoso escolar, discapacidad auditiva y la posibilidad de reparar.</em></div><div class="cx-comp"><span class="cx-tag">Personal, social y de aprender</span>Cambiar de punto de vista entre víctima y agresor; hablar de culpa y perdón.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Filosofía y Ética<small>Bachillerato</small></div><div class="cx-obra"><b>Astro Boy → Pluto</b><span>Osamu Tezuka / Urasawa</span><em>Una misma historia contada por el maestro y por su heredero.</em></div><div class="cx-comp"><span class="cx-tag">Competencia ciudadana</span>Debatir conciencia, identidad y qué nos hace humanos comparando dos versiones.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Educación Plástica y Visual<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>El caminante</b><span>Jirō Taniguchi · 1 tomo</span><em>Casi sin diálogo: ritmo, mirada y composición silenciosa.</em></div><div class="cx-comp"><span class="cx-tag">Conciencia y expresión culturales</span>Analizar encuadre, planos y tempo visual sin apoyo del texto.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Educación Física<small>ESO</small></div><div class="cx-obra"><b>Slam Dunk</b><span>Takehiko Inoue · 31 tomos</span><em>Un grupo dispar aprende a ser equipo a través del baloncesto.</em></div><div class="cx-comp"><span class="cx-tag">Personal y social</span>Trabajar esfuerzo, frustración, rol en el equipo y superación.</div></div>
+  </div>
+  <p class="mb-cruce-foot"><b>Ocho materias, ocho puertas.</b> El fondo de 279 títulos del catálogo amplía cada fila — filtra por materia para encontrar alternativas según el nivel y la sensibilidad del grupo.</p>
+</section>
+
+<!-- ══════════════════ DECÁLOGO DE MEDIACIÓN ══════════════════ -->
+<section class="ed-block" id="decalogo">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      III
+    </div>
+    <div>
+      <h3 class="ed-block-title">Decálogo de <em>mediación</em> lectora.</h3>
+      <p class="ed-block-kicker">Diez pautas prácticas, destiladas del corpus pedagógico del recurso (glosario, situaciones de aprendizaje LOMLOE, itinerarios). No reemplazan la planificación; ordenan la postura del docente frente a la página.</p>
+    </div>
+  </div>
+  <div class="mb-deck-tools">
+    <div class="mb-deck-seg" role="radiogroup" aria-label="Filtrar pautas por momento">
+      <input class="dk-r" type="radio" name="dkf" id="dk-all" checked><label for="dk-all">Todas <b>10</b></label>
+      <input class="dk-r" type="radio" name="dkf" id="dk-antes"><label for="dk-antes">Antes <b>3</b></label>
+      <input class="dk-r" type="radio" name="dkf" id="dk-durante"><label for="dk-durante">Durante <b>3</b></label>
+      <input class="dk-r" type="radio" name="dkf" id="dk-despues"><label for="dk-despues">Después <b>3</b></label>
+      <input class="dk-r" type="radio" name="dkf" id="dk-trans"><label for="dk-trans">Transversal <b>1</b></label>
+    </div>
+    <label class="mb-deck-toggle"><input type="checkbox" id="dk-checklist"><span class="tg-track"></span><span class="tg-label">Lista de control</span></label>
+  </div>
+  <div class="mb-dec">
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="40" y="14" width="40" height="52" rx="2" class="ln pf"/><line x1="49" y1="14" x2="49" y2="66" class="lnt"/><line x1="56" y1="24" x2="74" y2="24" class="lnt"/><line x1="56" y1="31" x2="74" y2="31" class="lnt"/><line x1="56" y1="38" x2="68" y2="38" class="lnt"/><rect x="62" y="14" width="8" height="14" class="gdf"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 01 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 01</div><div class="mb-dec-title">Lee tú primero, entera.</div><p class="mb-dec-body">No selecciones un capítulo aislado sin haber leído al menos un tomo completo. Necesitas saber qué pasa después para mediar sin sustos.</p><div class="mb-dec-clase"><span class="mb-dec-when t-antes">Antes</span><p class="mb-dec-do">Reserva el tomo completo en préstamo dos semanas antes de abrir la unidad.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><path d="M22 22 H16 V16 M16 16 V22 M16 16 H22" class="gd"/><path d="M98 22 H104 V16 H98" class="gd"/><path d="M22 58 H16 V64 H22" class="gd"/><path d="M98 58 H104 V64 H98" class="gd"/><rect x="34" y="32" width="52" height="16" rx="2" class="ln pf"/><line x1="40" y1="40" x2="80" y2="40" class="lnt"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 02 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 02</div><div class="mb-dec-title">Encuadra antes de leer.</div><p class="mb-dec-body">Avisa del tema, pacta respeto y nombra lo sensible que va a aparecer. La advertencia no estropea la lectura: la sostiene.</p><div class="mb-dec-clase"><span class="mb-dec-when t-antes">Antes</span><p class="mb-dec-say">«Hoy leemos una historia que habla de un duelo; vamos a tratarla con respeto.»</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="16" width="92" height="48" rx="2" class="lnt"/><line x1="44" y1="16" x2="44" y2="64" class="lnt"/><line x1="76" y1="16" x2="76" y2="64" class="lnt"/><line x1="14" y1="40" x2="106" y2="40" class="lnt"/><circle cx="29" cy="28" r="4" class="fl"/><path d="M55 24 h12 v7 h-5 l-2 3 v-3 h-5 z" class="lnt"/><path d="M84 24 l8 8 M92 24 l-8 8" class="gd"/><path d="M22 50 q7 -6 14 0" class="gd"/><line x1="55" y1="52" x2="67" y2="52" class="lnt"/><path d="M84 56 H96 M90 50 L84 56 L90 62" class="lnt"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 03 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 03</div><div class="mb-dec-title">Enseña el código antes que el contenido.</div><p class="mb-dec-body">Dedica una sesión a viñeta, bocadillo, onomatopeya, líneas cinéticas, calle y lectura RTL antes de pedir interpretación. El glosario sirve para esto.</p><div class="mb-dec-clase"><span class="mb-dec-when t-antes">Antes</span><p class="mb-dec-do">Dedica la sesión 0 al glosario: viñeta, bocadillo, onomatopeya, calle y lectura RTL.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="92" height="50" rx="2" class="ln pf"/><path d="M38 40 q22 -17 44 0 q-22 17 -44 0 z" class="lnt"/><circle cx="60" cy="40" r="7" class="fl"/><circle cx="62.5" cy="37.5" r="2" fill="#f3ede1"/><text x="86" y="30" class="qm">?</text></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 04 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 04</div><div class="mb-dec-title">Pregunta por la imagen, no por el texto.</div><p class="mb-dec-body">«¿Qué se ve?», «¿qué no se ve?», «¿por qué está dibujado así?». La página manga dice más en lo visual que en lo escrito.</p><div class="mb-dec-clase"><span class="mb-dec-when t-durante">Durante</span><p class="mb-dec-say">«¿Qué se ve aquí? ¿Y qué NO se ve? ¿Por qué está dibujado así?»</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="68" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="52" y="15" width="16" height="50" class="gband"/><line x1="60" y1="17" x2="60" y2="63" class="dash"/><circle cx="60" cy="40" r="3.4" class="gdf"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 05 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 05</div><div class="mb-dec-title">Trabaja la calle, no la viñeta.</div><p class="mb-dec-body">El espacio entre dos viñetas es donde ocurre la inferencia. Una sola página y diez minutos en su <em>ma</em> rinden más que cinco leídas deprisa.</p><div class="mb-dec-clase"><span class="mb-dec-when t-durante">Durante</span><p class="mb-dec-do">Proyecta una sola página y dedica diez minutos al espacio entre dos viñetas.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><circle cx="60" cy="42" r="22" class="dash"/><circle cx="60" cy="20" r="5" class="ln pf"/><circle cx="81" cy="35" r="5" class="ln pf"/><circle cx="73" cy="60" r="5" class="ln pf"/><circle cx="47" cy="60" r="5" class="ln pf"/><circle cx="39" cy="35" r="5" class="ln pf"/><path d="M52 38 h16 a3 3 0 0 1 3 3 v5 a3 3 0 0 1 -3 3 h-9 l-4 4 v-4 h-3 a3 3 0 0 1 -3 -3 v-5 a3 3 0 0 1 3 -3 z" class="gd" fill="var(--mb-paper)"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 06 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 06</div><div class="mb-dec-title">Modera, no opines.</div><p class="mb-dec-body">En el coloquio, devuelve la pregunta al grupo. Tu lectura es una más, no la canónica. La conversación entre lectores es el aprendizaje.</p><div class="mb-dec-clase"><span class="mb-dec-when t-despues">Después</span><p class="mb-dec-say">«Interesante. ¿Qué opina el resto? ¿Alguien la leyó de otra manera?»</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="28" width="26" height="26" rx="2" class="ln pf"/><circle cx="92" cy="41" r="15" class="ln pf"/><path d="M40 41 H77" class="gd"/><circle cx="58" cy="41" r="3.5" class="gdf"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 07 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 07</div><div class="mb-dec-title">Conecta con lo que ya saben.</div><p class="mb-dec-body">Cruza el manga con un texto, una imagen o una experiencia previa. Cells at Work junto al esquema de Biología; Pluto junto a Tezuka.</p><div class="mb-dec-clase"><span class="mb-dec-when t-durante">Durante</span><p class="mb-dec-do">Pon <em>Cells at Work</em> junto al esquema de Biología; <em>Pluto</em> junto a <em>Astro Boy</em>.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><line x1="12" y1="64" x2="108" y2="64" class="ln"/><rect x="20" y="30" width="10" height="34" class="ln t1"/><rect x="33" y="24" width="10" height="40" class="ln t2"/><rect x="46" y="34" width="10" height="30" class="ln t1"/><g transform="rotate(12 64 64)"><rect x="59" y="30" width="10" height="34" class="ln t3"/></g><rect x="78" y="28" width="10" height="36" class="ln t1"/><rect x="91" y="34" width="10" height="30" class="ln t2"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 08 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 08</div><div class="mb-dec-title">Permite la lectura voluntaria.</div><p class="mb-dec-body">Cataloga una pequeña selección y deja que tomen lo que quieran sin tarea asociada. La animación lectora funciona, sobre todo, cuando no obliga.</p><div class="mb-dec-clase"><span class="mb-dec-when">Transversal</span><p class="mb-dec-do">Monta un expositor con 8–10 títulos; préstamo libre, sin ficha obligatoria.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="92" height="50" rx="2" class="lnt pf"/><path d="M30 54 q14 -22 32 -14 q10 5 22 -10" class="gd"/><g transform="rotate(40 78 30)"><rect x="70" y="18" width="9" height="30" class="ln pf"/><path d="M70 48 L74.5 56 L79 48 Z" class="fl"/><rect x="70" y="18" width="9" height="7" class="gdf"/></g></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 09 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 09</div><div class="mb-dec-title">Produce, no solo leas.</div><p class="mb-dec-body">Cierra cada unidad con una producción: una página propia, un storyboard, un análisis de viñeta. Lo que se compone, se entiende.</p><div class="mb-dec-clase"><span class="mb-dec-when t-despues">Después</span><p class="mb-dec-do">Cierra con una producción: una página propia, un storyboard o un análisis de viñeta.</p></div></div></div>
+  <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="30" width="26" height="26" rx="2" class="ln pf"/><line x1="18" y1="37" x2="32" y2="37" class="lnt"/><line x1="18" y1="43" x2="32" y2="43" class="lnt"/><rect x="82" y="18" width="26" height="46" rx="2" class="ln pf"/><line x1="88" y1="26" x2="102" y2="26" class="lnt"/><line x1="88" y1="33" x2="102" y2="33" class="lnt"/><line x1="88" y1="40" x2="102" y2="40" class="lnt"/><line x1="88" y1="47" x2="98" y2="47" class="lnt"/><path d="M44 43 H74" class="gd"/><path d="M68 37 L76 43 L68 49" class="gd"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 10 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 10</div><div class="mb-dec-title">Vuelve al texto clásico.</div><p class="mb-dec-body">El manga es puerta de entrada, no destino. La unidad cierra cuando el alumnado salta a la novela, al ensayo o al filme adaptado.</p><div class="mb-dec-clase"><span class="mb-dec-when t-despues">Después</span><p class="mb-dec-do">Enlaza con la novela, el ensayo o el filme que el catálogo sugiere para ese título.</p></div></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ ANTES / DURANTE / DESPUÉS ══════════════════ -->
+<section class="ed-block" id="protocolo">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      IV
+    </div>
+    <div>
+      <h3 class="ed-block-title">Antes, durante y después de <em>leer</em>.</h3>
+      <p class="ed-block-kicker">Protocolo de mediación lectora en tres fases — esquema clásico de comprensión aplicado al manga. Recoge en concreto lo que el decálogo apunta en abstracto; usa los términos del glosario.</p>
+    </div>
+  </div>
+  <p class="mb-leg-hint" style="margin-top:1.5rem;">Elige una fase — el tiempo total de la sesión es ~50 min</p>
+  <div class="mb-steps">
+    <div class="mb-steps-nav" role="tablist">
+      <label class="st-tab" data-step="1"><input class="st-radio" type="radio" name="fase" id="st-1" checked><span class="st-n">01</span><div class="st-meta"><div class="st-ph">Antes <span class="st-time">· 15 min</span></div><div class="st-t">Preparar el terreno</div></div></label>
+      <label class="st-tab" data-step="2"><input class="st-radio" type="radio" name="fase" id="st-2"><span class="st-n">02</span><div class="st-meta"><div class="st-ph">Durante <span class="st-time">· 25 min</span></div><div class="st-t">Acompañar la lectura</div></div></label>
+      <label class="st-tab" data-step="3"><input class="st-radio" type="radio" name="fase" id="st-3"><span class="st-n">03</span><div class="st-meta"><div class="st-ph">Después <span class="st-time">· 10 min</span></div><div class="st-t">Cerrar y proyectar</div></div></label>
+    </div>
+    <div class="st-panel" data-step="1"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><circle cx="60" cy="40" r="25" class="ln"/><circle cx="60" cy="40" r="16" class="lnt"/><circle cx="60" cy="40" r="7" class="gd"/><circle cx="60" cy="40" r="3" class="gdf"/></svg></div><div><div class="mb-fase">Fase 01 · Antes</div><h4 class="mb-rowtitle">Preparar el terreno</h4><ul class="mb-list"><li><strong>Enseña el código antes que el contenido.</strong> Una sesión sobre viñeta, bocadillo, onomatopeya y lectura RTL. El glosario sirve de apoyo.</li><li><strong>Encuadra el tema.</strong> Si el título toca asuntos sensibles —duelo, bullying, violencia— nómbralo. La advertencia ordena la lectura.</li><li><strong>Activa lo que ya saben.</strong> Un cómic conocido, una escena de animación, un grabado clásico: cruza referentes antes de abrir página.</li><li><strong>Fija un propósito.</strong> «Vamos a observar cómo cambia el tiempo entre dos viñetas». Sin propósito, la lectura se diluye.</li><li><strong>Pacta un acuerdo de respeto.</strong> Sobre todo con ESO y Bachillerato: la conversación que vendrá lo va a necesitar.</li></ul><div class="mb-foot">Tiempo orientativo · 15 min</div></div></div>
+    <div class="st-panel" data-step="2"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="92" height="50" rx="2" class="ln pf"/><path d="M38 40 q22 -17 44 0 q-22 17 -44 0 z" class="lnt"/><circle cx="60" cy="40" r="7" class="fl"/><circle cx="62.5" cy="37.5" r="2" fill="#f3ede1"/><text x="86" y="30" class="qm">?</text></svg></div><div><div class="mb-fase">Fase 02 · Durante</div><h4 class="mb-rowtitle">Acompañar la lectura</h4><ul class="mb-list"><li><strong>Lectura silenciosa primero.</strong> Cada alumno marca dos viñetas que le hayan impactado y anota por qué.</li><li><strong>Para en una página clave.</strong> Detén el grupo, proyéctala en grande y abre la conversación: ¿qué se ve, qué no, qué se imagina?</li><li><strong>Pregunta por la imagen.</strong> «¿Por qué está dibujado así?», «¿qué pasa entre estas dos viñetas?». La respuesta no es solo argumental.</li><li><strong>Atiende el ritmo.</strong> Una página densa puede pedir cinco minutos; otra ágil, treinta segundos. El docente regula el tempo.</li><li><strong>Permite el silencio.</strong> El <em>ma</em> entre viñetas existe también entre lectores: deja que la página resuene antes de hablar.</li></ul><div class="mb-foot">Tiempo orientativo · 25 min</div></div></div>
+    <div class="st-panel" data-step="3"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><circle cx="60" cy="42" r="22" class="dash"/><circle cx="60" cy="20" r="5" class="ln pf"/><circle cx="81" cy="35" r="5" class="ln pf"/><circle cx="73" cy="60" r="5" class="ln pf"/><circle cx="47" cy="60" r="5" class="ln pf"/><circle cx="39" cy="35" r="5" class="ln pf"/><path d="M52 38 h16 a3 3 0 0 1 3 3 v5 a3 3 0 0 1 -3 3 h-9 l-4 4 v-4 h-3 a3 3 0 0 1 -3 -3 v-5 a3 3 0 0 1 3 -3 z" class="gd" fill="var(--mb-paper)"/></svg></div><div><div class="mb-fase">Fase 03 · Después</div><h4 class="mb-rowtitle">Cerrar y proyectar</h4><ul class="mb-list"><li><strong>Coloquio en círculo.</strong> Cada lector comparte una viñeta marcada y argumenta. Modera sin sentenciar; tu lectura es una más.</li><li><strong>Escritura breve.</strong> Tres líneas en el cuaderno: qué siente, qué le recuerda, qué pregunta se lleva.</li><li><strong>Producción visual.</strong> Una página propia o un análisis de viñeta. El generador del recurso permite componer sin saber dibujar.</li><li><strong>Salto al clásico.</strong> Conecta con la novela, el ensayo o el filme que el catálogo sugiere. El manga es puerta, no destino.</li><li><strong>Evaluación honesta.</strong> Una diana de aprendizaje, no una nota: qué aprendí, qué me costó, qué me llevo.</li></ul><div class="mb-foot">Tiempo orientativo · 10 min</div></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ CÓMO LEER UNA PÁGINA ══════════════════ -->
+<section class="ed-block" id="anatomia">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      V
+    </div>
+    <div>
+      <h3 class="ed-block-title">Cómo leer una <em>página</em> de manga.</h3>
+      <p class="ed-block-kicker">Anatomía visual de los seis elementos básicos. Para mostrar al alumnado en la primera sesión; cada término amplía su definición en el glosario japonés de este mismo recurso.</p>
+    </div>
+  </div>
+  <div class="mb-pagina mb-explore">
+    <div class="mb-pagina-plate">
+      <span class="mb-pagina-seal">Página · esquema</span>
+      <div class="mb-pagina-inner">
+        <svg viewBox="0 0 600 760" preserveAspectRatio="xMidYMid meet" class="mb-page-svg" role="img" aria-label="Página de manga esquemática con los seis elementos básicos señalados">
+          <text x="300" y="22" class="pg-rtl">SE LEE DE DERECHA A IZQUIERDA</text>
+          <path d="M540 40 H70" class="gd"/><path d="M88 30 L62 40 L88 50" class="gd"/>
+          <rect x="38" y="58" width="524" height="680" rx="2" class="ln pf"/>
+          <rect x="50" y="74" width="232" height="196" class="ln pf"/>
+          <rect x="300" y="74" width="250" height="196" class="ln pf"/>
+          <rect x="50" y="288" width="500" height="176" class="ln pf"/>
+          <rect x="300" y="482" width="250" height="244" class="ln pf"/>
+          <rect x="50" y="482" width="232" height="244" class="ln pf"/>
+          <path d="M430 116 L438 92 L445 114 L470 104 L450 122 L472 138 L447 132 L442 160 L433 134 L412 150 L425 126 L398 130 L423 118 L406 102 Z" class="ln gdf" fill="var(--mb-gold)" fill-opacity="0.18"/>
+          <path d="M80 322 h150 a10 10 0 0 1 10 10 v40 a10 10 0 0 1 -10 10 h-92 l-18 16 v-16 h-40 a10 10 0 0 1 -10 -10 v-40 a10 10 0 0 1 10 -10 z" class="ln pf"/>
+          <line x1="96" y1="342" x2="226" y2="342" class="lnt"/><line x1="96" y1="354" x2="226" y2="354" class="lnt"/><line x1="96" y1="366" x2="196" y2="366" class="lnt"/>
+          <path d="M398 378 q42 -32 84 0 q-42 32 -84 0 z" class="lnt"/><circle cx="440" cy="378" r="14" class="fl"/><circle cx="445" cy="373" r="4" fill="var(--mb-paper)"/>
+          <line x1="312" y1="512" x2="416" y2="604" class="lnt"/><line x1="312" y1="548" x2="416" y2="604" class="lnt"/><line x1="312" y1="604" x2="416" y2="604" class="ln"/><line x1="312" y1="662" x2="416" y2="604" class="lnt"/><line x1="312" y1="700" x2="416" y2="604" class="lnt"/>
+          <circle cx="430" cy="604" r="15" class="ln pf"/><circle cx="430" cy="604" r="4" class="gdf"/>
+          <circle cx="530" cy="92" r="12" class="fl"/><text x="530" y="92" class="pg-num">1</text>
+          <circle cx="70" cy="92" r="12" class="fl"/><text x="70" y="92" class="pg-num">2</text>
+          <circle cx="70" cy="308" r="12" class="fl"/><text x="70" y="308" class="pg-num">3</text>
+          <circle cx="530" cy="502" r="12" class="fl"/><text x="530" y="502" class="pg-num">4</text>
+          <circle cx="70" cy="502" r="12" class="fl"/><text x="70" y="502" class="pg-num">5</text>
+          <g class="pz" data-zone="a"><rect x="50" y="74" width="232" height="196" class="zln"/><rect x="300" y="74" width="250" height="196" class="zln"/><rect x="50" y="288" width="500" height="176" class="zln"/><rect x="300" y="482" width="250" height="244" class="zln"/><rect x="50" y="482" width="232" height="244" class="zln"/></g>
+          <g class="pz" data-zone="b"><rect x="72" y="314" width="178" height="88" class="zln"/></g>
+          <g class="pz" data-zone="c"><circle cx="434" cy="126" r="44" class="zln"/></g>
+          <g class="pz" data-zone="d"><rect x="304" y="498" width="138" height="120" class="zln"/></g>
+          <g class="pz" data-zone="e"><rect x="282" y="74" width="18" height="196" class="zfl"/><rect x="282" y="482" width="18" height="244" class="zfl"/><rect x="50" y="270" width="500" height="18" class="zfl"/><rect x="282" y="74" width="18" height="196" class="zln"/><rect x="282" y="482" width="18" height="244" class="zln"/></g>
+          <g class="pz" data-zone="f"><path d="M540 40 H70" class="zln"/><circle cx="530" cy="92" r="17" class="zln"/><circle cx="70" cy="92" r="17" class="zln"/><circle cx="70" cy="308" r="17" class="zln"/><circle cx="530" cy="502" r="17" class="zln"/><circle cx="70" cy="502" r="17" class="zln"/></g>
+          <g><circle cx="270" cy="256" r="11" class="pg-pin"/><text x="270" y="256" class="pg-pin-t">A</text></g>
+          <g><circle cx="240" cy="316" r="11" class="pg-pin"/><text x="240" y="316" class="pg-pin-t">B</text></g>
+          <g><circle cx="470" cy="96" r="11" class="pg-pin"/><text x="470" y="96" class="pg-pin-t">C</text></g>
+          <g><circle cx="318" cy="500" r="11" class="pg-pin"/><text x="318" y="500" class="pg-pin-t">D</text></g>
+          <g><circle cx="291" cy="170" r="11" class="pg-pin"/><text x="291" y="170" class="pg-pin-t">E</text></g>
+          <g><circle cx="112" cy="40" r="11" class="pg-pin"/><text x="112" y="40" class="pg-pin-t">F</text></g>
+        </svg>
+      </div>
+      <div class="mb-pagina-cartela">Página esquemática · los seis elementos señalados <i>in situ</i> (A–F). Esquema original con fines didácticos, no la reproducción de una obra concreta.</div>
+    </div>
+    <div>
+      <p class="mb-leg-hint">Haz clic en un término para fijarlo en la página · pasa el cursor para una vista rápida</p>
+      <ul class="mb-leg">
+        <li data-z="a"><label class="ex-label" data-zh="a"><input class="ex-radio" type="radio" name="anat" id="ex-a" checked><span class="lg-mark">A</span><div class="lg-tx"><div class="lg-name">Koma<small>コマ · viñeta</small></div><div class="lg-desc">Unidad mínima de narración. Su tamaño marca el ritmo: una grande detiene el tiempo; varias pequeñas lo aceleran.</div></div></label></li>
+        <li data-z="b"><label class="ex-label" data-zh="b"><input class="ex-radio" type="radio" name="anat" id="ex-b"><span class="lg-mark">B</span><div class="lg-tx"><div class="lg-name">Fukidashi<small>吹き出し · bocadillo</small></div><div class="lg-desc">La forma cuenta tanto como el texto: redondo es voz, dentado es grito, nube es pensamiento, rectángulo es voz en off.</div></div></label></li>
+        <li data-z="c"><label class="ex-label" data-zh="c"><input class="ex-radio" type="radio" name="anat" id="ex-c"><span class="lg-mark">C</span><div class="lg-tx"><div class="lg-name">Onomatopeya<small>擬音語</small></div><div class="lg-desc">No solo ruidos: también estados de ánimo (ドキドキ) y silencio (シーン). Un sistema sonoro enteramente dibujado.</div></div></label></li>
+        <li data-z="d"><label class="ex-label" data-zh="d"><input class="ex-radio" type="radio" name="anat" id="ex-d"><span class="lg-mark">D</span><div class="lg-tx"><div class="lg-name">Líneas cinéticas</div><div class="lg-desc">Trazos que fijan movimiento, velocidad y foco emocional. Cuando convergen, dirigen la mirada al punto de interés.</div></div></label></li>
+        <li data-z="e"><label class="ex-label" data-zh="e"><input class="ex-radio" type="radio" name="anat" id="ex-e"><span class="lg-mark">·</span><div class="lg-tx"><div class="lg-name">Ma<small>間 · calle</small></div><div class="lg-desc">El blanco entre viñetas. Donde el lector imagina lo invisible —la «clausura» de McCloud—. La escuela de la inferencia.</div></div></label></li>
+        <li data-z="f"><label class="ex-label" data-zh="f"><input class="ex-radio" type="radio" name="anat" id="ex-f"><span class="lg-mark">↩</span><div class="lg-tx"><div class="lg-name">Lectura RTL</div><div class="lg-desc">De derecha a izquierda y de arriba abajo. La viñeta 1 está arriba a la derecha: sigue los números de la página.</div></div></label></li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════ CASO TRABAJADO ══════════════════ -->
+<section class="ed-block" id="caso">
+  <div class="ed-block-header">
+    <div class="ed-block-num">
+      <small>Capítulo 00 · Marco</small>
+      VI
+    </div>
+    <div>
+      <h3 class="ed-block-title">Una página, leída <em>en clase</em>.</h3>
+      <p class="ed-block-kicker">Todo lo anterior, junto y funcionando. Tomamos la misma página esquemática del capítulo V y la atravesamos con el protocolo de tres fases: las preguntas literales que hace el docente y la respuesta que se busca en cada momento.</p>
+    </div>
+  </div>
+  <div class="mb-caso">
+    <div class="mb-caso-aside">
+      <div class="mb-caso-plate">
+        <span class="mb-pagina-seal">La página</span>
+        <div class="mb-pagina-inner">
+          <svg viewBox="0 0 600 760" preserveAspectRatio="xMidYMid meet" class="mb-page-svg" role="img" aria-label="La misma página esquemática, ahora leída en clase">
+            <text x="300" y="22" class="pg-rtl">SE LEE DE DERECHA A IZQUIERDA</text>
+            <path d="M540 40 H70" class="gd"/><path d="M88 30 L62 40 L88 50" class="gd"/>
+            <rect x="38" y="58" width="524" height="680" rx="2" class="ln pf"/>
+            <rect x="50" y="74" width="232" height="196" class="ln pf"/>
+            <rect x="300" y="74" width="250" height="196" class="ln pf"/>
+            <rect x="50" y="288" width="500" height="176" class="ln pf"/>
+            <rect x="300" y="482" width="250" height="244" class="ln pf"/>
+            <rect x="50" y="482" width="232" height="244" class="ln pf"/>
+            <path d="M430 116 L438 92 L445 114 L470 104 L450 122 L472 138 L447 132 L442 160 L433 134 L412 150 L425 126 L398 130 L423 118 L406 102 Z" class="ln gdf" fill="var(--mb-gold)" fill-opacity="0.18"/>
+            <path d="M80 322 h150 a10 10 0 0 1 10 10 v40 a10 10 0 0 1 -10 10 h-92 l-18 16 v-16 h-40 a10 10 0 0 1 -10 -10 v-40 a10 10 0 0 1 10 -10 z" class="ln pf"/>
+            <line x1="96" y1="342" x2="226" y2="342" class="lnt"/><line x1="96" y1="354" x2="226" y2="354" class="lnt"/><line x1="96" y1="366" x2="196" y2="366" class="lnt"/>
+            <path d="M398 378 q42 -32 84 0 q-42 32 -84 0 z" class="lnt"/><circle cx="440" cy="378" r="14" class="fl"/><circle cx="445" cy="373" r="4" fill="var(--mb-paper)"/>
+            <line x1="312" y1="512" x2="416" y2="604" class="lnt"/><line x1="312" y1="548" x2="416" y2="604" class="lnt"/><line x1="312" y1="604" x2="416" y2="604" class="ln"/><line x1="312" y1="662" x2="416" y2="604" class="lnt"/><line x1="312" y1="700" x2="416" y2="604" class="lnt"/>
+            <circle cx="430" cy="604" r="15" class="ln pf"/><circle cx="430" cy="604" r="4" class="gdf"/>
+            <circle cx="530" cy="92" r="12" class="fl"/><text x="530" y="92" class="pg-num">1</text>
+            <circle cx="70" cy="92" r="12" class="fl"/><text x="70" y="92" class="pg-num">2</text>
+            <circle cx="70" cy="308" r="12" class="fl"/><text x="70" y="308" class="pg-num">3</text>
+            <circle cx="530" cy="502" r="12" class="fl"/><text x="530" y="502" class="pg-num">4</text>
+            <circle cx="70" cy="502" r="12" class="fl"/><text x="70" y="502" class="pg-num">5</text>
+          </svg>
+        </div>
+        <div class="mb-pagina-cartela">Cinco viñetas, numeradas en orden de lectura RTL. La misma del capítulo V.</div>
+      </div>
+      <p class="mb-caso-note"><b>Una sola página, una sesión de 50 minutos.</b> No hace falta más: lo que rinde no es la cantidad de páginas, sino la profundidad con que se lee una.</p>
+    </div>
+    <div class="mb-caso-flow">
+      <div class="mb-caso-phase">
+        <div class="mb-caso-fase"><span class="ph-tag">Fase 01 · Antes</span><span class="ph-time">15 min · preparar el terreno</span></div>
+        <h4 class="mb-caso-h">Orientar antes de interpretar</h4>
+        <ul class="mb-qa">
+          <li><p class="mb-q">«Sin leer todavía: ¿por dónde empieza esta página? Señaladlo con el dedo.»</p><p class="mb-a"><b>Respuesta esperable</b>Arriba a la derecha, la viñeta ①. Antes de cualquier interpretación, el grupo fija la lectura RTL.</p><p class="mb-train">orientación · el código antes que el contenido</p></li>
+          <li><p class="mb-q">«Solo por las formas y los huecos, ¿de qué creéis que va? ¿Es tranquila o tensa?»</p><p class="mb-a"><b>Respuesta esperable</b>Hipótesis a partir de la composición; nadie acierta del todo y no importa: se ha activado la anticipación.</p><p class="mb-train">anticipación · activar lo que ya saben</p></li>
+          <li><p class="mb-q">«Vamos a fijarnos en una cosa: cómo cambia el tiempo de una viñeta a otra.»</p><p class="mb-a"><b>Hacia dónde lleva</b>El docente fija el propósito y, si la historia lo pide, encuadra lo sensible. La lectura ya no es a la deriva.</p><p class="mb-train">propósito · encuadre</p></li>
+        </ul>
+      </div>
+      <div class="mb-caso-phase">
+        <div class="mb-caso-fase"><span class="ph-tag">Fase 02 · Durante</span><span class="ph-time">25 min · acompañar la lectura</span></div>
+        <h4 class="mb-caso-h">Parar en lo que no está dibujado</h4>
+        <ul class="mb-qa">
+          <li><p class="mb-q">«¿Qué ocurre entre la viñeta ③ y la ④? Nadie lo ha dibujado.»</p><p class="mb-a"><b>Respuesta esperable</b>El lector completa el salto en la calle —el <em>ma</em>—. Ahí, en el blanco, está la inferencia: el corazón de la lectura.</p><p class="mb-train">inferencia · la clausura de McCloud</p></li>
+          <li><p class="mb-q">«Esas líneas de la viñeta ④, ¿qué nos cuentan sin una sola palabra?»</p><p class="mb-a"><b>Respuesta esperable</b>Velocidad, dirección y foco. Las líneas cinéticas son emoción y movimiento dibujados; convergen donde mirar.</p><p class="mb-train">lectura visual · imagen sobre texto</p></li>
+          <li><p class="mb-q">«El bocadillo de la ③ es dentado, no redondo. ¿Suena igual la frase?»</p><p class="mb-a"><b>Respuesta esperable</b>No: el contorno indica grito o tensión. La forma del fukidashi significa tanto como lo que dice dentro.</p><p class="mb-train">multimodalidad · la forma comunica</p></li>
+        </ul>
+      </div>
+      <div class="mb-caso-phase">
+        <div class="mb-caso-fase"><span class="ph-tag">Fase 03 · Después</span><span class="ph-time">10 min · cerrar y proyectar</span></div>
+        <h4 class="mb-caso-h">Devolver la página al grupo</h4>
+        <ul class="mb-qa">
+          <li><p class="mb-q">«Marcad la viñeta que más os ha impactado y decid por qué. ¿El resto la leyó igual?»</p><p class="mb-a"><b>Cómo moderar</b>Devuelve cada respuesta al grupo sin sentenciar. Tu lectura es una más; la conversación entre lectores es el aprendizaje.</p><p class="mb-train">argumentación · moderar, no opinar</p></li>
+          <li><p class="mb-q">«Tres líneas en el cuaderno: qué sentí, qué me recordó, qué pregunta me llevo.»</p><p class="mb-a"><b>Hacia dónde lleva</b>Escritura breve que fija la experiencia antes de que se evapore. Sirve de evaluación honesta, no de nota.</p><p class="mb-train">metacognición · escritura de cierre</p></li>
+          <li><p class="mb-q">«Redibujad vosotros la calle entre la ③ y la ④: ¿qué pasó ahí?»</p><p class="mb-a"><b>Hacia dónde lleva</b>De lector a autor. Y, al final, el salto al clásico —novela, ensayo o filme— que el catálogo sugiera para el título.</p><p class="mb-train">producción · el manga es puerta, no destino</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ CODA · RAÍCES UKIYO-E ══════════════════ -->
+<section class="ed-block" id="raices">
+  <div class="ed-block-header">
+    <div class="ed-block-num"><small>Coda · linaje visual</small>↗</div>
+    <div><h3 class="ed-block-title">Raíces: del <em>ukiyo-e</em> a la viñeta.</h3><p class="ed-block-kicker">La gramática del manga no nace de la nada. Primero leemos en detalle la estampa más famosa del mundo; luego, tres más del periodo Edo —todas de dominio público— que muestran recursos que la viñeta heredó casi intactos.</p></div>
+  </div>
+  <div class="mb-gw-head">
+    <p class="mb-gw-eyebrow">Detalle · Hokusai, «La gran ola de Kanagawa» · c. 1831</p>
+    <h4 class="mb-gw-title">Cinco recursos en una sola estampa.</h4>
+    <p class="mb-gw-lead">La misma imagen que abre esta página, leída de cerca. Cada detalle aísla un recurso gráfico que el manga convirtió en gramática — el ejercicio de «leer la imagen» que pedimos al alumnado, aplicado a una obra que ya conocen.</p>
+  </div>
+  <ol class="mb-gw">
+    <li class="mb-gw-item">
+      <div class="gw-plate"><span class="gw-seal">01</span><img src="img/gw-cresta.jpg" width="530" height="345" loading="lazy" alt="Detalle: la cresta de la ola rompiendo en dedos de espuma"><div class="gw-cap">La cresta · ángulo superior izquierdo</div></div>
+      <p class="gw-concept"><small>Composición</small>Dirección de la mirada</p>
+      <p class="gw-note">La diagonal de la cresta empuja el ojo de derecha a izquierda: el mismo vector con que una página ordena el orden de lectura.</p>
+    </li>
+    <li class="mb-gw-item">
+      <div class="gw-plate"><span class="gw-seal">02</span><img src="img/gw-trama.jpg" width="430" height="300" loading="lazy" alt="Detalle: la espuma pulverizada en puntos sobre el cielo"><div class="gw-cap">La espuma · sobre el cielo</div></div>
+      <p class="gw-concept"><small>Textura</small>Trama y atmósfera</p>
+      <p class="gw-note">La espuma resuelta en puntos anticipa el tramado —el <i>screentone</i>— con que el manga rellena tonos, sombras y estados de ánimo.</p>
+    </li>
+    <li class="mb-gw-item">
+      <div class="gw-plate"><span class="gw-seal">03</span><img src="img/gw-fuji.jpg" width="380" height="235" loading="lazy" alt="Detalle: el monte Fuji diminuto bajo la ola"><div class="gw-cap">El Fuji · bajo la ola</div></div>
+      <p class="gw-concept"><small>Ma · vacío</small>Escala y silencio</p>
+      <p class="gw-note">El Fuji diminuto frente a la ola colosal: el contraste de tamaño y el espacio vacío que el manga usa para medir el tiempo y la emoción.</p>
+    </li>
+    <li class="mb-gw-item">
+      <div class="gw-plate"><span class="gw-seal">04</span><img src="img/gw-barca.jpg" width="372" height="212" loading="lazy" alt="Detalle: los remeros agachados en la barca"><div class="gw-cap">La barca · los remeros</div></div>
+      <p class="gw-concept"><small>Encuadre</small>Punto de vista</p>
+      <p class="gw-note">El encuadre nos sitúa a ras de agua, junto a los remeros agachados. El manga elige siempre dónde colocar al lector dentro de la escena.</p>
+    </li>
+    <li class="mb-gw-item">
+      <div class="gw-plate"><span class="gw-seal">05</span><img src="img/gw-cartela.jpg" width="152" height="224" loading="lazy" alt="Detalle: el cartucho del título y la firma de Hokusai"><div class="gw-cap">El cartucho · título y firma</div></div>
+      <p class="gw-concept"><small>Texto + imagen</small>La palabra en la viñeta</p>
+      <p class="gw-note">El título integrado en la propia estampa, dentro de su cartucho: el antecedente del bocadillo y la cartela, texto que vive en la imagen.</p>
+    </li>
+  </ol>
+  <p class="mb-gw-foot">Cinco detalles · un mismo grabado de dominio público · recortes de la lámina del encabezado</p>
+  <figure class="mb-raices-banner">
+    <div class="mb-rp-plate"><span class="mb-seal">Edo · musha-e</span><img src="img/kuniyoshi-esqueleto.jpg" width="1200" height="590" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto"><figcaption class="mb-cartela">Utagawa Kuniyoshi · «Takiyasha la hechicera y el espectro esqueleto» · c. 1844 · Dominio público — Wikimedia Commons</figcaption></div>
+    <p class="mb-rp-tag"><b>Escala y composición dramática.</b> El esqueleto que invade los tres paneles</p>
+    <p class="mb-rp-desc">Una sola imagen sostiene una escena entera y rompe el marco para imponer su tamaño —exactamente lo que hace una <i>splash page</i> de shōnen cuando detiene la acción para un golpe de efecto.</p>
+  </figure>
+  <div class="mb-raices-pair">
+    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · fukei-ga</span><img src="img/hiroshige-lluvia.jpg" width="1200" height="1818" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake"><figcaption class="mb-cartela">Utagawa Hiroshige · «Chaparrón sobre Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Líneas cinéticas.</b> La lluvia como trazo de velocidad</p><p class="mb-rp-desc">Las finas líneas paralelas que cruzan la estampa son el mismo recurso gráfico que el manga usa para fijar movimiento, dirección y atmósfera.</p></figure>
+    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · yakusha-e</span><img src="img/sharaku-actor.jpg" width="1200" height="1866" loading="lazy" alt="Sharaku: el actor Ōtani Oniji II"><figcaption class="mb-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji II como Yakko Edobei» · 1794 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Expresión al límite.</b> El primer plano del rostro y el gesto</p><p class="mb-rp-desc">Ceño, mirada y manos abiertas llevados a la caricatura: el retrato de kabuki anticipa el gran plano emocional con el que el manga marca cada clímax.</p></figure>
+  </div>
+</section>
+
+
+<script src="js/parte-nav.js"></script>
+</body></html>

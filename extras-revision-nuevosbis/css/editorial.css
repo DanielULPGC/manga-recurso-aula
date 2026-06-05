@@ -1,0 +1,781 @@
+/* ══════════════════════════════════════════════════════════════
+   editorial.css — Capa de refinamiento editorial sobre estilos.css
+   Aula de Cómic · Biblioteca Campus del Obelisco · ULPGC
+
+   No reemplaza al CSS original; lo eleva: tipografía más
+   sofisticada, paleta más controlada, jerarquía más nítida,
+   detalles editoriales. Carga DESPUÉS de estilos.css.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── TOKENS REFINADOS ──────────────────────────────────────── */
+:root {
+  /* Refinamiento de la paleta: papel washi cálido, sumi profundo,
+     bermellón shu para el rojo, oro patinado */
+  --paper:  #f3ede1 !important;   /* washi un punto más cálido */
+  --paper2: #ebe3d2 !important;
+  --ink:    #1a1410 !important;   /* sumi: negro mineral, no marrón */
+  --red:    #b8341d !important;   /* shu: bermellón ceremonial */
+  --gold:   #a8852d !important;   /* oro patinado */
+  --rule:   #1a1410;              /* las líneas son tinta, no marrón */
+
+  /* Tokens propios para la capa editorial */
+  --ed-serif: 'Shippori Mincho B1', 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+  --ed-sans:  'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ed-display: 'Cinzel', serif;
+  --ed-mono:  'JetBrains Mono', ui-monospace, monospace;
+  --ed-rule:  rgba(26, 20, 16, 0.95);
+  --ed-soft:  rgba(26, 20, 16, 0.08);
+}
+
+/* ─── TIPOGRAFÍA BASE ───────────────────────────────────────── */
+body {
+  font-family: var(--ed-serif);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--paper);
+  /* Mantenemos la textura de papel del original */
+}
+
+/* ─── HEADER — masthead editorial ───────────────────────────── */
+header {
+  text-align: left;
+  padding: 3.2rem 3rem 2.4rem !important;
+  background: var(--paper) !important;
+  background-image: none !important;
+  border-bottom: 1.5px solid var(--ink) !important;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 2rem;
+  position: relative;
+}
+header::before {
+  background: var(--ink) !important;
+  height: 2px !important;
+}
+header::after { display: none !important; }
+
+.kamon {
+  display: none !important;
+}
+
+header h1 {
+  font-family: var(--ed-serif) !important;
+  font-weight: 600 !important;
+  font-size: clamp(2rem, 5vw, 3.8rem) !important;
+  letter-spacing: -0.025em !important;
+  line-height: 0.98 !important;
+  text-shadow: none !important;
+  margin: 0 !important;
+  grid-column: 1;
+  grid-row: 1;
+  text-wrap: balance;
+}
+header h1 em {
+  color: var(--red) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+}
+
+header .sub {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  opacity: 0.7;
+  margin: 0.9rem 0 0 0 !important;
+  grid-column: 1;
+  grid-row: 2;
+  text-align: left !important;
+}
+
+.header-rule { display: none !important; }
+
+header .jp {
+  font-family: 'Noto Serif JP', serif !important;
+  font-size: 1.2rem !important;
+  color: var(--red) !important;
+  letter-spacing: 0.4em !important;
+  opacity: 1 !important;
+  writing-mode: vertical-rl;
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--ink);
+  margin-left: auto;
+}
+
+.visit-counter {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.1em !important;
+  color: var(--ink) !important;
+  opacity: 0.55;
+  grid-column: 1;
+  grid-row: 3;
+  margin-top: 0.7rem !important;
+}
+
+/* ─── BARRA EMOCIONAL ───────────────────────────────────────── */
+/* Mantenemos el fondo OSCURO del original (los botones internos
+   están diseñados con texto claro sobre oscuro). No tocar a paper. */
+.emocion-bar {
+  background: var(--ink) !important;
+  border-bottom: 1.5px solid var(--ink) !important;
+}
+.emocion-toggle {
+  color: var(--paper) !important;
+}
+.emocion-toggle:hover {
+  background: rgba(243, 237, 225, 0.05) !important;
+}
+.emocion-toggle-label {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: var(--red) !important;
+}
+.emocion-toggle-hint {
+  font-family: var(--ed-serif) !important;
+  font-size: 1rem !important;
+  color: rgba(243, 237, 225, 0.7) !important;
+  font-style: normal !important;
+}
+.emocion-toggle-icon,
+.emocion-toggle-chevron {
+  color: var(--red) !important;
+}
+
+.emocion-picker {
+  background: var(--ink) !important;
+  border-bottom: 1px solid rgba(243, 237, 225, 0.1) !important;
+}
+.emocion-btn {
+  background: rgba(243, 237, 225, 0.04) !important;
+  border: 1px solid rgba(243, 237, 225, 0.18) !important;
+  border-left: 3px solid var(--emocion-color, var(--red)) !important;
+  border-radius: 0 !important;
+  color: var(--paper) !important;
+  font-family: var(--ed-serif) !important;
+}
+.emocion-btn:hover {
+  background: rgba(243, 237, 225, 0.1) !important;
+  border-color: var(--emocion-color, var(--red)) !important;
+}
+.emocion-btn.active {
+  background: rgba(184, 52, 29, 0.18) !important;
+  border-color: var(--red) !important;
+}
+.emocion-picker button {
+  color: var(--paper) !important;
+}
+.emocion-picker [class*="label"] {
+  color: rgba(243, 237, 225, 0.55) !important;
+}
+.emocion-results {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+}
+
+/* ─── FAB: labels ocultos por defecto, visibles en hover ───── */
+.fab-item .fab-label {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--ed-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--gold);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 0.15s, transform 0.15s;
+  border-radius: 0;
+}
+.fab-item:hover .fab-label,
+.fab-item:focus-within .fab-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── FAB: anclar a centro-vertical en la izquierda ───────────
+   Bottom-left causaba solapamiento con el welcome-panel.
+   Lo posicionamos a media altura para que ocupe un plano
+   visual claramente distinto del contenido principal. */
+#tools-fab {
+  position: fixed !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: 1rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  align-items: flex-start !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  z-index: 1001;
+}
+.fab-items {
+  flex-direction: column !important;
+}
+.fab-item {
+  justify-content: flex-start !important;
+  flex-direction: row-reverse !important;
+}
+.fab-item .fab-label {
+  transform: translateX(-8px);
+}
+.fab-item:hover .fab-label,
+.fab-item:focus-within .fab-label {
+  transform: translateX(0);
+}
+/* Toggle: opaco, con borde rojo y sombra dura — sobre cualquier fondo */
+#tools-fab-toggle {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: 2px solid var(--red) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 4px 4px 0 var(--red) !important;
+}
+#tools-fab-toggle:hover,
+#tools-fab-toggle.open {
+  background: var(--red) !important;
+  color: var(--paper) !important;
+  border-color: var(--ink) !important;
+  transform: rotate(45deg) translateY(-1px);
+}
+/* Botones individuales del speed-dial: fondo opaco oscuro */
+.fab-action {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border: 1.5px solid var(--gold) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+.fab-action:hover {
+  background: var(--red) !important;
+  color: var(--paper) !important;
+  border-color: var(--red) !important;
+}
+/* En móvil, volver a bottom-left con menos altura para no comer la pantalla */
+@media (max-width: 700px) {
+  #tools-fab {
+    top: auto !important;
+    bottom: 1rem !important;
+    left: 1rem !important;
+    transform: none !important;
+  }
+}
+/* Si la altura es baja, no centrar (sería demasiado pegado al top) */
+@media (max-height: 600px) {
+  #tools-fab {
+    top: 1rem !important;
+    transform: none !important;
+  }
+}
+
+/* ─── PANEL DE BIENVENIDA ───────────────────────────────────── */
+.welcome-panel {
+  background: var(--ink) !important;
+  padding: 2rem 3rem 2.2rem !important;
+  border-top: none !important;
+  border-bottom: 1.5px solid var(--ink) !important;
+}
+.welcome-panel::after { display: none !important; }
+.welcome-panel h2,
+.welcome-panel h3 {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  color: var(--red) !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 1.2rem !important;
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--red) !important;
+}
+.welcome-routes { gap: 0 !important; }
+.welcome-panel .wr {
+  background: transparent !important;
+  border: none !important;
+  border-top: 1px solid rgba(243, 237, 225, 0.18) !important;
+  border-radius: 0 !important;
+  padding: 1.1rem 1.4rem 1.1rem 0 !important;
+  transition: padding-left 0.2s, background 0.2s !important;
+}
+.welcome-panel .wr:hover {
+  background: rgba(243, 237, 225, 0.04) !important;
+  padding-left: 0.8rem !important;
+  border-color: var(--red) !important;
+}
+.welcome-panel .wr .wr-if {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--red) !important;
+  margin-bottom: 0.5rem !important;
+}
+.welcome-panel .wr .wr-do {
+  font-family: var(--ed-serif) !important;
+  font-size: 1.15rem !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--paper) !important;
+  line-height: 1.35 !important;
+}
+.welcome-panel .wr .wr-arrow {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--gold) !important;
+  margin-top: 0.55rem !important;
+}
+
+/* Grid de bienvenida — dos columnas con divisor central */
+@media (min-width: 880px) {
+  .welcome-routes {
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 3rem !important;
+  }
+}
+
+/* ─── LEGEND + HINT ─────────────────────────────────────────── */
+.legend {
+  background: var(--paper) !important;
+  border-bottom: 1px solid var(--ink) !important;
+  font-family: var(--ed-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  padding: 0.7rem 3rem !important;
+  gap: 1.6rem !important;
+}
+.legend span:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+.hint {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  opacity: 0.6;
+  background: var(--paper) !important;
+  border-bottom: 1px solid var(--ed-soft) !important;
+  padding: 0.7rem !important;
+}
+
+/* ─── FILTER BAR ────────────────────────────────────────────── */
+.filter-bar {
+  background: var(--paper2) !important;
+  border-bottom: 1.5px solid var(--ink) !important;
+  border-top: 1px solid var(--ed-soft) !important;
+  padding: 0.85rem 3rem !important;
+}
+.fb-label {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  opacity: 0.65;
+}
+.fb {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.6rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  padding: 0.4rem 0.8rem !important;
+  color: var(--paper) !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  opacity: 0.85;
+}
+.fb.active {
+  opacity: 1;
+  box-shadow: 0 0 0 1.5px var(--ink) !important;
+}
+
+/* Búsqueda global */
+.global-search-wrap input[type=search],
+#globalSearch {
+  font-family: var(--ed-serif) !important;
+  font-size: 0.95rem !important;
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  padding: 0.55rem 0.85rem 0.55rem 2rem !important;
+  color: var(--ink) !important;
+}
+
+/* ─── SECCIONES .adapt ──────────────────────────────────────── */
+.adapt {
+  padding: 4rem 3rem 4rem !important;
+  border-top: 1.5px solid var(--ink) !important;
+  background: var(--paper) !important;
+}
+.adapt h2 {
+  font-family: var(--ed-serif) !important;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+  line-height: 1 !important;
+  margin-bottom: 0.8rem !important;
+  text-wrap: balance;
+}
+.adapt p {
+  font-family: var(--ed-serif) !important;
+  font-size: 1.15rem !important;
+  font-style: normal !important;
+  color: rgba(26, 20, 16, 0.7) !important;
+  line-height: 1.55 !important;
+  max-width: 760px !important;
+  margin-bottom: 2rem !important;
+  text-wrap: pretty;
+}
+
+/* Tarjetas dentro de secciones .adapt */
+.ac {
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-left-width: 1px !important;
+  border-radius: 0 !important;
+  padding: 1.2rem 1.3rem !important;
+  box-shadow: none !important;
+  transition: background 0.15s;
+}
+.ac:hover { background: var(--paper2) !important; }
+.ac b {
+  font-family: var(--ed-serif) !important;
+  font-weight: 600 !important;
+  font-size: 1.15rem !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ink) !important;
+}
+.ac i {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.65rem !important;
+  font-style: normal !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--red) !important;
+  margin-top: 0.3rem !important;
+  display: block !important;
+}
+.ac s {
+  font-family: var(--ed-serif) !important;
+  font-size: 0.98rem !important;
+  color: rgba(26, 20, 16, 0.75) !important;
+  line-height: 1.55 !important;
+  margin-top: 0.55rem !important;
+  text-decoration: none !important;
+  display: block !important;
+}
+
+/* Indicación de borde izquierdo, fina pero presente */
+.ac[style*="border-left-color"] {
+  border-left-width: 3px !important;
+}
+
+/* ─── GLOSARIO ──────────────────────────────────────────────── */
+#glosario {
+  background: var(--paper2) !important;
+}
+#glosario h2 {
+  color: var(--ink) !important;
+}
+#glosario .ac {
+  background: var(--paper) !important;
+}
+#glosario .ac b {
+  font-family: 'Noto Serif JP', var(--ed-serif) !important;
+}
+
+/* ─── PRIMEROS LECTORES / ADAPTACIONES ──────────────────────── */
+.adapt[style*="background:rgba(255,235,210"] {
+  background: var(--paper) !important;
+  border-top-color: var(--ink) !important;
+}
+.adapt[style*="background:rgba(210,235,255"] {
+  background: var(--paper2) !important;
+  border-top-color: var(--ink) !important;
+}
+.adapt[style*="background:rgba(245,239,224"] {
+  background: var(--paper) !important;
+  border-top-color: var(--ink) !important;
+}
+
+/* Aplica color a títulos a partir de los inline styles del original */
+.adapt h2[style*="color:#C0440A"] { color: var(--red) !important; }
+.adapt h2[style*="color:#1A5A8B"] { color: var(--red) !important; }
+.adapt h2[style*="color:var(--gold)"] { color: var(--red) !important; }
+.adapt h2[style*="color:#6e2e7a"] { color: var(--red) !important; }
+
+/* ─── CATÁLOGO ──────────────────────────────────────────────── */
+.catalog-section {
+  background: var(--paper) !important;
+  padding: 4rem 3rem !important;
+  border-top: 1.5px solid var(--ink) !important;
+}
+.catalog-title {
+  font-family: var(--ed-serif) !important;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+  text-transform: none !important;
+}
+.catalog-sub {
+  font-family: var(--ed-serif) !important;
+  font-size: 1.1rem !important;
+  font-style: normal !important;
+  color: rgba(26, 20, 16, 0.65) !important;
+  text-wrap: pretty;
+  max-width: 760px;
+}
+
+/* Tarjeta del catálogo: línea limpia con borde de tinta */
+.cat-card {
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.cat-card:hover {
+  background: var(--paper2) !important;
+  box-shadow: 0 4px 0 var(--ink) !important;
+  transform: translateY(-2px);
+}
+
+/* ─── TABLA CURRÍCULO ──────────────────────────────────────── */
+.cur-table {
+  font-family: var(--ed-serif) !important;
+  font-size: 0.98rem !important;
+  border: 1px solid var(--ink) !important;
+}
+.cur-table th {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  font-family: var(--ed-mono) !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  padding: 0.85rem 1rem !important;
+}
+.cur-table td {
+  padding: 0.85rem 1rem !important;
+  border-bottom: 1px solid var(--ed-soft) !important;
+  line-height: 1.5 !important;
+}
+.cur-table tr:nth-child(even) td { background: rgba(26, 20, 16, 0.025) !important; }
+.cur-table tr:hover td { background: rgba(184, 52, 29, 0.06) !important; }
+.cur-table td:first-child { color: var(--ink) !important; }
+.cur-table .cur-title {
+  font-family: var(--ed-serif) !important;
+  font-weight: 600 !important;
+  color: var(--red) !important;
+}
+
+/* ─── TABS (currículo, situaciones, itinerarios, universidad, recursos) ─── */
+.cur-tab, .sa-tab, .itin-tab, .univ-tab, .rec-tab {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.62rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  padding: 0.5rem 1.1rem !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--ink) !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+.cur-tab.active, .sa-tab.active, .itin-tab.active, .univ-tab.active, .rec-tab.active {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border-color: var(--ink) !important;
+}
+
+/* ─── SECCIONES PRINCIPALES (Itinerarios, Situaciones, Universidad, Recursos) ─── */
+.curriculo-section,
+.sa-section,
+.itin-section,
+.univ-section,
+.recursos-section {
+  background: var(--paper) !important;
+  padding: 4rem 3rem !important;
+  border-top: 1.5px solid var(--ink) !important;
+}
+.curriculo-section h2,
+.sa-section h2,
+.itin-section h2,
+.univ-section h2,
+.recursos-section h2 {
+  font-family: var(--ed-serif) !important;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+  text-transform: none !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  line-height: 1 !important;
+  margin-bottom: 0.8rem !important;
+}
+
+/* ─── TARJETAS DE LA LÍNEA DEL TIEMPO ──────────────────────── */
+.card {
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-left-width: 3px !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.card:hover {
+  background: var(--paper2) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+}
+.ct {
+  font-family: var(--ed-serif) !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* Etiquetas/badges */
+.badge-sm,
+.periodo-badge,
+.western-badge {
+  font-family: var(--ed-mono) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 0 !important;
+}
+
+/* ─── EJE OCCIDENTAL & EJE CANARIO ──────────────────────────── */
+.western-label,
+.tl-western [class*=west],
+.eje-canario-toggle {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+}
+
+/* ─── BOTONES SECUNDARIOS ───────────────────────────────────── */
+.compact-btn {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.62rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.55rem 0.95rem !important;
+  box-shadow: none !important;
+}
+
+.catalog-explore-btn {
+  font-family: var(--ed-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  padding: 0.7rem 1.6rem !important;
+}
+.catalog-explore-btn:hover {
+  background: var(--red) !important;
+  color: var(--paper) !important;
+  border-color: var(--red) !important;
+}
+
+/* Cualquier .btn / botón genérico — un punto más editorial */
+button {
+  font-family: var(--ed-mono) !important;
+}
+
+/* ─── MODALS Y PANELES ──────────────────────────────────────── */
+.modal-content,
+.totd-bar,
+[class*="-panel"]:not(.welcome-panel) {
+  border-radius: 0 !important;
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────────── */
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--ink) !important;
+  border-radius: 0 !important;
+}
+
+/* ─── DECORACIÓN: marcador editorial al inicio de cada .adapt ─ */
+.adapt > h2:first-child::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 2px;
+  background: var(--red);
+  margin-bottom: 1.2rem;
+}
+.catalog-header > h2::before,
+.curriculo-section > h2::before,
+.sa-section > h2::before,
+.itin-section > h2::before,
+.univ-section > h2::before,
+.recursos-section > h2::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 2px;
+  background: var(--red);
+  margin-bottom: 1.2rem;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 800px) {
+  header {
+    grid-template-columns: 1fr;
+    padding: 2.2rem 1.5rem 1.8rem !important;
+  }
+  header .jp {
+    grid-column: 1;
+    grid-row: auto;
+    writing-mode: horizontal-tb;
+    border-left: none;
+    border-top: 1px solid var(--ink);
+    padding: 0.6rem 0 0;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+  .adapt, .catalog-section, .welcome-panel,
+  .curriculo-section, .sa-section, .itin-section,
+  .univ-section, .recursos-section {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+}
+
+/* ─── PRINT ─────────────────────────────────────────────────── */
+@media print {
+  header h1 { color: #000 !important; }
+}

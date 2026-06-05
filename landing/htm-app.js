@@ -6,7 +6,7 @@
 (function(){
   'use strict';
   const { useEffect, useRef, useState, Fragment } = React;
-  const { motion } = window.Motion;
+  const { motion, MotionConfig } = window.Motion;
   const html = window.html;
 
   /* ─── ICONS ─────────────────────────────────────────────────── */
@@ -189,7 +189,7 @@
   /* ─── 4 CAMINOS (PATHS) ─────────────────────────────────────── */
   const PATHS = [
     { n:'01', t:'Marco pedagógico', b:'Por qué el manga funciona en el aula, decálogo de mediación, anatomía visual de la página y protocolo en tres fases.', tags:['Decálogo','Anatomía','Protocolo 3 fases','Defender en claustro'], h:'recurso.html#parte-i', icon: html`<${IconBook} size=${24}/>`, featured:false },
-    { n:'02', t:'Para etapas bajas', b:'Selección garantía sin advertencias, criterios para elegir, protocolo de 25 min y errores frecuentes a evitar.', tags:['Infantil','Primaria','6 títulos garantía','Protocolo 25 min'], h:'recurso.html#parte-ii', icon: html`<${IconLayers} size=${24}/>`, featured:true },
+    { n:'02', t:'Para primeras etapas', b:'Selección garantía sin advertencias, criterios para elegir, protocolo de 25 min y errores frecuentes a evitar.', tags:['Infantil','Primaria','6 títulos garantía','Protocolo 25 min'], h:'recurso.html#parte-ii', icon: html`<${IconLayers} size=${24}/>`, featured:true },
     { n:'03', t:'El fondo', b:'279 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras y glosario japonés.', tags:['279 títulos','9 eras','OPAC','Glosario'], h:'recurso.html#parte-iii', icon: html`<${IconMap} size=${24}/>`, featured:false },
     { n:'04', t:'Llevar al aula', b:'Situaciones LOMLOE listas, itinerarios por ciclo, recorridos universitarios y materiales descargables.', tags:['5 SA LOMLOE','4 itinerarios','7 grados ULPGC','Manual docente'], h:'recurso.html#parte-iv', icon: html`<${IconCompass} size=${24}/>`, featured:false },
   ];
@@ -361,5 +361,11 @@
   }
 
   const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(React.createElement(App));
+  // A11y: respeta la preferencia del sistema de movimiento reducido (WCAG 2.3.3).
+  // MotionConfig con reducedMotion="user" desactiva las animaciones de transform/opacity
+  // cuando el usuario tiene activado "reducir movimiento" en su sistema operativo.
+  root.render(
+    React.createElement(MotionConfig, { reducedMotion: 'user' },
+      React.createElement(App))
+  );
 })();

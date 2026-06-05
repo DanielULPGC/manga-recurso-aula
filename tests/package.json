@@ -1,0 +1,17 @@
+{
+  "name": "manga-aula-tests",
+  "version": "5.10.0",
+  "private": true,
+  "description": "Tests de regresión para el recurso 'Manga como recurso para el aula' · Biblioteca Campus del Obelisco · ULPGC",
+  "scripts": {
+    "install:browsers": "playwright install chromium",
+    "serve": "node serve.mjs",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

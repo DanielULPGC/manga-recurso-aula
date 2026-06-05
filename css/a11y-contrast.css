@@ -1,0 +1,227 @@
+/* ════════════════════════════════════════════════════════════════
+   a11y-contrast.css — Corrección de contraste WCAG 2.1 AA (1.4.3)
+   El manga como recurso didáctico · Aula de Cómic · ULPGC
+   Versión del componente: 1.0.0  ·  Capa: G1
+   Depende de: estilos.css, editorial.css, editorial-extras.css (cargar DESPUÉS)
+
+   Problema corregido:
+     El token --gold (#a8852d "oro patinado", definido en editorial.css)
+     se usaba como COLOR DE TEXTO con ratio 2.97:1 sobre --paper y
+     2.72:1 sobre --paper2 → incumple WCAG 2.1 AA (texto < 4.5:1).
+
+   Estrategia (no destructiva, por cascada de custom properties):
+     · Se introduce --gold-text SIN tocar --gold (la decoración —bordes,
+       separadores, iconos— conserva el oro patinado original).
+     · :root define --gold-text oscuro (#7a5e10), válido sobre fondos claros
+       (paper 5.24:1 · paper2 4.79:1).
+     · Los contenedores OSCUROS re-escalan --gold-text a oro claro (#c9a227),
+       válido sobre todos los fondos oscuros que alojan texto-oro (≥5.85:1).
+       Definir la variable en contenedores sin texto-oro es inocuo.
+     · Las 94 reglas de texto-oro y los estilos inline pasan a
+       usar var(--gold-text); heredan el valor correcto según su fondo.
+
+   Verificación: ratios calculados con la fórmula de luminancia relativa
+   WCAG 2.1 (no estimados). Ver bloque G de la entrega.
+   Fuente de la fórmula: W3C WCAG 2.1, SC 1.4.3 (definición de "contrast ratio").
+════════════════════════════════════════════════════════════════ */
+
+/* — Tokens — */
+:root {
+  /* Oro accesible para TEXTO sobre superficies claras (paper / paper2) */
+  --gold-text: #7a5e10;
+}
+
+/* — Re-iluminado por cascada: oro claro para TEXTO sobre fondos oscuros — */
+/* (cabeceras de modal, botones primarios, paneles, línea de tiempo, vitrina) */
+#aiFloatingBtn,
+#aiFloatingBtn .ai-pulse,
+#asist-key-save,
+#asist-send,
+#asist-send:disabled,
+#asistPanel .asist-hd,
+#asistProviderBadge,
+#catalogo-novedad-banner,
+#compDrawer,
+#compModal .comp-header,
+#compModal .comp-modal-header,
+#expoModal,
+#fichaModal .ficha-header,
+#fichaModal .ficha-print-btn,
+#globalResultsBox .grp-header,
+#lecturaModal .lectura-header,
+#leftDock .ld-btn-ai,
+#mapaGrafoSvg,
+#mapaGrafoWrap,
+#mapaModal .mapa-header,
+#rubricaModal .rubrica-content th,
+#rubricaModal .rubrica-gen-btn,
+#rubricaModal .rubrica-header,
+#rubricaModal .rubrica-print-btn,
+#secModal .sec-header,
+#tools-fab-toggle.open,
+.alumno-btn-pri,
+.alumno-modal,
+.asist-gen-submit,
+.cat-card,
+.cat-card .sens-badge,
+.cat-card .sens-badge.orange,
+.cat-comp-btn.selected,
+.comp-card-col .cc-periodo,
+.comp-card-periodo,
+.cur-tab.active,
+.cur-table th,
+.emocion-bar,
+.expo-header,
+.expo-submit-btn,
+.expres-header,
+.expres-print-btn,
+.guia-generate-btn,
+.guia-header,
+.hist-export-btn,
+.hist-header,
+.ia-badge[data-provider="Claude"],
+.itin-card .itin-titles,
+.itin-card.itin-done .itin-progress-btn,
+.itin-progress-fill,
+.itin-tab.active,
+.lectura-nivel-tab.active,
+.lectura-print-btn,
+.modo-aula-btn.active,
+.panel-docente-header,
+.pasaporte-card,
+.periodo-badge,
+.quiz-header,
+.ranking-header,
+.ranking-panel > div,
+.rec-lang.both,
+.rec-lang.en,
+.rec-lang.es,
+.rec-tab.active,
+.rubrica-local-wrap,
+.sa-block .sa-badge,
+.sa-block .sa-badge.gold,
+.sa-block .sa-badge.green,
+.sa-block .sa-badge.red,
+.sa-header,
+.sa-tab.active,
+.sec-gen-btn,
+.sec-print-btn,
+.univ-badge,
+.univ-tab.active,
+.vitrina-ficha-step-tag.tag-mira,
+.vitrina-ficha-step-tag.tag-piensa,
+.vitrina-ficha-step-tag.tag-relaciona,
+.vocab-btn-pri,
+.vocab-modal,
+.welcome-panel,
+body.modo-proyeccion,
+body.modo-proyeccion header {
+  --gold-text: #c9a227;
+}
+
+/* — Reasignación de texto-oro a token accesible — */
+/* Generado automáticamente: 94 selectores extraídos con PostCSS */
+#asistPanel .asist-hd-title,
+#compModal .comp-header h2,
+#compModal .comp-modal-header h2,
+#eraDiscExit:hover,
+#eraDiscJp,
+#eraDiscNext,
+#eraDiscPrev,
+#fichaModal .ficha-header .ficha-label,
+#globalResultsBox .grp-title,
+#gtt-btn,
+#leftDock .ld-note small,
+#mapaModal .mapa-header h2,
+#odsCounter,
+#searchCount,
+#tools-fab-toggle,
+.actividad-eyebrow,
+.adapt-card-arrow,
+.adapt-orig-label,
+.alumno-btn-pri,
+.alumno-paso-title,
+.alumno-step.active,
+.asist-gen-submit,
+.asist-tab.active,
+.autocheck-title,
+.card[data-vitrina]::after,
+.cn-label,
+.comp-close-btn2,
+.comp-drawer-title,
+.compact-btn,
+.eje-canario-toggle,
+.eje-era-name,
+.elegir-n-warn,
+.elegir-tag-warn,
+.emocion-card-lectura,
+.emocion-nivel-btn.active,
+.emocion-nivel-btn:hover,
+.emocion-results-count,
+.emocion-toggle-chevron,
+.emocion-toggle-icon,
+.emocion-toggle-label,
+.emocion-ver-todos,
+.era-jp,
+.era-q-label,
+.era-q-list li::before,
+.err-n,
+.exc-label,
+.expo-close:hover,
+.expo-header h2,
+.expo-submit-btn,
+.expres-comp::before,
+.expres-header h2,
+.fab-action,
+.ficha-star.on,
+.ficha-star:hover,
+.filter-bar label,
+.filter-bar.is-compact::after,
+.guia-generate-btn,
+.guia-header h2,
+.guia-selected-count,
+.hist-header h2,
+.hito-detalle-hd strong,
+.jp,
+.mediacion-tag,
+.panel-docente-title,
+.parte-divider .parte-title em,
+.pd-btn--pri,
+.pd-cat-stat-val,
+.pd-nota-stars,
+.pd-stat-val,
+.pd-top-count,
+.plan-fb,
+.quiz-close-x:hover,
+.quiz-header h2,
+.quiz-opcion-letra,
+.ranking-num,
+.ranking-title,
+.sa-tools-label,
+.seg-progress,
+.totd-label,
+.ur-time,
+.visit-counter span,
+.vitrina-close:hover,
+.vitrina-cover-title,
+.vitrina-ficha-label,
+.vitrina-ficha-tarea strong,
+.vitrina-related-era,
+.vocab-btn-pri,
+.vocab-play-btn,
+.vocab-result-score,
+.vocab-title,
+.welcome-panel .wr .wr-arrow,
+.welcome-panel h3,
+.wr .wr-arrow,
+.wr .wr-if {
+  color: var(--gold-text) !important;
+}
+
+/* — Estilos inline (style="color:var(--gold)") en recurso.html — */
+/* Una regla externa con !important vence al inline no-important.            */
+/* NOTA: .adapt h2[style*="color:var(--gold)"] (editorial.css) tiene mayor   */
+/* especificidad y conserva su remapeo a --red intencionado (no se altera).  */
+[style*="color:var(--gold)"] {
+  color: var(--gold-text) !important;
+}

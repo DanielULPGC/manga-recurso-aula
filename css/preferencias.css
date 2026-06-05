@@ -1,0 +1,162 @@
+/* ════════════════════════════════════════════════════════════════
+   preferencias.css — Panel de preferencias de accesibilidad (DUA)
+   El manga como recurso didáctico · Aula de Cómic · ULPGC
+   Versión del componente: 1.0.0  ·  Capa: G2
+   Depende de: estilos.css, editorial.css, editorial-extras.css, a11y-contrast.css
+   Cargar DESPUÉS de a11y-contrast.css.
+
+   Materializa el principio DUA de "múltiples medios de representación"
+   (CAST UDL Guidelines 3.0, 2024) que la LOMLOE exige como atención a la
+   diversidad. Tres controles persistentes, sobre los que el usuario decide:
+     1. Tamaño de texto      → escala la base rem (WCAG 2.1 SC 1.4.4).
+     2. Reducir movimiento   → desactiva animaciones/transiciones manualmente
+                               (replica @media prefers-reduced-motion para quien
+                               no lo tiene fijado en el sistema).
+     3. Modo lectura accesible → vista plana + alto contraste: refuerza bordes,
+                               elimina sombras de texto, neutraliza gradientes
+                               decorativos y fija el cuerpo en tinta plena.
+
+   NOTA: no incluye tema oscuro completo. La base del recurso es clara
+   (paper/ink) y no existe una paleta oscura íntegra en el código; un tema
+   oscuro real es una capa independiente (ver roadmap).
+════════════════════════════════════════════════════════════════ */
+
+/* ── 1. ESCALA DE TEXTO ─────────────────────────────────────────── */
+/* Se escala la base de :root para que todo tamaño en rem crezca de forma
+   proporcional. Los contenedores usan max-width, de modo que el reflujo
+   es seguro. 100 % = base; "grande" ≈ +12,5 %; "muy grande" = +25 %.       */
+html[data-fs="lg"] { font-size: 112.5%; }
+html[data-fs="xl"] { font-size: 125%; }
+
+/* ── 2. REDUCIR MOVIMIENTO (manual) ─────────────────────────────── */
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── 3. MODO LECTURA ACCESIBLE (vista plana + alto contraste) ───── */
+html[data-lectura="on"] body {
+  /* Cuerpo en tinta plena, sin grises débiles */
+  --grey: #4a4234;
+}
+/* Refuerza bordes de los bloques clave (eco de @media prefers-contrast: high) */
+html[data-lectura="on"] .cat-card,
+html[data-lectura="on"] .itin-card,
+html[data-lectura="on"] .rec-block,
+html[data-lectura="on"] .sa-card,
+html[data-lectura="on"] .cur-tab,
+html[data-lectura="on"] .sa-tab,
+html[data-lectura="on"] .itin-tab,
+html[data-lectura="on"] .rec-tab,
+html[data-lectura="on"] .pref-card {
+  border: 2px solid var(--ink) !important;
+}
+/* Elimina sombras de texto (legibilidad sobre fondos complejos) */
+html[data-lectura="on"] * { text-shadow: none !important; }
+/* Aplana gradientes decorativos a un color sólido legible */
+html[data-lectura="on"] .parte-divider,
+html[data-lectura="on"] #catalogo-novedad-banner,
+html[data-lectura="on"] .portada-hero {
+  background-image: none !important;
+}
+/* Subraya enlaces para no depender solo del color (WCAG 1.4.1) */
+html[data-lectura="on"] a:not(.fab-action):not(.ld-btn):not(.pref-btn) {
+  text-decoration: underline !important;
+}
+/* Foco siempre visible y marcado */
+html[data-lectura="on"] :focus-visible {
+  outline: 3px solid var(--ink) !important;
+  outline-offset: 2px !important;
+}
+
+/* ── BOTÓN DISPARADOR EN EL SPEED-DIAL ──────────────────────────── */
+/* Reutiliza .fab-action; sin estilos extra salvo el badge de "activo". */
+#prefFabBtn.has-active::after {
+  content: "";
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red);
+  border: 1.5px solid var(--paper);
+}
+
+/* ── OVERLAY Y PANEL ────────────────────────────────────────────── */
+.pref-overlay {
+  position: fixed; inset: 0; z-index: 100000;
+  background: rgba(14, 10, 4, .55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.pref-overlay[hidden] { display: none; }
+
+.pref-panel {
+  background: var(--paper);
+  color: var(--ink);
+  width: 100%; max-width: 480px;
+  max-height: 90vh; overflow-y: auto;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .4);
+}
+.pref-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: .5rem;
+  padding: 1rem 1.2rem;
+  background: #1a1008;            /* a11y-contrast re-ilumina el oro aquí */
+  border-bottom: 1.5px solid var(--ink);
+}
+.pref-header h2 {
+  margin: 0; font-size: 1.05rem; color: var(--gold-text);
+  font-family: 'Cinzel', 'Shippori Mincho B1', serif; letter-spacing: .04em;
+}
+.pref-close {
+  background: transparent; border: 1px solid rgba(255, 255, 255, .35);
+  color: #f3ede1; border-radius: 4px;
+  width: 32px; height: 32px; font-size: 1.1rem; line-height: 1;
+  cursor: pointer; flex: 0 0 auto;
+}
+.pref-close:hover { background: rgba(255, 255, 255, .12); }
+.pref-close:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 2px; }
+
+.pref-body { padding: 1.1rem 1.2rem 1.3rem; }
+.pref-intro { margin: 0 0 1rem; font-size: .86rem; color: var(--grey); line-height: 1.55; }
+
+.pref-group { margin-bottom: 1.1rem; }
+.pref-group:last-child { margin-bottom: 0; }
+.pref-legend {
+  display: block; font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold-text); margin-bottom: .45rem;
+}
+.pref-hint { font-size: .76rem; color: var(--grey); margin: .35rem 0 0; line-height: 1.5; }
+
+/* Segmentos (radio group estilizado como segmented control accesible) */
+.pref-seg { display: flex; gap: .35rem; flex-wrap: wrap; }
+.pref-seg .pref-btn {
+  flex: 1 1 auto; min-width: 84px;
+  padding: .55rem .6rem; font-size: .85rem;
+  background: var(--paper2); color: var(--ink);
+  border: 1.5px solid var(--rule); border-radius: 4px;
+  cursor: pointer; transition: background .15s, border-color .15s;
+}
+.pref-seg .pref-btn[aria-pressed="true"] {
+  background: var(--ink); color: var(--paper);
+  border-color: var(--ink); font-weight: 600;
+}
+.pref-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.pref-reset {
+  margin-top: 1.1rem; width: 100%;
+  padding: .55rem; font-size: .82rem;
+  background: transparent; color: var(--grey);
+  border: 1px dashed var(--rule); border-radius: 4px; cursor: pointer;
+}
+.pref-reset:hover { color: var(--ink); border-color: var(--ink); }
+.pref-reset:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (max-width: 380px) {
+  .pref-seg .pref-btn { min-width: 0; }
+}

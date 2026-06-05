@@ -1141,13 +1141,13 @@ function _refreshCatalogoEfectivo() {
 const MANGA_ASIST_KEY = 'manga_asist_apikey';
 
 // ══════════════════════════════════════════════════════════════════
-// MOTOR IA DUAL — Claude (sin clave) + Gemini (opcional, con clave)
+// MOTOR IA DUAL — Claude (artifact) + Gemini (standalone, con clave)
 //
 // Arquitectura de prioridad:
-//   1.º Claude Sonnet  — funciona sin configuración previa del usuario.
-//   2.º Gemini Flash   — se activa opcionalmente si el docente aporta
-//       su clave de Google AI Studio (campo en el panel del asistente).
-//   En caso de fallo de Gemini, el sistema vuelve automáticamente a Claude.
+//   1.º Gemini Flash   — activo si el docente aporta clave de Google AI Studio.
+//   2.º Claude Sonnet  — activo en despliegue como artifact de claude.ai
+//       (el proxy de Anthropic inyecta la clave automáticamente).
+//       En servidor autónomo (ULPGC), Claude requiere clave propia → usa Gemini.
 //
 // Transparencia EU AI Act Art. 13 & 50: todo contenido generado lleva
 // badge visible con el proveedor real utilizado en cada respuesta.
@@ -1167,9 +1167,13 @@ let _lastAiProvider = 'Claude';
 async function claudeRequest(promptText) {
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 1000,
       messages: [{ role: 'user', content: promptText }]
     })
