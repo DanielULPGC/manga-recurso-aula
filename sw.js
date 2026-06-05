@@ -1,11 +1,11 @@
 /**
  * sw.js — Service Worker para El manga como recurso didáctico
  * Biblioteca Campus del Obelisco · Aula de Cómic · ULPGC
- * Versión: 5.10  (sincronizada con index.html v5.10 / app.js v7.10)
+ * Versión: 5.34  ('primeras etapas' en landing, autocomprobación y recurso.html)
  *
  * ── PROTOCOLO DE MANTENIMIENTO ─────────────────────────────────
  * Cada vez que se publique una nueva versión del recurso:
- *   1. Incrementar CACHE_NAME aquí (ej. 'manga-ulpgc-v5.9').
+ *   1. Incrementar CACHE_NAME aquí (ej. 'manga-ulpgc-v5.32').
  *   2. Actualizar el número de versión en la cabecera de este archivo.
  *   3. Verificar que PRECACHE_ASSETS incluye todos los assets nuevos.
  * Sin este paso, los usuarios con caché previa no recibirán
@@ -24,7 +24,7 @@
 'use strict';
 
 /* ── VERSIÓN DE CACHÉ ── actualizar en cada release ── */
-const CACHE_NAME = 'manga-ulpgc-v5.10';
+const CACHE_NAME = 'manga-ulpgc-v5.34';
 
 /* ── Assets precacheados en la instalación del SW ─────────────────
    Incluir aquí cualquier archivo nuevo que se añada al proyecto. */
@@ -36,9 +36,15 @@ const PRECACHE_ASSETS = [
   './css/estilos.css',
   './css/editorial.css',
   './css/editorial-extras.css',
-  './js/app.js',
-  './js/datos.js',
+  './js/app.min.js',
+  './js/datos.min.js',
   './js/vinetas-generator.js',
+  './js/actividad-vinetas.js',
+  './js/autocomprobacion-datos.js',
+  './js/autocomprobacion.js',
+  './js/segmentacion.js',
+  './js/mediacion.js',
+  './js/planificador.js',
   './js/catalog-collapse.js',
   './js/etapa-selector.js',
   './js/left-dock.js',
@@ -49,6 +55,11 @@ const PRECACHE_ASSETS = [
   './js/ficha-pdf.js',
   './manifest.json',
   './icons/icon.svg',
+  './img/banner-ulpgc-aulacomic.jpg',
+  './img/banner-ulpgc-aulacomic.webp',
+  './img/logo-aula-comic.jpg',
+  './img/logo-aula-comic.webp',
+  './ficha_trabajo_manga.pdf',
 ];
 
 /* ── Dominios que van SIEMPRE a red (nunca se cachean) ────────────
