@@ -1316,7 +1316,7 @@ function exitEraDiscovery(silent) {
   // Remove active class from all
   eraColumns.forEach(c => c.classList.remove('era-active'));
   const btn = document.getElementById('eraDiscBtn');
-  if (btn) btn.textContent = '▶';
+  if (btn) btn.textContent = 'â–¶';
   updateEraDiscBar();
 }
 
@@ -1496,7 +1496,7 @@ function openPanelDocente(tab = 'stats') {
         ${[
           { id:'stats',    icon:'📊', label:'Estadísticas' },
           { id:'notas',    icon:'✎',  label:'Notas'        },
-          { id:'historial',icon:'⧖',  label:'Historial'    },
+          { id:'historial',icon:'â§–',  label:'Historial'    },
           { id:'exportar', icon:'⬇',  label:'Exportar'     },
           { id:'catalogo', icon:'✚',  label:'Catálogo'     },
         ].map(t => `
@@ -1798,7 +1798,7 @@ function _showImportResult(el, report, filename = '') {
   let html = filename ? `<strong>${escapeHtml(filename)}</strong><br>` : '';
   if (report.ok)      html += `✓ ${report.ok} título${report.ok !== 1 ? 's' : ''} importado${report.ok !== 1 ? 's' : ''}. `;
   if (report.skipped) html += `⊘ ${report.skipped} omitido${report.skipped !== 1 ? 's' : ''}. `;
-  if (hasErrors)      html += `<br><span class="pd-import-errors">${report.errors.map(e => `⚠ ${escapeHtml(e)}`).join('<br>')}</span>`;
+  if (hasErrors)      html += `<br><span class="pd-import-errors">${report.errors.map(e => `âš  ${escapeHtml(e)}`).join('<br>')}</span>`;
   if (isSuccess)      html += `<br><small>El catálogo se ha actualizado. Los cambios son visibles en el grid de títulos.</small>`;
 
   el.innerHTML = html;
@@ -1839,7 +1839,7 @@ function _pdCatalogoValidar() {
     result.errors.length   ? `🚨 ${result.errors.length} error${result.errors.length > 1 ? 'es' : ''}:`   : '',
     ...result.errors.slice(0, 10).map(e => `  · ${e}`),
     result.errors.length > 10 ? `  … y ${result.errors.length - 10} más (ver consola F12)` : '',
-    result.warnings.length ? `⚠ ${result.warnings.length} aviso${result.warnings.length > 1 ? 's' : ''}:` : '',
+    result.warnings.length ? `âš  ${result.warnings.length} aviso${result.warnings.length > 1 ? 's' : ''}:` : '',
     ...result.warnings.slice(0, 5).map(w => `  · ${w}`),
   ].filter(Boolean).join('\n');
 
@@ -2696,7 +2696,13 @@ document.addEventListener('click', function(e) {
     const arg    = target.dataset.arg;
     const arg2   = target.dataset.arg2;
     const arg3   = target.dataset.arg3;
-    const fn     = window[action];
+    const localActions = {
+      filterByTitle,
+      applyDocenteRoute,
+      setCatalogMode,
+      toggleCatalogExplore
+    };
+    const fn     = localActions[action] || window[action];
     if (typeof fn === 'function') {
       e.stopPropagation();
       const syntheticEv = { target };
@@ -2896,6 +2902,7 @@ document.querySelectorAll('.card, .cat-card').forEach(card => {
 // ── Drag to scroll ──────────────────────────────────
 const sc = document.getElementById('sc');
 let drag = false, sx, sl;
+if (sc) sc.style.touchAction = 'pan-x pan-y pinch-zoom';
 sc.addEventListener('mousedown', e => {
   if (e.target.closest('.card')) return;
   drag = true; sx = e.pageX - sc.offsetLeft; sl = sc.scrollLeft;
@@ -2908,8 +2915,26 @@ sc.addEventListener('mousemove', e => {
   e.preventDefault();
   sc.scrollLeft = sl - (e.pageX - sc.offsetLeft - sx) * 1.1;
 });
-sc.addEventListener('touchstart', e => { sx = e.touches[0].pageX; sl = sc.scrollLeft; }, { passive: true });
-sc.addEventListener('touchmove',  e => { sc.scrollLeft = sl - (e.touches[0].pageX - sx); }, { passive: true });
+
+function settleTimelineMobileScroll() {
+  if (!sc || location.hash !== '#sc') return;
+  if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
+  requestAnimationFrame(() => {
+    window.scrollTo(0, sc.offsetTop);
+    if (!sc.dataset.mobileArrived) {
+      sc.scrollLeft = 0;
+      sc.dataset.mobileArrived = '1';
+    }
+  });
+}
+window.addEventListener('hashchange', settleTimelineMobileScroll);
+document.addEventListener('DOMContentLoaded', settleTimelineMobileScroll);
+window.addEventListener('load', settleTimelineMobileScroll);
+window.addEventListener('message', e => {
+  if (e && e.data === 'intro-done') setTimeout(settleTimelineMobileScroll, 120);
+});
+setTimeout(settleTimelineMobileScroll, 0);
+setTimeout(settleTimelineMobileScroll, 120);
 
 
 // ── Uso pedagógico filter ────────────────────────────────────
@@ -3036,8 +3061,8 @@ function searchCatalog(q) {
       card.classList.add('search-match');
       visible++;
       if (!firstMatch) firstMatch = card;
-      if (titleEl)  titleEl.innerHTML  = _highlight(titleEl.textContent, words);
-      if (authorEl) authorEl.innerHTML = _highlight(authorEl.textContent, words);
+      if (titleEl)  _highlightInto(titleEl, words);
+      if (authorEl) _highlightInto(authorEl, words);
       // Show tip in list mode
       if (tip) {
         const tipEl = document.createElement('span');
@@ -3070,22 +3095,56 @@ function searchCatalog(q) {
   }
 }
 
-function _highlight(text, words) {
-  let result = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  words.forEach(w => {
-    const rx = new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    result = result.replace(rx, '<mark class="search-hl">$1</mark>');
+function _highlightInto(element, words) {
+  if (!element) return;
+
+  const source = element.dataset.searchText || element.textContent || '';
+  element.dataset.searchText = source;
+  element.textContent = '';
+
+  const uniqueWords = Array.from(new Set(words.filter(Boolean)))
+    .map(w => w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+
+  if (!uniqueWords.length) {
+    element.textContent = source;
+    return;
+  }
+
+  const rx = new RegExp('(' + uniqueWords.join('|') + ')', 'gi');
+  let lastIndex = 0;
+
+  source.replace(rx, (match, _group, offset) => {
+    if (offset > lastIndex) {
+      element.appendChild(document.createTextNode(source.slice(lastIndex, offset)));
+    }
+    const mark = document.createElement('mark');
+    mark.className = 'search-hl';
+    mark.textContent = match;
+    element.appendChild(mark);
+    lastIndex = offset + match.length;
+    return match;
   });
-  return result;
+
+  if (lastIndex < source.length) {
+    element.appendChild(document.createTextNode(source.slice(lastIndex)));
+  }
 }
 
 function _restoreText(card) {
   const titleEl  = card.querySelector('.cat-title');
   const authorEl = card.querySelector('.cat-author');
-  if (titleEl?.querySelector('.search-hl'))
+  if (titleEl?.dataset.searchText) {
+    titleEl.textContent = titleEl.dataset.searchText;
+    delete titleEl.dataset.searchText;
+  } else if (titleEl?.querySelector('.search-hl')) {
     titleEl.textContent = titleEl.textContent;
-  if (authorEl?.querySelector('.search-hl'))
+  }
+  if (authorEl?.dataset.searchText) {
+    authorEl.textContent = authorEl.dataset.searchText;
+    delete authorEl.dataset.searchText;
+  } else if (authorEl?.querySelector('.search-hl')) {
     authorEl.textContent = authorEl.textContent;
+  }
 }
 
 function clearSearch() {
@@ -4189,7 +4248,45 @@ function closeComp() {
   FocusTrap.deactivate();
 }
 
+function resolveCatalogTitleQuery(title) {
+  const raw = String(title || '').trim();
+  if (!raw) return '';
+  const catalog = (typeof CATALOGO_EFECTIVO !== 'undefined' && CATALOGO_EFECTIVO.length)
+    ? CATALOGO_EFECTIVO
+    : (typeof CATALOGO !== 'undefined' ? CATALOGO : []);
+  if (!catalog.length) return raw;
+
+  const normalize = s => String(s || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[¡!¿?.,:;·\-–—()[\]"'`´]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const aliases = {
+    'astro boy pluto': 'Pluto',
+    'astroboy pluto': 'Pluto',
+    'astro boy': 'Astroboy',
+    'planetes': 'Planetes :integral',
+    'frieren': 'Frieren: más allá del fin del viaje',
+    'uzumaki': 'Uzumaki : espiral',
+    'death note': 'Death Note Edición integral',
+    'atelier of witch hat': 'Atelier of witch hat = El atelier de sombreros de mago',
+    'dinosan': 'Dinosan : Dinosaurs Sanctuary',
+    'ghost in the shell': 'The ghost in the shell',
+    'team medical dragon': 'Team medical dragon'
+  };
+  const key = normalize(raw);
+  const alias = aliases[key];
+  if (alias) return alias;
+
+  const exact = catalog.find(t => normalize(t.titulo) === key);
+  if (exact) return exact.titulo;
+  const partial = catalog.find(t => normalize(t.titulo).includes(key) || key.includes(normalize(t.titulo)));
+  return partial?.titulo || raw;
+}
+
 function filterByTitle(title) {
+  const query = resolveCatalogTitleQuery(title);
   ['compOverlay','mapaOverlay','rubricaOverlay','fichaOverlay','secOverlay'].forEach(id => {
     document.getElementById(id)?.classList.remove('open');
   });
@@ -4197,13 +4294,14 @@ function filterByTitle(title) {
 
   const searchInput = document.getElementById('catalogSearch');
   if (searchInput) {
-    searchInput.value = title;
-    if (typeof searchCatalog === 'function') searchCatalog(title);
+    searchInput.value = query;
+    if (typeof searchCatalog === 'function') searchCatalog(query);
     searchInput.focus();
   }
   const target = document.getElementById('catalogSearch') || document.getElementById('catalogo');
   target?.scrollIntoView?.({ behavior: 'smooth', block: 'center' });
 }
+window.filterByTitle = filterByTitle;
 
 document.addEventListener('DOMContentLoaded', updateCompDrawer);
 
@@ -5387,63 +5485,72 @@ document.addEventListener('DOMContentLoaded', function() {
       nivel: 'Secundaria · Bachillerato · Universidad',
       preguntas: [
         '¿Por qué el arte japonés más refinado nació en un período de paz aristocrática? ¿Qué condiciones sociales permiten que florezca la cultura?',
-        'Las Chōjū-giga muestran animales que se comportan como humanos criticando a la nobleza. ¿Qué tradición artística occidental conoces que use el mismo recurso?'
+        'Las Chōjū-giga muestran animales que se comportan como humanos criticando a la nobleza. ¿Qué tradición artística occidental conoces que use el mismo recurso?',
+        '🌊 En paralelo: mientras la corte Heian refina su arte, Canarias vive su período prehispánico, con sociedades amaziges sin escritura. ¿Puede existir una cultura visual y narrativa rica sin escritura? ¿Qué papel juegan la oralidad y la imagen en cada caso?'
       ]
     },
     'Kamakura · Muromachi': {
       nivel: 'Secundaria · Bachillerato',
       preguntas: [
         'Japón pasó de una nobleza cortesana a una clase guerrera (samurái) en el poder. ¿Conoces en la historia occidental algún cambio de élite similar?',
-        'El bushido establece un código de honor estricto. ¿En qué se parece y en qué se diferencia del código caballeresco europeo medieval?'
+        'El bushido establece un código de honor estricto. ¿En qué se parece y en qué se diferencia del código caballeresco europeo medieval?',
+        '🌊 En paralelo: mientras el Japón samurái guerrea entre clanes, Castilla conquista Canarias (1402-1496) y somete al pueblo guanche. ¿Quién escribe la historia en cada caso? ¿Cómo retrata el manga histórico a vencedores y vencidos?'
       ]
     },
     'Sengoku · Momoyama': {
       nivel: 'Secundaria · Bachillerato',
       preguntas: [
         'El Sengoku es un siglo de guerra civil continua. ¿Qué condiciones políticas explican que un país fragmentado en señoríos rivales acabe unificándose?',
-        '¿Por qué crees que la cultura japonesa (teatro Nō, ceremonia del té, jardines zen) alcanzó una refinación extrema justo en un período de violencia máxima?'
+        '¿Por qué crees que la cultura japonesa (teatro Nō, ceremonia del té, jardines zen) alcanzó una refinación extrema justo en un período de violencia máxima?',
+        '🌊 En paralelo: en 1549 el misionero navarro Francisco Javier desembarca en Japón, mientras Canarias se consolida como escala atlántica de las flotas de Indias. ¿Qué papel jugaron las islas y los puertos en esa primera globalización?'
       ]
     },
     'Edo': {
       nivel: 'Secundaria · Bachillerato · Universidad',
       preguntas: [
         'Japón cerró sus fronteras al mundo exterior durante más de 200 años (sakoku). ¿Qué consecuencias tuvo ese aislamiento en su desarrollo cultural, tecnológico y económico?',
-        'Hokusai publica en 1814 los cuadernos que darán nombre al manga. ¿Por qué una cultura con siglos de arte visual secuencial tarda tanto en crear un término propio para nombrarlo?'
+        'Hokusai publica en 1814 los cuadernos que darán nombre al manga. ¿Por qué una cultura con siglos de arte visual secuencial tarda tanto en crear un término propio para nombrarlo?',
+        '🌊 En paralelo: Japón se cierra al exterior (sakoku) mientras Canarias vive precisamente de su apertura como escala entre tres continentes. ¿Qué gana y qué pierde una sociedad insular con cada estrategia? ¿Aislarse protege una cultura o la congela?'
       ]
     },
     'Meiji': {
       nivel: 'Secundaria · Bachillerato',
       preguntas: [
         'Japón pasó en pocas décadas de feudalismo a potencia industrial moderna. ¿Qué pierde y qué gana una sociedad cuando moderniza a marcha forzada?',
-        'Los primeros manga de la era Meiji copiaron técnicas de la caricatura occidental. ¿Es copiar una forma de resistencia cultural o de colonización cultural? ¿Puede ser las dos cosas?'
+        'Los primeros manga de la era Meiji copiaron técnicas de la caricatura occidental. ¿Es copiar una forma de resistencia cultural o de colonización cultural? ¿Puede ser las dos cosas?',
+        '🌊 En paralelo: mientras Japón se industrializa a marcha forzada, los puertos francos (1852) abren Canarias al comercio mundial y la crisis del 98 hunde al imperio español. ¿Por qué unas décadas encumbran a un país y sumen a otro en la crisis? ¿Qué papel juega el mar en ambos destinos?'
       ]
     },
     'Taishō': {
       nivel: 'Secundaria · Bachillerato',
       preguntas: [
         'La era Taishō fue la más democrática y cosmopolita del Japón premoderno. ¿Por qué duró tan poco? ¿Qué factores históricos pueden truncar un período liberal?',
-        'El manga cómico de esta época mezcla humor absurdo con crítica social. ¿Qué otras formas artísticas conoces que usen el humor para decir verdades incómodas?'
+        'El manga cómico de esta época mezcla humor absurdo con crítica social. ¿Qué otras formas artísticas conoces que usen el humor para decir verdades incómodas?',
+        '🌊 En paralelo: la breve democracia Taishō coincide con la Ley de Cabildos (1912), que dio a cada isla canaria un gobierno propio. ¿Qué condiciones hacen frágiles a las instituciones nuevas? ¿Por qué unas sobreviven y otras se truncan?'
       ]
     },
     'Shōwa': {
       nivel: 'Secundaria · Bachillerato · Universidad',
       preguntas: [
         'Tezuka sobrevivió los bombardeos de Osaka y en 1952 crea a Astroboy, un niño-robot símbolo de esperanza. ¿Cómo puede el trauma colectivo transformarse en arte que mira al futuro?',
-        'El manga de posguerra nació en revistas de alquiler para niños pobres que no podían comprarlas. ¿Qué relación existe entre la precariedad económica y la explosión de una forma artística popular?'
+        'El manga de posguerra nació en revistas de alquiler para niños pobres que no podían comprarlas. ¿Qué relación existe entre la precariedad económica y la explosión de una forma artística popular?',
+        '🌊 En paralelo: la posguerra japonesa que vio nacer a Astroboy coincide con la gran emigración canaria a Venezuela. ¿Cómo elabora cada sociedad la escasez: emigrando, creando, recordando? ¿Qué relatos e imágenes produjo cada experiencia?'
       ]
     },
     'Heisei': {
       nivel: 'ESO · Bachillerato · Universidad',
       preguntas: [
         'El manga Heisei tematiza el miedo a la tecnología, la identidad líquida y el fin del mundo. ¿En qué medida esos miedos de los años 90 japoneses siguen siendo los nuestros hoy?',
-        'Japón exportó su cultura pop masivamente durante el Heisei (anime, manga, videojuegos). ¿Es eso soft power? ¿En qué se diferencia de la exportación cultural que hacen EE. UU. o Europa?'
+        'Japón exportó su cultura pop masivamente durante el Heisei (anime, manga, videojuegos). ¿Es eso soft power? ¿En qué se diferencia de la exportación cultural que hacen EE. UU. o Europa?',
+        '🌊 En paralelo: a comienzos de los años noventa varias televisiones autonómicas españolas emitieron Dragon Ball y desataron el primer boom del manga en España. ¿Cómo llega una cultura lejana a un archipiélago atlántico? ¿Quién recuerda en tu familia aquel primer encuentro?'
       ]
     },
     'Reiwa': {
       nivel: 'ESO · Bachillerato · Universidad',
       preguntas: [
         'El manga Reiwa representa protagonistas que buscan "vivir despacio" (日常系, nichijō-kei). ¿Qué dice eso de la sociedad japonesa actual? ¿Resonaría en el alumnado canario?',
-        'Por primera vez en su historia, el manga japonés tiene más lectoras que lectores. ¿Qué transforma una industria cultural cuando cambia quién la consume?'
+        'Por primera vez en su historia, el manga japonés tiene más lectoras que lectores. ¿Qué transforma una industria cultural cuando cambia quién la consume?',
+        '🌊 En paralelo: el manga concentra hoy buena parte del cómic que se vende en España y entra en bibliotecas universitarias como esta. ¿Qué ha cambiado para que un material considerado marginal se convierta en recurso académico?'
       ]
     }
   };
@@ -5478,6 +5585,12 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.setAttribute('title', 'Pregunta detonadora para el aula');
 
       // Panel — appended to body so it escapes overflow:hidden scroll
+      // Títulos de la propia columna de la era (derivados del DOM de la
+      // línea del tiempo: de la pregunta a la lectura sin salir del fondo).
+      const colTitles = Array.from(bar.parentElement.querySelectorAll('.ct'))
+        .map(n => n.textContent.replace(/^[★✦]\s*/, '').trim())
+        .filter(Boolean)
+        .slice(0, 3);
       const panel = document.createElement('div');
       panel.className = 'era-q-panel';
       panel.setAttribute('role', 'dialog');
@@ -5485,8 +5598,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <span class="era-q-label">✦ Pregunta detonadora · ${eraName}</span>
         <span class="era-q-nivel">${data.nivel}</span>
         <ul class="era-q-list">
-          ${data.preguntas.map(q => `<li>${q}</li>`).join('')}
-        </ul>`;
+          ${data.preguntas.map(q => `<li${q.indexOf('🌊') === 0 ? ' class="q-paralelo"' : ''}>${q}</li>`).join('')}
+        </ul>
+        ${colTitles.length ? `<span class="era-q-fondo"><span class="era-q-fondo-label">En esta era de la línea del tiempo</span>${colTitles.map(t => `<span class="era-q-chip">${t}</span>`).join('')}</span>` : ''}`;
       document.body.appendChild(panel);
 
       function positionPanel() {
@@ -5605,7 +5719,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ── HISTORIA ─────────────────────────────────────────────
     'Adolf':                             [16,10], // WWII, derechos humanos
-    'Okinawa':                           [16,3],  // guerra, trauma
+    'Okinawa, el viento habla':          [16,3],  // guerra, trauma civil
     'Vinland Saga':                      [16,11], // guerra medieval, comunidad
     'Vagabond':                          [16,4],  // samurái, aprendizaje
     'Thermae Romae':                     [11,4],  // ciudad romana, cultura
@@ -5652,7 +5766,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ── EDUCACIÓN EMOCIONAL ───────────────────────────────────
     'Solanin : Integral':                [3,10],  // salud mental, juventud
     'Tengo cáncer terminal, pero estoy bien': [3,10],
+    'Tengo cáncer terminal, pero estoy bien : una dibujante de manga erótico de 38 años con cáncer de colon': [3,10],
     'Hirayasumi':                        [3,11],  // bienestar, comunidad
+    'La calma después de la tormenta':   [3,10],  // duelo, amistad
     'After School Dice Club':            [4,10],  // educación, inclusión
     'La pequeña forastera : Siúil, a Rún': [10,4],
     'Amor es cuando cesa la lluvia':     [3,5],   // bienestar, relaciones
@@ -5673,6 +5789,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ── GÉNERO E IDENTIDAD ────────────────────────────────────
     'Sailor Moon':                       [5,10],  // género, igualdad
+    'Pretty Guardian Sailor Moon':       [5,10],  // género, igualdad
     'Skip and Loafer':                   [5,10],  // identidad, inclusión
     'Nana':                              [5,3],   // género, salud emocional
     'Yona : Princesa del Amanecer':      [5,16],  // género, poder
@@ -5681,7 +5798,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'Ruri la tatuadora : y otras historias de chicas malas.': [5,10],
     'Una mujer y la guerra':             [5,16],  // género, conflicto
     'Una mujer de la era Shôwa':         [5,16],  // género, historia
-    'Makanai: la cocina de las maiko':   [5,11],  // género, tradición
+    'Makanai : la cocinera de las maiko':[5,11],  // género, tradición
     'Pokémon y feminismo : la gran revolución transmedia': [5,4],
     'Anna Karenina: el manga':           [5,16],  // género, literatura
     'Orgullo y prejuicio':               [5,16],  // género, sociedad
@@ -5695,9 +5812,11 @@ document.addEventListener('DOMContentLoaded', function() {
     'Romeo y Julieta.':                  [3,16],
     'La metamorfosis : el manga':        [3,16],  // alienación, identidad
     'Ilíada y Odisea : el manga':        [16,4],  // guerra, educación clásica
+    'En este rincón del mundo':          [16,3],  // guerra, memoria civil
 
     // ── ALFABETIZACIÓN VISUAL ────────────────────────────────
     'Gon':                               [15,4],  // naturaleza, sin texto
+    'A silent voice':                    [10,3],  // inclusión, salud mental
     'Uzumaki : espiral':                 [3,16],  // horror, cuerpo
     'Atelier of witch hat = El atelier de sombreros de mago': [4,5],
     'El bosque milenario':               [15,3],  // naturaleza, salud
@@ -5777,11 +5896,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-expand catalog if collapsed
     if (isActive) {
       const sec = document.getElementById('catalogo');
-      const btn = document.getElementById('exploreBtn');
       if (sec?.classList.contains('catalog-collapsed')) {
-        sec.classList.remove('catalog-collapsed');
-        if (btn) { btn.textContent = 'Ocultar todos los títulos ↑'; btn.classList.add('expanded'); }
-        catalogExpanded = true;
+        setCatalogMode('biblioteca');
       }
     }
   };
@@ -5941,23 +6057,206 @@ document.addEventListener('DOMContentLoaded', function() {
 
 })();
 
-// ══ CATÁLOGO — COLAPSO/EXPANSIÓN ════════════════════════════
-let catalogExpanded = true;  // FIX: catálogo visible por defecto
+// ══ SELECTOR DOCENTE — entrada didáctica al fondo ═══════════
+var catalogExpanded = false;
+const DOCENTE_RUTAS = {
+  primeros: {
+    label: 'Iniciar manga sin fricción',
+    titles: ['Yotsuba!', 'El ratón de biblioteca', 'Mascotas', 'La pequeña forastera', '¡Kota, ven!', 'Astroboy'],
+    note: 'Selección suave para leer el código visual antes de entrar en obras densas.'
+  },
+  memoria: {
+    label: 'Memoria, historia y conflicto',
+    titles: ['Autobiografía', 'Vagabond', 'Vinland Saga', 'La época de Botchan', 'Kanikosen', 'Adolf'],
+    note: 'Para conectar contexto histórico, punto de vista y conversación ética.'
+  },
+  cuerpo: {
+    label: 'Cuerpo, ciencia y cuidado',
+    titles: ['Team medical dragon', 'Black Jack', 'Astroboy', 'Pluto', 'Planetes :integral', 'The ghost in the shell'],
+    note: 'Una vía STEM que permite hablar de cuerpo, tecnología y responsabilidad.'
+  },
+  identidad: {
+    label: 'Identidad y adolescencia',
+    titles: ['La pequeña forastera', 'El gourmet solitario', 'Cielos radiantes', 'Ranma 1', 'Family Compo', 'Nana'],
+    note: 'Lecturas para tutoría, identidad, convivencia y alfabetización emocional.'
+  },
+  yokai: {
+    label: 'Yōkai y folklore visual',
+    titles: ['Kitaro', 'Dentro de los yokais.', 'Dororon Enma-Kun', 'Dororo', 'Cuentos de un pasado lejano : konjaku monogatari', 'El zorro y el pequeño tanuki'],
+    note: 'Para observar cómo la criatura tradicional pasa de la estampa y el relato oral al manga contemporáneo.'
+  }
+};
 
-function toggleCatalogExplore() {
-  catalogExpanded = !catalogExpanded;
-  const sec = document.getElementById('catalogo');
-  const btn = document.getElementById('exploreBtn');
-  if (catalogExpanded) {
-    sec.classList.remove('catalog-collapsed');
-    btn.textContent = 'Ocultar todos los títulos ↑';
-    btn.classList.add('expanded');
-  } else {
-    sec.classList.add('catalog-collapsed');
-    btn.textContent = 'Ver todos los títulos →';
-    btn.classList.remove('expanded');
+const DOCENTE_USO_LABELS = {
+  historia: 'Contexto histórico',
+  filosofia: 'Ética y pensamiento',
+  emocional: 'Educación emocional',
+  lenguas: 'Comprensión lectora',
+  inclusion: 'Inclusión',
+  visual: 'Alfabetización visual',
+  ciencia: 'Ciencia / STEM',
+  genero: 'Identidad y género',
+  yokai: 'Yōkai / folklore visual'
+};
+
+const DOCENTE_ACTIVIDADES = {
+  historia: 'Sitúa la obra en una línea temporal y pide una evidencia visual de época.',
+  filosofia: 'Formula un dilema ético en dos columnas: decisión del personaje y alternativa.',
+  emocional: 'Elige una viñeta emocional y escribe qué se ve, qué se infiere y qué se calla.',
+  lenguas: 'Compara una página con un texto breve: narrador, elipsis y ritmo.',
+  inclusion: 'Identifica barreras del entorno y reescribe una escena desde otra perspectiva.',
+  visual: 'Analiza encuadre, calle, onomatopeya y dirección de lectura en una página.',
+  ciencia: 'Extrae concepto, analogía visual y límite científico de la representación.',
+  genero: 'Mapea cómo se construye identidad: cuerpo, voz, mirada social y conflicto.',
+  yokai: 'Compara criatura, gesto y función narrativa: qué miedo ordena, qué norma social revela y cómo pasa al manga.'
+};
+
+const DOCENTE_VISUALS = {
+  historia: { src: 'img/kuniyoshi-esqueleto.jpg', alt: 'Composición dramática de Kuniyoshi para trabajar historia y escala visual' },
+  filosofia: { src: 'img/gw-fuji.jpg', alt: 'Detalle del monte Fuji bajo la ola para trabajar escala, silencio y pensamiento' },
+  emocional: { src: 'img/hiroshige-lluvia.jpg', alt: 'Lluvia de Hiroshige para trabajar atmósfera y emoción visual' },
+  lenguas: { src: 'img/gw-cartela.jpg', alt: 'Cartela integrada en la imagen para trabajar texto y viñeta' },
+  inclusion: { src: 'img/gw-barca.jpg', alt: 'Detalle de barca y punto de vista para trabajar mirada e inclusión' },
+  visual: { src: 'img/hokusai-gran-ola.jpg', alt: 'La Gran Ola de Hokusai como entrada a la alfabetización visual' },
+  ciencia: { src: 'img/gw-trama.jpg', alt: 'Detalle de textura y trama para conectar observación y representación' },
+  genero: { src: 'img/sharaku-actor.jpg', alt: 'Retrato expresivo de Sharaku para trabajar cuerpo, gesto e identidad' },
+  yokai: { src: 'img/public-domain/kyosai-yokai.jpg', alt: 'Yōkai de Kawanabe Kyōsai para trabajar folklore visual y continuidad con el manga' }
+};
+
+function _docenteCatalog() {
+  return (typeof CATALOGO_EFECTIVO !== 'undefined' && CATALOGO_EFECTIVO.length)
+    ? CATALOGO_EFECTIVO
+    : (typeof CATALOGO !== 'undefined' ? CATALOGO : []);
+}
+
+function _docenteFind(title) {
+  const q = String(title || '').toLowerCase();
+  return _docenteCatalog().find(t => String(t.titulo || '').toLowerCase() === q)
+    || _docenteCatalog().find(t => String(t.titulo || '').toLowerCase().includes(q));
+}
+
+function _docenteLevel(entry) {
+  return entry?.nivel || (entry?.niveles || []).join(' ') || '';
+}
+
+function _docenteIsYokai(entry) {
+  const hay = `${entry?.titulo || ''} ${entry?.autor || ''} ${entry?.periodo || ''} ${entry?.tip || ''}`.toLowerCase();
+  return /yokai|yōkai|folklore|sobrenatural|demon|demonio|tanuki|kitaro|dororo|konjaku|esp[ií]ritu/.test(hay);
+}
+
+function _docenteRisk(entry) {
+  if (entry?.sensitive) return entry.sens_label || 'Requiere mediación previa.';
+  const nivel = _docenteLevel(entry);
+  if (/bachillerato|universidad/.test(nivel)) return 'Puede requerir contexto y lectura acompañada.';
+  return 'Entrada suave: revisar igualmente el tomo completo antes de aula.';
+}
+
+function _docenteAlternative(entry) {
+  const catalog = _docenteCatalog();
+  const uso = String(entry?.uso || '').split(' ')[0];
+  const alt = catalog.find(t => t.titulo !== entry?.titulo && !t.sensitive && String(t.uso || '').includes(uso));
+  return alt?.titulo || 'Yotsuba!';
+}
+
+function _docenteCard(entry, forcedUso) {
+  if (!entry) return '';
+  const uso = forcedUso || String(entry.uso || '').split(' ')[0] || 'visual';
+  const nivel = _docenteLevel(entry) || 'secundaria';
+  const badges = (entry.badges || []).slice(0, 2).map(b => `<span>${escapeHtml(b)}</span>`).join('');
+  return `<article class="docente-card" style="--docente-color:${escapeHtml(entry.color || '#7a5a0a')}">
+    <div class="docente-card-top">
+      <span class="docente-uso">${escapeHtml(DOCENTE_USO_LABELS[uso] || uso)}</span>
+      <span class="docente-nivel">${escapeHtml(nivel.replace(/\s+/g, ' · '))}</span>
+    </div>
+    <h4>${escapeHtml(entry.titulo || '')}</h4>
+    <p class="docente-autor">${escapeHtml(entry.autor || '')}</p>
+    <div class="docente-badges">${badges}</div>
+    <dl class="decision-list">
+      <div><dt>Por qué</dt><dd>${escapeHtml(entry.tip || 'Título útil para activar lectura visual y conversación guiada.').slice(0, 180)}</dd></div>
+      <div><dt>Riesgo</dt><dd>${escapeHtml(_docenteRisk(entry))}</dd></div>
+      <div><dt>Actividad</dt><dd>${escapeHtml(DOCENTE_ACTIVIDADES[uso] || DOCENTE_ACTIVIDADES.visual)}</dd></div>
+      <div><dt>Alternativa</dt><dd>${escapeHtml(_docenteAlternative(entry))}</dd></div>
+    </dl>
+    <div class="docente-actions">
+      <button type="button" data-action="openLecturaFor" data-arg="${escapeHtml(entry.titulo || '')}" data-arg2="${escapeHtml(uso)}" data-arg3="${escapeHtml(nivel)}">Lectura guiada</button>
+      <button type="button" data-action="filterByTitle" data-arg="${escapeHtml(entry.titulo || '')}">Localizar</button>
+    </div>
+  </article>`;
+}
+
+function renderDocenteSelector() {
+  const box = document.getElementById('docenteResults');
+  if (!box) return;
+  const catalog = _docenteCatalog();
+  if (!catalog.length) return;
+  const nivel = document.getElementById('docenteNivel')?.value || 'secundaria';
+  const uso = document.getElementById('docenteUso')?.value || 'emocional';
+  const tiempo = document.getElementById('docenteTiempo')?.value || 'sesion';
+  const madurez = document.getElementById('docenteMadurez')?.value || 'suave';
+  const limit = tiempo === 'breve' ? 6 : tiempo === 'proyecto' ? 12 : 8;
+  const pool = catalog.filter(t => {
+    const levelOk = _docenteLevel(t).includes(nivel);
+    const useOk = uso === 'yokai' ? _docenteIsYokai(t) : String(t.uso || '').includes(uso);
+    const riskOk = madurez === 'abierta' || (madurez === 'media' ? true : !t.sensitive);
+    return levelOk && useOk && riskOk;
+  });
+  const fallback = catalog.filter(t => (uso === 'yokai' ? _docenteIsYokai(t) : String(t.uso || '').includes(uso)) && (madurez !== 'suave' || !t.sensitive));
+  const items = (pool.length ? pool : fallback).slice(0, limit);
+  box.innerHTML = items.map(_docenteCard).join('') || '<p class="docente-empty">No hay coincidencias suaves. Cambia madurez o propósito.</p>';
+  const summary = document.getElementById('docenteSummary');
+  if (summary) {
+    summary.textContent = `${items.length} títulos · ${DOCENTE_USO_LABELS[uso] || uso} · ${nivel} · ${madurez === 'suave' ? 'sin contenido sensible' : 'con revisión docente'}.`;
   }
 }
+
+function applyDocenteRoute(routeId) {
+  const route = DOCENTE_RUTAS[routeId];
+  const box = document.getElementById('docenteResults');
+  if (!route || !box) return;
+  const items = route.titles.map(_docenteFind).filter(Boolean);
+  box.innerHTML = `<div class="ruta-selection-note"><strong>${escapeHtml(route.label)}</strong><span>${escapeHtml(route.note)}</span></div>` + items.map(item => _docenteCard(item, routeId === 'yokai' ? 'yokai' : undefined)).join('');
+  document.getElementById('selector-docente')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setCatalogMode('aula');
+}
+
+function setCatalogMode(mode) {
+  const isBiblioteca = mode === 'biblioteca';
+  const sec = document.getElementById('catalogo');
+  if (!sec) return;
+  catalogExpanded = isBiblioteca;
+  sec.classList.toggle('catalog-collapsed', !isBiblioteca);
+  document.body.classList.toggle('modo-biblioteca', isBiblioteca);
+  document.getElementById('modeAulaBtn')?.classList.toggle('active', !isBiblioteca);
+  document.getElementById('modeBibliotecaBtn')?.classList.toggle('active', isBiblioteca);
+  document.getElementById('modeAulaBtn')?.setAttribute('aria-pressed', String(!isBiblioteca));
+  document.getElementById('modeBibliotecaBtn')?.setAttribute('aria-pressed', String(isBiblioteca));
+  const btn = document.getElementById('exploreBtn');
+  if (btn) btn.textContent = isBiblioteca ? 'Cerrar modo biblioteca' : 'Abrir modo biblioteca';
+  if (isBiblioteca) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+window.setCatalogMode = setCatalogMode;
+window.applyDocenteRoute = applyDocenteRoute;
+
+function initDocenteSelector() {
+  ['docenteNivel','docenteUso','docenteTiempo','docenteMadurez'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', renderDocenteSelector);
+  });
+  renderDocenteSelector();
+  setCatalogMode('aula');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDocenteSelector);
+} else {
+  initDocenteSelector();
+}
+
+// ══ CATÁLOGO — COLAPSO/EXPANSIÓN ════════════════════════════
+
+function toggleCatalogExplore() {
+  setCatalogMode(catalogExpanded ? 'aula' : 'biblioteca');
+}
+window.toggleCatalogExplore = toggleCatalogExplore;
 
 // When user searches: show grid regardless of collapsed state
 const _origSearch = typeof searchCatalog === 'function' ? searchCatalog : null;
@@ -5974,18 +6273,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// When user clicks a filter button: expand
+// When user clicks a filter button: keep the full catalog hidden.
 const _origFilterUso = typeof filterUso === 'function' ? filterUso : null;
 if (typeof filterUso === 'function') {
   const __origFU = filterUso;
   filterUso = function(v) {
     __origFU(v);
-    if (v !== 'all') {
-      document.getElementById('catalogo')?.classList.remove('catalog-collapsed');
-      catalogExpanded = true;
-      const btn = document.getElementById('exploreBtn');
-      if (btn) { btn.textContent = 'Ocultar todos ↑'; btn.classList.add('expanded'); }
-    }
   };
 }
 const _origFilterNivel = typeof filterNivel === 'function' ? filterNivel : null;
@@ -5993,16 +6286,12 @@ if (typeof filterNivel === 'function') {
   const __origFN = filterNivel;
   filterNivel = function(v) {
     __origFN(v);
-    if (v !== 'all') {
-      document.getElementById('catalogo')?.classList.remove('catalog-collapsed');
-      catalogExpanded = true;
-    }
   };
 }
 
 /* ══════════════════════════════════════════════════════════════
    RENDERIZADO DEL CATÁLOGO
-   Genera dinámicamente las 279 tarjetas desde CATALOGO[]
+   Genera dinámicamente las 280 tarjetas desde CATALOGO[]
 ════════════════════════════════════════════════════════════════ */
 
 /* ── Colores ODS (definidos antes de renderCatalog) ── */
@@ -6107,7 +6396,7 @@ function renderCatalog() {
       const isOrange = t.sens_label?.includes('18+');
       sens.className = 'sens-badge' + (isOrange ? ' orange' : '');
       sens.title = t.sens_label || 'Contenido sensible';
-      sens.textContent = '⚠ ' + (t.sens_label || 'Contenido sensible');
+      sens.textContent = 'âš  ' + (t.sens_label || 'Contenido sensible');
       body.appendChild(sens);
     }
 
@@ -6552,7 +6841,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /* ══════════════════════════════════════════════════════════════
    BÚSQUEDA GLOBAL — v6.0
    Busca simultáneamente en:
-     · Catálogo (279 títulos)
+     · Catálogo (280 títulos)
      · Línea del tiempo (.card)
      · Itinerarios (.itin-card)
      · Situaciones de Aprendizaje (.sa-card)
@@ -7079,7 +7368,7 @@ function _esc(s) {
 // Runs after renderCatalog() populates the DOM
 function hookCatCardClicks() {
   /* ── Event delegation: un único listener en #catGrid ──────────
-     Ventajas frente a 279 listeners individuales:
+     Ventajas frente a 280 listeners individuales:
        · Funciona aunque se añadan/reemplacen tarjetas dinámicamente
        · Consume mucha menos memoria
        · No requiere ser llamado de nuevo si el catálogo se re-renderiza
@@ -7827,7 +8116,7 @@ AVISO EU AI Act: Eres un sistema de IA generativa. El docente debe revisar y val
     if (online) {
       _addMsg('assistant', '¡Hola! Soy el asistente pedagógico IA de la **Biblioteca del Campus del Obelisco**. Puedo ayudarte a encontrar títulos del fondo manga, diseñar actividades y conectar con el currículo LOMLOE.\n\n*Recuerda revisar cualquier contenido generado antes de llevarlo al aula.*');
     } else {
-      _addMsg('assistant', '📡 **Modo sin conexión** — Puedo consultar el catálogo local (279 títulos) aunque no tengo acceso a la IA generativa.\n\nPrueba preguntas como:\n• «Busco manga para secundaria»\n• «Títulos de ciencia y tecnología»\n• «Manga conectado con ODS 4»\n\n*Cuando recuperes la conexión, tendré acceso completo a las funciones de IA.*');
+      _addMsg('assistant', '📡 **Modo sin conexión** — Puedo consultar el catálogo local (280 títulos) aunque no tengo acceso a la IA generativa.\n\nPrueba preguntas como:\n• «Busco manga para secundaria»\n• «Títulos de ciencia y tecnología»\n• «Manga conectado con ODS 4»\n\n*Cuando recuperes la conexión, tendré acceso completo a las funciones de IA.*');
     }
 
     // Quick suggestions adaptadas al estado de red
@@ -8398,7 +8687,7 @@ function printGenOutput() {
   </head><body>
     <h2 style="font-size:1.1em;color:#5a3a1a;border-bottom:2px solid #c8b89a;padding-bottom:.4em">${label}</h2>
     ${content}
-    <div class="ia-notice">⚠ Contenido generado por IA (Gemini). Revisa y adapta antes de usar en el aula. EU AI Act Art. 13 &amp; 50.</div>
+    <div class="ia-notice">âš  Contenido generado por IA (Gemini). Revisa y adapta antes de usar en el aula. EU AI Act Art. 13 &amp; 50.</div>
   </body></html>`);
   w.document.close();
   setTimeout(() => w.print(), 400);
@@ -8487,16 +8776,16 @@ const GLOSARIO_PRONUNCIACIONES = [
   { id: 'gloss-manga',          japanese: '漫画',        romaji: 'manga',        label: 'Manga' },
   { id: 'gloss-gengo',          japanese: '元号',        romaji: 'gengō',        label: 'Gengō' },
   { id: 'gloss-tankobon',       japanese: '単行本',      romaji: 'tankōbon',     label: 'Tankōbon' },
-  { id: 'gloss-demographics',   japanese: '少年　少女',  romaji: 'shōnen, shōjo', label: 'Shōnen y Shōjo' },
-  { id: 'gloss-demographics-b', japanese: '青年　女性',  romaji: 'seinen, josei', label: 'Seinen y Josei' },
+  { id: 'gloss-demographics',   japanese: '少年 少女',  romaji: 'shōnen, shōjo', label: 'Shōnen y Shōjo' },
+  { id: 'gloss-demographics-b', japanese: '青年 女性',  romaji: 'seinen, josei', label: 'Seinen y Josei' },
   { id: 'gloss-gekiga',         japanese: '劇画',        romaji: 'gekiga',       label: 'Gekiga' },
   { id: 'gloss-yokai',          japanese: '妖怪',        romaji: 'yōkai',        label: 'Yōkai' },
   { id: 'gloss-furigana',       japanese: '振り仮名',    romaji: 'furigana',     label: 'Furigana' },
   { id: 'gloss-taisho',         japanese: '大正ロマン',  romaji: 'taishō roman', label: 'Taishō Roman' },
-  { id: 'gloss-onomatopeya',    japanese: 'ドキドキ　しーん', romaji: 'doki-doki, shīn', label: 'Onomatopeyas manga' },
+  { id: 'gloss-onomatopeya',    japanese: 'ドキドキ しーん', romaji: 'doki-doki, shīn', label: 'Onomatopeyas manga' },
   { id: 'gloss-koma',           japanese: 'コマ',        romaji: 'koma',         label: 'Koma' },
   { id: 'gloss-fukidashi',      japanese: '吹き出し',    romaji: 'fukidashi',    label: 'Fukidashi' },
-  { id: 'gloss-ma',             japanese: '間',          romaji: 'ma',           label: 'Ma' },
+  { id: 'gloss-ma',             japanese: 'é–"',          romaji: 'ma',           label: 'Ma' },
   { id: 'gloss-chibi',          japanese: 'ちび',        romaji: 'chibi',        label: 'Chibi' },
   { id: 'gloss-mangaka',        japanese: '漫画家',      romaji: 'mangaka',      label: 'Mangaka' },
   { id: 'gloss-jidaigeki',      japanese: '時代劇',      romaji: 'jidaigeki',    label: 'Jidaigeki' },
@@ -8673,7 +8962,7 @@ function _stopTour() {
   document.querySelectorAll('.ac').forEach(a => a.classList.remove('gloss-tour-highlight'));
   const btn = document.getElementById('gloss-tour-btn');
   if (btn) {
-    btn.textContent = '▶ Escuchar todo el glosario';
+    btn.textContent = 'â–¶ Escuchar todo el glosario';
     btn.classList.remove('gloss-tour-active');
     btn.setAttribute('aria-pressed', 'false');
   }
@@ -8729,7 +9018,7 @@ function initGlosarioPronunciador() {
     tourBtn.type = 'button';
     tourBtn.id   = 'gloss-tour-btn';
     tourBtn.className = 'gloss-tour-btn';
-    tourBtn.textContent = '▶ Escuchar todo el glosario';
+    tourBtn.textContent = 'â–¶ Escuchar todo el glosario';
     tourBtn.setAttribute('aria-pressed', 'false');
     tourBtn.setAttribute('title',
       'Reproducir todos los términos en japonés en orden. Útil como ejercicio de escucha en clase.');
@@ -8769,50 +9058,55 @@ document.addEventListener('DOMContentLoaded', initGlosarioPronunciador);
 const LECTURA_ALIAS = {
   // ── Títulos largos del catálogo → key de LECTURA_TITULOS ─────────
   'death note edicion integral'                                : 'Death Note',
-  'uzumaki  espiral'                                           : 'Uzumaki',
-  'nausicaa  del valle del viento'                             : 'Nausicaä',
-  'atelier of witch hat  el atelier de sombreros de mago'     : 'Atelier of Witch Hat',
+  'uzumaki espiral'                                            : 'Uzumaki',
+  'nausicaa del valle del viento'                              : 'Nausicaä',
+  'atelier of witch hat el atelier de sombreros de mago'       : 'Atelier of Witch Hat',
   'kota ven'                                                   : '¡Kota, ven!',
   'el raton de biblioteca'                                     : 'El ratón de biblioteca',
-  'don quijote de la mancha  el manga'                         : 'Don Quijote de la Mancha : el manga',
+  'don quijote de la mancha el manga'                          : 'Don Quijote de la Mancha : el manga',
+  'monster kanzenban i'                                        : 'Monster',
+  'la chica a la orilla del mar v 2'                           : 'La chica a la orilla del mar',
+  'antologia'                                                  : 'Antología de Tezuka',
+  'hokusai'                                                    : 'Hokusai (biografía)',
+  'mundo perdido'                                              : 'Mundo perdido de Tatsumi',
+  'norte sur'                                                  : 'Norte Sur',
   // ── Acceso desde vitrina (no cat-card) ────────────────────────────
   'a silent voice'                                             : 'A Silent Voice',
-  'march comes in like a lion'                                 : 'March Comes in Like a Lion',
-  'makanai  la cocina de las maiko'                            : 'Makanai',
+  'makanai la cocina de las maiko'                             : 'Makanai',
+  'makanai la cocinera de las maiko'                           : 'Makanai',
+  'pretty guardian sailor moon'                                : 'Sailor Moon',
+  'okinawa el viento habla'                                    : 'Okinawa',
+  'tengo cancer terminal pero estoy bien una dibujante de manga erotico de 38 anos con cancer de colon': 'Tengo cáncer terminal, pero estoy bien',
   // ── Ediciones múltiples → misma ficha ────────────────────────────
   'ayako 1'                                                    : 'Ayako',
   'ayako 2'                                                    : 'Ayako',
-  'ayako  1'                                                   : 'Ayako',
-  'ayako  2'                                                   : 'Ayako',
-  'regreso al mar'                                             : 'Regreso al mar',
-  'usagi yojimbo  la coleccion fantagraphics'                  : 'Usagi Yojimbo',
+  'ayako 1'                                                    : 'Ayako',
+  'ayako 2'                                                    : 'Ayako',
+  'regreso al mar'                                             : 'Regreso al mar.',
+  'usagi yojimbo la coleccion fantagraphics'                   : 'Usagi Yojimbo',
   'usagi yojimbo saga'                                         : 'Usagi Yojimbo',
   'master keaton  re master'                                   : 'Master Keaton',
-  'solanin  integral'                                          : 'Solanin',
+  'solanin integral'                                           : 'Solanin',
   'planetes integral'                                          : 'Planetes',
   'el lobo solitario y su cachorro'                            : 'Lobo solitario y su cachorro',
   'devorar la tierra'                                          : 'Devorar la tierra',
-  'nausicaa  del valle del viento '                            : 'Nausicaä',
-  'la pequena forastera  siuil a run'                          : 'La pequeña forastera',
+  'la pequena forastera siuil a run'                           : 'La pequeña forastera',
   'la hora del te de la pequena forastera'                     : 'La pequeña forastera',
   'romeo y julieta'                                            : 'Romeo y Julieta.',
   'team medical dragon'                                        : 'Team Medical Dragon',
-  'ikigami  comunicado de muerte'                              : 'Ikigami',
+  'ikigami comunicado de muerte'                               : 'Ikigami',
   'the ghost in the shell'                                     : 'Ghost in the Shell',
   // ── Adaptaciones manga de textos filosóficos → ficha del original ─
-  'crimen y castigo  el manga'                                 : 'Crimen y castigo',
-  'fausto  el manga'                                           : 'Fausto',
-  'hamlet  el manga'                                           : 'Hamlet',
-  'la metamorfosis  el manga'                                  : 'La metamorfosis',
+  'crimen y castigo el manga'                                  : 'Crimen y castigo',
+  'fausto el manga'                                            : 'Fausto',
+  'hamlet el manga'                                            : 'Hamlet',
+  'la metamorfosis el manga'                                   : 'La metamorfosis',
   'hamlet'                                                     : 'Hamlet',
   'orgullo y prejuicio'                                        : 'Orgullo y Prejuicio',
-  'don quijote de la mancha  el manga '                        : 'Don Quijote de la Mancha : el manga',
-  'asi hablo zaratustra  el manga'                             : 'Así habló Zaratustra : el manga',
-  'el contrato social  el manga'                               : 'El contrato social : el manga',
-  'el principe  el manga'                                      : 'El príncipe : el manga',
-  'el capital  el manga'                                       : 'El capital : el manga',
-  'el lobo solitario y su cachorro '                           : 'Lobo solitario y su cachorro',
-  'ikigami '                                                   : 'Ikigami',
+  'asi hablo zaratustra el manga'                              : 'Así habló Zaratustra : el manga',
+  'el contrato social el manga'                                : 'El contrato social : el manga',
+  'el principe el manga'                                       : 'El príncipe : el manga',
+  'el capital el manga'                                        : 'El capital : el manga',
   'makanai'                                                    : 'Makanai',
 };
 
@@ -9050,47 +9344,6 @@ const LECTURA_TITULOS = {
           'Redacta un protocolo de uso de esta obra en el aula, incluyendo advertencias de contenido y propuestas de mediación.',
         ],
         visual: 'Analiza la cubierta original japonesa. ¿Qué información visual aporta sobre los temas de la obra? Compárala con la edición española. ¿Qué cambia? ¿Por qué?',
-      },
-    },
-  },
-
-  'March Comes in Like a Lion': {
-    lomloe: ['CPSAA', 'CCL', 'CC'],
-    nota_docente: 'Representación excepcionalmente honesta de la depresión adolescente. Usar como herramienta de detección y apertura de conversación, no como diagnóstico. Coordinación previa con orientación del centro. Fragmentos seleccionados son suficientes; no es necesario leer la obra completa.',
-    niveles: {
-      secundaria: {
-        label: 'Secundaria',
-        antes: [
-          '¿Qué significa sentirse solo aunque estés rodeado de gente? ¿Te ha pasado alguna vez?',
-          'Rei Kiriyama es un jugador de shogi profesional con 17 años. ¿Qué imaginas que siente?',
-        ],
-        durante: [
-          '¿Cómo muestra el dibujante los estados emocionales de Rei? Busca una viñeta donde la emoción se exprese solo visualmente, sin texto.',
-          '¿Qué papel juega la familia Kawamoto en la historia de Rei? ¿Por qué importa tanto para él?',
-          '¿Reconoces alguna señal de malestar emocional en Rei que no se nombra explícitamente en el texto?',
-        ],
-        despues: [
-          '¿Qué recursos tiene Rei para gestionar sus emociones? ¿Cuáles son sanos? ¿Cuáles no?',
-          '¿Qué harías si un amigo tuyo se comportara como Rei al principio de la historia?',
-          'Conecta con tutoría: identifica tres recursos de apoyo emocional disponibles en tu centro o localidad.',
-        ],
-        visual: 'La obra usa el color de forma expresionista: fondos fríos cuando Rei está mal, cálidos cuando está con los Kawamoto. Elige dos páginas que ilustren esa diferencia y explica el efecto.',
-      },
-      bachillerato: {
-        label: 'Bachillerato',
-        antes: [
-          'La Organización Mundial de la Salud define la depresión como "la principal causa mundial de discapacidad". ¿Qué diferencia hay entre tristeza y depresión?',
-          '¿Por qué crees que la salud mental tiene más estigma social que la salud física?',
-        ],
-        durante: [
-          'Analiza cómo la metáfora visual del shogi estructura la narración: ¿qué dice el juego sobre la vida de Rei?',
-          'Identifica tres estrategias narrativas que usa Umino para evitar que Rei sea un personaje pasivo o victimista.',
-        ],
-        despues: [
-          'Conecta con Psicología o Filosofía: ¿qué teorías del bienestar (Seligman, Csikszentmihalyi) se pueden aplicar al arco de Rei?',
-          'Redacta un análisis del tratamiento de la salud mental en el manga contemporáneo usando esta obra como caso de estudio.',
-        ],
-        visual: 'Analiza el uso del espacio vacío (ma) en la representación del aislamiento de Rei. Compara con una página de acción del shogi: ¿cómo cambia la densidad visual y qué efecto produce?',
       },
     },
   },
@@ -9338,7 +9591,7 @@ const LECTURA_TITULOS = {
           'Redacta un análisis de la obra desde la perspectiva de los estudios culturales japoneses: qué dice sobre la memoria histórica del bushido en el Japón contemporáneo.',
           '¿Cómo se inscribe Vagabond en la tradición del jidaigeki (drama histórico)? ¿Qué hereda y qué subvierte?',
         ],
-        visual: 'Realiza un análisis comparativo del estilo visual de Inoue en Vagabond vs. Slam Dunk: ¿cómo adapta el trazo y la composición a géneros tan diferentes?',
+        visual: 'Analiza el estilo visual de Inoue en Vagabond: ¿cómo usa el trazo, el ritmo y la composición para convertir el combate en reflexión interior?',
       },
     },
   },
@@ -11975,18 +12228,6 @@ const LECTURA_TITULOS = {
     }}
   },
 
-  'La ciudad de cristal': {
-    lomloe: ['CCL', 'CCEC'],
-    nota_docente: 'La adaptación gráfica de Paul Auster. Obra ideal para bachillerato y universidad: literariamente densa y visualmente experimental. Usar en Literatura Universal o en la materia de Lengua Castellana y Literatura.',
-    niveles: { bachillerato: {
-      label: 'Bachillerato',
-      antes: ['¿Sabes quién es Paul Auster? ¿Has leído alguna de sus novelas?', '¿Qué es la posmodernidad en literatura? ¿En qué se diferencia del realismo?'],
-      durante: ['¿En qué momento el protagonista empieza a perder su identidad?', '¿Qué papel tiene la escritura (el cuaderno rojo) en la historia?', '¿El final de la obra cierra algo o todo queda abierto?'],
-      despues: ['Lee el principio de la novela original de Auster. ¿Qué añade el texto que el manga no puede mostrar?', 'Conecta con Borges: Borges también trabajó la disolución de la identidad y el laberinto. ¿Qué tienen en común?', 'Redacta: ¿puede alguien perder su identidad sin darse cuenta? ¿En qué sentido?'],
-      visual: 'Mazzucchelli usa convenciones del cómic noir (noir visual, angulos de cámara) para una historia posmoderna. ¿Funciona esa mezcla de estilos?',
-    }}
-  },
-
   'Fragmentos del Mal': {
     lomloe: ['CCL', 'CCEC'],
     nota_docente: 'Antología de Junji Ito: usar para el análisis del relato de horror como género. Cada historia es autónoma. Advertir del contenido perturbador: seleccionar los relatos más apropiados para el nivel.',
@@ -12727,8 +12968,8 @@ const LECTURA_TITULOS = {
    v1.0 · El manga como recurso didáctico · ULPGC
 
    Problema resuelto:
-     267 de los 279 títulos del fondo tienen fichas de lectura específicas
-     (LECTURA_TITULOS). Los 41 restantes caen al fallback genérico
+     266 de los 280 títulos del fondo tienen fichas de lectura específicas
+     (LECTURA_TITULOS). Los 14 restantes caen al fallback genérico
      (LECTURA_TEMPLATES), que sirve las mismas preguntas para cualquier obra.
 
    Estrategia (100% offline, sin API):
@@ -13108,7 +13349,7 @@ const EMOCIONES = [
   {
     key:   'injusticia',
     label: 'Pienso en la justicia',
-    icon:  '⚖',
+    icon:  'âš–',
     usos:  ['filosofia'],
     color: '#4A2A6A',
     frase: 'Dilemas éticos y reflexión filosófica sobre el bien y el mal',
@@ -13409,8 +13650,7 @@ function _renderEmocionResults(titles, emocion) {
     btn.addEventListener('click', () => {
       const uso = btn.dataset.uso;
       filterUso(uso);
-      // Expand catalog if collapsed
-      document.getElementById('catalogo')?.classList.remove('catalog-collapsed');
+      setCatalogMode('biblioteca');
       setTimeout(() => {
         document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
       }, 50);
@@ -15437,7 +15677,7 @@ bachillerato: [
     ]}
   },
 
-  'North-South' : {
+  'Norte Sur' : {
     niveles: { bachillerato: [
       { tipo:'comprension', p:'¿Quién es Alberto Breccia y por qué su inclusión en el catálogo de manga es significativa?',
         opciones:['Un autor japonés de manga histórico latinoamericano','Un historietista argentino (1919-1993) considerado el mayor maestro del cómic latinoamericano, cuya obra se incluye en el fondo por su calidad artística comparable al mejor manga de autor','Un mangaka brasileño que mezcló técnicas japonesas con la tradición latina','Un editor español que importó el manga a Argentina en los años 70'],
@@ -16850,21 +17090,6 @@ bachillerato: [
   },
 
   // ── Visual: 8 títulos ───────────────────────────────────────────
-
-  'La ciudad de cristal': {
-    niveles: { bachillerato: [
-      { tipo:'comprension',
-        p:'¿Qué tipo de obra es La ciudad de cristal y por qué es especial?',
-        opciones:['Una novela gráfica de superhéroes ambientada en Nueva York','La adaptación de la novela posmoderna de Paul Auster por Paul Karasik y David Mazzucchelli: explora la identidad, el lenguaje y la escritura como forma de perderse a uno mismo','Un manga japonés sobre la vida urbana contemporánea','Una obra de no ficción sobre la arquitectura de Manhattan'],
-        respuesta:1,
-        explicacion:'La ciudad de cristal (1985) de Paul Auster es una novela noir posmoderna donde la identidad se disuelve. La adaptación gráfica de Karasik y Mazzucchelli añade una capa visual que refuerza la fragmentación del yo. Es un ejemplo magistral de cómo la adaptación puede no solo ilustrar sino interpretar el texto original.' },
-      { tipo:'curriculo',
-        p:'¿Qué concepto de la teoría literaria posmoderna ilustra La ciudad de cristal?',
-        opciones:['El realismo mágico: la magia como parte de la realidad cotidiana','La inestabilidad de la identidad y del lenguaje: el signo (palabra, nombre, identidad) no tiene un referente fijo; los personajes se deshacen al intentar fijar quiénes son','La teoría del flujo de conciencia de Joyce aplicada a la narrativa visual','El estructuralismo de Saussure sobre el signo lingüístico'],
-        respuesta:1,
-        explicacion:'La posmodernidad literaria cuestiona la estabilidad del sujeto y del lenguaje. En La ciudad de cristal, el protagonista asume la identidad de otro y acaba perdiéndose a sí mismo. Los nombres se vuelven intercambiables, las identidades inestables. Es literatura posmoderna hecha cómic.' }
-    ]}
-  },
 
   'Fragmentos del Mal': {
     niveles: { bachillerato: [
@@ -20506,7 +20731,7 @@ function _vocabShowResult(body, score, total) {
       <div class="vocab-result-pct">${pct}%</div>
       <p class="vocab-result-msg">${msg}</p>
       <div class="vocab-result-btns">
-        <button type="button" class="vocab-btn-pri" onclick="_vocabStart()">▶ Repetir test</button>
+        <button type="button" class="vocab-btn-pri" onclick="_vocabStart()">â–¶ Repetir test</button>
         <button type="button" class="vocab-btn-sec" onclick="closeVocabTest()">Cerrar</button>
       </div>
     </div>`;

@@ -1,0 +1,178 @@
+/* ============================================================
+   pendientes.css — Cuarta capa: estructura, ideas 4 y 5.
+   Reutiliza --mb-* y --ed-*. Namespace: mb- / dk- / md- .
+   Interacción CSS pura (radios + :has). El JS de parte-nav.js
+   solo persiste estado (modo y marcas); sin él todo funciona.
+
+   · Idea 4 → .mb-deck-tools  Decálogo filtrable + lista de control
+   · Idea 5 → .mb-mode + body.modo-consulta  Leer vs Consultar
+   ============================================================ */
+
+/* ============================================================
+   IDEA 4 · DECÁLOGO COMO BARAJA — filtro por momento + checklist
+   ============================================================ */
+.mb-deck-tools{
+  display:flex; flex-wrap:wrap; align-items:center; gap:1rem 1.4rem;
+  margin:1.4rem 0 .4rem; padding-bottom:1.1rem; border-bottom:1.5px solid var(--mb-ink);
+}
+.mb-deck-seg{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center;}
+.mb-deck-seg .dk-r{position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;}
+.mb-deck-seg label{
+  display:inline-flex; align-items:center; gap:.45rem; cursor:pointer;
+  font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--mb-grey); border:1.5px solid var(--mb-rule); padding:.42em .8em; transition:all .15s;
+}
+.mb-deck-seg label b{font-family:var(--mb-fdisplay); font-weight:700; font-size:.78rem; color:var(--mb-gold-text);}
+.mb-deck-seg label:hover{border-color:var(--mb-grey); color:var(--mb-ink);}
+.mb-deck-seg .dk-r:checked + label{background:var(--mb-ink); border-color:var(--mb-ink); color:var(--mb-paper);}
+.mb-deck-seg .dk-r:checked + label b{color:var(--mb-gold-lite);}
+.mb-deck-seg .dk-r:focus-visible + label{outline:2px solid var(--mb-gold); outline-offset:2px;}
+/* puntos de color por momento en cada chip de filtro */
+.mb-deck-seg label[for="dk-antes"]::before,
+.mb-deck-seg label[for="dk-durante"]::before,
+.mb-deck-seg label[for="dk-despues"]::before{content:""; width:.55em; height:.55em; border-radius:50%;}
+.mb-deck-seg label[for="dk-antes"]::before{background:var(--mb-ink);}
+.mb-deck-seg label[for="dk-durante"]::before{background:var(--mb-red);}
+.mb-deck-seg label[for="dk-despues"]::before{background:var(--mb-gold-text);}
+
+.mb-deck-toggle{
+  display:inline-flex; align-items:center; gap:.55rem; cursor:pointer; margin-left:auto;
+  font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mb-grey);
+}
+.mb-deck-toggle input{position:absolute; width:1px; height:1px; opacity:0;}
+.mb-deck-toggle .tg-track{
+  width:34px; height:18px; border:1.5px solid var(--mb-ink); background:var(--mb-paper); position:relative; transition:background .15s;
+}
+.mb-deck-toggle .tg-track::after{content:""; position:absolute; top:1px; left:1px; width:12px; height:12px; background:var(--mb-ink); transition:left .15s;}
+.mb-deck-toggle input:checked + .tg-track{background:var(--mb-ink);}
+.mb-deck-toggle input:checked + .tg-track::after{left:18px; background:var(--mb-gold-lite);}
+.mb-deck-toggle input:checked ~ .tg-label{color:var(--mb-ink);}
+.mb-deck-toggle input:focus-visible + .tg-track{outline:2px solid var(--mb-gold); outline-offset:2px;}
+
+/* — FILTRADO por momento (lee la clase del chip .mb-dec-when) — */
+#decalogo:has(#dk-antes:checked)   .mb-dec-item:not(:has(.mb-dec-when.t-antes)){display:none;}
+#decalogo:has(#dk-durante:checked) .mb-dec-item:not(:has(.mb-dec-when.t-durante)){display:none;}
+#decalogo:has(#dk-despues:checked) .mb-dec-item:not(:has(.mb-dec-when.t-despues)){display:none;}
+#decalogo:has(#dk-trans:checked)   .mb-dec-item:has(.mb-dec-when.t-antes),
+#decalogo:has(#dk-trans:checked)   .mb-dec-item:has(.mb-dec-when.t-durante),
+#decalogo:has(#dk-trans:checked)   .mb-dec-item:has(.mb-dec-when.t-despues){display:none;}
+
+/* — marca (tick): oculta salvo en lista de control — */
+.mb-dec-tick{display:none; flex:0 0 auto; cursor:pointer; align-items:center;}
+.mb-dec-tick input{position:absolute; width:1px; height:1px; opacity:0;}
+.mb-dec-tick .tk-box{
+  width:22px; height:22px; border:1.5px solid var(--mb-ink); display:inline-flex;
+  align-items:center; justify-content:center; transition:background .15s;
+}
+.mb-dec-tick .tk-box::after{content:"✓"; font-size:14px; line-height:1; color:transparent; font-weight:700;}
+.mb-dec-tick input:checked + .tk-box{background:var(--mb-ink);}
+.mb-dec-tick input:checked + .tk-box::after{color:var(--mb-gold-lite);}
+.mb-dec-tick input:focus-visible + .tk-box{outline:2px solid var(--mb-gold); outline-offset:2px;}
+
+/* — MODO LISTA DE CONTROL: cada pauta como una línea marcable — */
+#decalogo:has(#dk-checklist:checked) .mb-dec{display:block; border-top:1.5px solid var(--mb-ink);}
+#decalogo:has(#dk-checklist:checked) .mb-dec-item{
+  display:flex; align-items:center; gap:1rem; padding:.7rem .3rem; border-bottom:1px solid var(--mb-rule); background:none;
+}
+#decalogo:has(#dk-checklist:checked) .mb-fig{display:none;}
+#decalogo:has(#dk-checklist:checked) .mb-dec-body,
+#decalogo:has(#dk-checklist:checked) .mb-dec-clase{display:none;}
+#decalogo:has(#dk-checklist:checked) .mb-dec-tx{display:flex; align-items:baseline; gap:.9rem; flex:1; min-width:0;}
+#decalogo:has(#dk-checklist:checked) .mb-dec-tick{display:inline-flex; align-self:center;}
+#decalogo:has(#dk-checklist:checked) .mb-dec-num{
+  margin:0; flex:0 0 auto; font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.08em;
+  color:var(--mb-grey); width:4.2rem;
+}
+#decalogo:has(#dk-checklist:checked) .mb-dec-title{font-size:1.04rem; line-height:1.25; margin:0;}
+/* tachado al marcar */
+.mb-dec-tick:has(input:checked) ~ .mb-dec-title{opacity:.45; text-decoration:line-through; text-decoration-thickness:1px;}
+
+@media (max-width:560px){
+  .mb-deck-toggle{margin-left:0;}
+  #decalogo:has(#dk-checklist:checked) .mb-dec-tx{flex-wrap:wrap; gap:.2rem .8rem;}
+}
+
+/* ============================================================
+   IDEA 5 · LEER vs CONSULTAR — conmutador en la barra fija
+   ============================================================ */
+.mb-mode{
+  flex:0 0 auto; margin-left:1.1rem; display:inline-flex; align-items:stretch; gap:0;
+  border:1px solid var(--mb-gold); background:transparent; padding:0; cursor:pointer; overflow:hidden;
+}
+.mb-mode span{
+  padding:.42rem .72rem; font-family:var(--mb-fmono); font-size:.58rem; letter-spacing:.12em;
+  text-transform:uppercase; color:rgba(243,237,225,.55); transition:background .15s, color .15s; white-space:nowrap;
+}
+.mb-mode .md-leer{background:var(--mb-gold); color:var(--mb-ink);}
+.mb-mode[aria-pressed="true"] .md-leer{background:transparent; color:rgba(243,237,225,.55);}
+.mb-mode[aria-pressed="true"] .md-cons{background:var(--mb-gold); color:var(--mb-ink);}
+.mb-mode:focus-visible{outline:2px solid var(--mb-paper); outline-offset:2px;}
+
+/* — densidad de CONSULTA: oculta lo decorativo y lo extenso, deja lo accionable — */
+body.modo-consulta .mb-fig,
+body.modo-consulta .mb-dec-body,
+body.modo-consulta .mb-pagina-plate,
+body.modo-consulta .mb-caso,
+body.modo-consulta .mb-raices-banner,
+body.modo-consulta #raices figure{display:none !important;}
+/* la anatomía pasa a glosario: abre todas las definiciones */
+body.modo-consulta .mb-pagina{grid-template-columns:1fr;}
+body.modo-consulta .mb-leg .lg-desc{max-height:none !important; opacity:1 !important; margin-top:.3rem !important;}
+body.modo-consulta .mb-leg .ex-label{cursor:default;}
+body.modo-consulta .mb-leg-hint{display:none;}
+/* compacta el ritmo vertical para consulta rápida */
+body.modo-consulta .ed-block{padding-top:1.6rem; padding-bottom:1.6rem;}
+body.modo-consulta .mb-dec{gap:.5rem 1.8rem;}
+/* aviso sutil de modo activo bajo la barra */
+body.modo-consulta .mb-mapa::after{
+  content:"Modo consulta · vista compacta para hojear y localizar. Pulsa «Leer» para la versión completa.";
+  display:block; grid-column:1 / -1; margin-top:.4rem; padding-top:1rem; border-top:1px solid var(--mb-rule);
+  font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; color:var(--mb-red);
+}
+@media (max-width:760px){
+  .mb-mode{margin-left:.6rem;}
+  .mb-mode span{padding:.4rem .55rem;}
+}
+
+/* ============================================================
+   GALERÍA «LEER LA GRAN OLA» — cinco detalles de un PD (Hokusai)
+   Detalles recortados de img/hokusai-gran-ola.jpg (dominio público).
+   ============================================================ */
+.mb-gw-head{margin-top:1.6rem;}
+.mb-gw-eyebrow{font-family:var(--mb-fmono); font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mb-red);}
+.mb-gw-title{font-family:var(--mb-fdisplay); font-weight:600; font-size:1.55rem; line-height:1.15; margin:.35rem 0 .4rem; color:var(--mb-ink);}
+.mb-gw-lead{font-family:var(--mb-fbody); font-size:.95rem; line-height:1.55; color:var(--mb-ink-soft); max-width:62ch; margin:0;}
+.mb-gw{
+  list-style:none; margin:1.7rem 0 2.6rem; padding:0;
+  display:grid; grid-template-columns:repeat(5,1fr); gap:1.5rem;
+}
+.mb-gw-item{display:flex; flex-direction:column;}
+.gw-plate{
+  position:relative; background:var(--mb-paper2); border:1.5px solid var(--mb-ink);
+  padding:9px 9px 0; box-shadow:4px 4px 0 0 rgba(26,20,16,.12);
+}
+.gw-plate img{display:block; width:100%; height:160px; object-fit:cover; border:1px solid var(--mb-ink); background:var(--mb-paper);}
+.gw-seal{
+  position:absolute; top:-12px; left:12px; z-index:2; font-family:var(--mb-fdisplay); font-weight:700;
+  font-size:11px; line-height:1; background:var(--mb-ink); color:var(--mb-gold-lite);
+  border:1.5px solid var(--mb-gold); padding:5px 8px;
+}
+.gw-plate .gw-cap{
+  font-family:var(--mb-fmono); font-size:8px; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--mb-grey); padding:7px 1px 8px; line-height:1.4; border-top:1px solid var(--mb-rule-soft); margin-top:9px;
+}
+.gw-concept{
+  margin:.85rem 0 .25rem; font-family:var(--mb-fdisplay); font-weight:600; font-size:1.04rem;
+  line-height:1.15; color:var(--mb-ink);
+}
+.gw-concept small{
+  display:block; font-family:var(--mb-fmono); font-size:.54rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--mb-gold-text); margin-bottom:.25rem; font-weight:400;
+}
+.gw-note{margin:0; font-family:var(--mb-fbody); font-size:.82rem; line-height:1.45; color:var(--mb-ink-soft);}
+.mb-gw-foot{
+  margin:-1.4rem 0 2.4rem; font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--mb-grey);
+}
+@media (max-width:900px){.mb-gw{grid-template-columns:repeat(2,1fr); gap:1.6rem 1.3rem;}}
+@media (max-width:520px){.mb-gw{grid-template-columns:1fr;}}

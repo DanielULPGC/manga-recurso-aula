@@ -146,4 +146,101 @@ window.AUTOCHECK_DATA = [
       },
     ]
   },
+  {
+    id: 'ac-eras',
+    mount: { mode: 'after', sel: '#main-content' },
+    titulo: 'Autocomprobación · Las eras de Japón',
+    intro: 'Comprueba lo que recuerdas de la línea del tiempo. No puntúa: cada respuesta te devuelve una explicación.',
+    preguntas: [
+      {
+        q: '¿Cuál de estas eras es la más antigua?',
+        opts: [
+          { t: 'Heian.', ok: true },
+          { t: 'Edo.', ok: false },
+          { t: 'Meiji.', ok: false },
+        ],
+        explica: 'La era Heian (794-1185) es la más antigua de las tres: corte aristocrática, refinamiento estético y las Chōjū-giga como proto-manga. Edo abarca 1603-1868 y Meiji, 1868-1912.'
+      },
+      {
+        q: 'Hokusai publica en 1814 los cuadernos que dan nombre al manga. ¿En qué era ocurre?',
+        opts: [
+          { t: 'En la era Edo, durante el cierre del país (sakoku).', ok: true },
+          { t: 'En la era Meiji, con la apertura a Occidente.', ok: false },
+          { t: 'En la era Shōwa, tras la Segunda Guerra Mundial.', ok: false },
+        ],
+        explica: 'Los Hokusai manga aparecen en 1814, en plena era Edo (1603-1868), con el país cerrado al exterior. La apertura Meiji llega en 1868 y la posguerra de Tezuka pertenece a la era Shōwa.'
+      },
+      {
+        q: '¿Qué caracteriza a la era Meiji (1868-1912)?',
+        opts: [
+          { t: 'La modernización acelerada y la apertura a Occidente.', ok: true },
+          { t: 'El cierre de fronteras durante más de dos siglos.', ok: false },
+          { t: 'El nacimiento del manga de posguerra de Tezuka.', ok: false },
+        ],
+        explica: 'Meiji es la era de la modernización a marcha forzada: Japón pasa del feudalismo a potencia industrial. El cierre (sakoku) corresponde a Edo y el manga de Tezuka, a la posguerra Shōwa.'
+      },
+      {
+        q: 'Astroboy (1952), símbolo de la reconstrucción de posguerra, pertenece a la era…',
+        opts: [
+          { t: 'Shōwa.', ok: true },
+          { t: 'Heisei.', ok: false },
+          { t: 'Taishō.', ok: false },
+        ],
+        explica: 'La era Shōwa (1926-1989) abarca la guerra y la posguerra: Tezuka crea Astroboy en 1952 como emblema de esperanza tecnológica. Heisei comienza en 1989 y Taishō termina en 1926.'
+      },
+      {
+        q: 'El sistema japonés que da nombre a las eras (Heisei, Reiwa…) se llama…',
+        opts: [
+          { t: 'Gengō.', ok: true },
+          { t: 'Gekiga.', ok: false },
+          { t: 'Tankōbon.', ok: false },
+        ],
+        explica: 'El gengō es el sistema de eras imperiales que numera los años según el reinado. El gekiga es el movimiento de manga adulto surgido a finales de los años cincuenta y el tankōbon, el volumen recopilatorio.'
+      },
+    ]
+  },
+  {
+    id: 'ac-raices',
+    mount: { mode: 'after', sel: '#raices' },
+    titulo: 'Autocomprobación · Raíces: del ukiyo-e a la viñeta',
+    intro: 'Comprueba lo que recuerdas de la coda visual. No puntúa: cada respuesta te devuelve una explicación.',
+    preguntas: [
+      {
+        q: '«La gran ola de Kanagawa» (c. 1831) es…',
+        opts: [
+          { t: 'Una estampa ukiyo-e de Katsushika Hokusai.', ok: true },
+          { t: 'Una página de manga de Osamu Tezuka.', ok: false },
+          { t: 'Un cartel publicitario de la era Meiji.', ok: false },
+        ],
+        explica: 'Es la estampa más célebre del ukiyo-e, obra de Hokusai hacia 1831, dentro de la serie Treinta y seis vistas del monte Fuji. Tezuka trabajó más de un siglo después, en la era Shōwa.'
+      },
+      {
+        q: 'La espuma resuelta en puntos sobre el cielo de la Gran ola anticipa…',
+        opts: [
+          { t: 'El tramado (screentone) con que el manga rellena tonos y atmósferas.', ok: true },
+          { t: 'El bocadillo de diálogo (fukidashi).', ok: false },
+          { t: 'La lectura furigana de los kanji.', ok: false },
+        ],
+        explica: 'La textura de puntos funciona como un tramado: el mismo recurso que el manga industrializó en el screentone. El fukidashi es el bocadillo y el furigana, la guía de lectura silábica.'
+      },
+      {
+        q: 'El contraste entre el Fuji diminuto y la ola colosal ilustra sobre todo…',
+        opts: [
+          { t: 'El uso del vacío (ma) y de la escala para medir tiempo y emoción.', ok: true },
+          { t: 'La numeración de las páginas en un tankōbon.', ok: false },
+          { t: 'El orden de lectura occidental, de izquierda a derecha.', ok: false },
+        ],
+        explica: 'La desproporción y el espacio en torno al monte crean silencio y monumentalidad: el mismo ma que la página de manga usa entre viñetas para regular ritmo y emoción.'
+      },
+      {
+        q: 'Las Chōjū-giga (siglo XII) se consideran…',
+        opts: [
+          { t: 'Un antecedente medieval de la narración visual secuencial, el «proto-manga».', ok: true },
+          { t: 'El primer tankōbon publicado en Japón.', ok: false },
+          { t: 'Una revista satírica de la era Meiji.', ok: false },
+        ],
+        explica: 'Las Pinturas Satíricas de Animales, atribuidas al círculo del monje Toba Sōjō (Kakuyū), narran en secuencia con humor y expresividad siglos antes de que existiera el término manga. El tankōbon y las revistas llegan en la época moderna.'
+      },
+    ]
+  },
 ];

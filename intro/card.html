@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Intro · Las eras de Japón y el manga — frame-manga-era (secuencia)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{ --bg:#f5efe0; --ink:#1a1008; --red:#8b1a1a; --gold:#b8860b; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--bg); color:var(--ink); font-family:'EB Garamond',Georgia,serif;
+    width:100vw; min-height:100vh; min-height:100svh; overflow:hidden;
+    display:flex; align-items:center; justify-content:center; padding:clamp(18px,4vw,72px); }
+  .cinzel{ font-family:'Cinzel',serif; } .jp{ font-family:'Noto Serif JP',serif; }
+
+  .stage{ position:relative; width:min(1640px,100%); min-height:min(840px,calc(100svh - 36px));
+    padding:clamp(28px,5vw,80px); display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(180px,min(28vw,520px));
+    gap:clamp(28px,5vw,80px); align-items:center; }
+  .stage::before,.stage::after{ content:""; position:absolute; left:clamp(28px,5vw,80px); right:clamp(28px,5vw,80px); height:2px;
+    background:linear-gradient(90deg,var(--gold) 0%,transparent 70%); }
+  .stage::before{ top:0; } .stage::after{ bottom:0; background:linear-gradient(270deg,var(--red) 0%,transparent 70%); }
+
+  .kicker{ font-family:'Cinzel',serif; font-weight:600; letter-spacing:.2em; text-transform:uppercase; font-size:clamp(12px,1.35vw,20px); color:var(--red); }
+  .era-jp{ font-size:clamp(24px,3vw,42px); color:var(--gold); margin-top:6px; }
+  .era{ font-family:'Cinzel',serif; font-weight:700; font-size:clamp(48px,7.2vw,108px); line-height:1.02; margin-top:4px; }
+  .period{ font-size:clamp(18px,2.1vw,30px); font-style:italic; opacity:.72; margin-top:10px; }
+  .rule{ width:clamp(70px,8vw,120px); height:3px; background:var(--ink); margin:clamp(18px,3vw,34px) 0 clamp(18px,2.8vw,30px); }
+  .work-label{ font-family:'Cinzel',serif; letter-spacing:.14em; text-transform:uppercase; font-size:clamp(11px,1.1vw,16px); opacity:.55; }
+  .work{ font-size:clamp(28px,3.3vw,46px); font-weight:500; line-height:1.12; margin-top:6px; }
+  .author{ font-size:clamp(17px,1.8vw,26px); color:var(--red); margin-top:8px; }
+  .desc{ font-size:clamp(17px,1.75vw,25px); line-height:1.45; margin-top:clamp(16px,2.2vw,26px); max-width:760px; opacity:.9; }
+
+  .seal-wrap{ display:flex; align-items:center; justify-content:center; }
+  .seal{ width:min(340px,100%); aspect-ratio:1; position:relative; display:flex; align-items:center; justify-content:center; }
+  .seal svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .seal .glyph{ font-family:'Noto Serif JP',serif; font-weight:700; font-size:clamp(82px,10vw,150px); color:var(--bg); z-index:2; line-height:1; }
+
+  @media (max-width: 700px) {
+    body{ padding:18px; align-items:stretch; }
+    .stage{ min-height:calc(100svh - 36px); padding:28px 22px; grid-template-columns:1fr; gap:18px; align-content:center; }
+    .stage::before,.stage::after{ left:22px; right:22px; }
+    .seal-wrap{ position:absolute; right:20px; top:22px; width:118px; opacity:.14; pointer-events:none; }
+    .era{ font-size:clamp(42px,13vw,68px); max-width:9ch; overflow-wrap:anywhere; }
+    .work{ font-size:clamp(25px,8vw,36px); }
+    .desc{ display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+  }
+
+  @media (max-width: 380px), (max-height: 680px) {
+    .stage{ padding:22px 18px; }
+    .stage::before,.stage::after{ left:18px; right:18px; }
+    .seal-wrap{ display:none; }
+    .rule{ margin:14px 0; }
+    .desc{ -webkit-line-clamp:3; }
+  }
+
+  /* estado base: oculto antes de animar */
+  .kicker,.era-jp,.era,.period,.rule,.work-label,.work,.author,.desc{ opacity:0; }
+  .seal .ring{ fill:none; stroke:var(--red); stroke-width:10; stroke-dasharray:1100; stroke-dashoffset:1100; }
+  .seal .field{ fill:var(--red); opacity:0; }
+  .seal .glyph{ opacity:0; }
+
+  /* animaciones de entrada (forwards) — se reactivan al añadir .go en cada era */
+  @keyframes rise { from{ opacity:0; transform:translateY(34px); } to{ opacity:1; transform:none; } }
+  @keyframes wipe { from{ opacity:0; transform:scaleX(0); transform-origin:left; } to{ opacity:1; transform:scaleX(1); } }
+  @keyframes stamp{ 0%{ opacity:0; transform:scale(1.6) rotate(-12deg); } 60%{ opacity:1; transform:scale(.92) rotate(2deg); } 100%{ opacity:1; transform:scale(1) rotate(0); } }
+  @keyframes draw { from{ stroke-dashoffset:1100; } to{ stroke-dashoffset:0; } }
+
+  .stage.go .kicker    { animation:rise .7s ease-out .2s forwards; }
+  .stage.go .era-jp    { animation:rise .7s ease-out .35s forwards; }
+  .stage.go .era       { animation:rise .8s ease-out .5s forwards; }
+  .stage.go .period    { animation:rise .7s ease-out .7s forwards; }
+  .stage.go .rule      { animation:wipe .6s ease-out .95s forwards; }
+  .stage.go .work-label{ animation:rise .6s ease-out 1.15s forwards; }
+  .stage.go .work      { animation:rise .7s ease-out 1.3s forwards; }
+  .stage.go .author    { animation:rise .6s ease-out 1.5s forwards; }
+  .stage.go .desc      { animation:rise .7s ease-out 1.7s forwards; }
+  .stage.go .seal .ring { animation:draw 1.4s ease-out 1.0s forwards; }
+  .stage.go .seal .field{ animation:rise .01s linear 2.2s forwards; }
+  .stage.go .seal .glyph{ animation:stamp .7s cubic-bezier(.2,1.4,.4,1) 2.3s forwards; }
+</style>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <section class="text">
+      <div class="kicker" id="f-kicker"></div>
+      <div class="era-jp jp" id="f-erajp"></div>
+      <h1 class="era cinzel" id="f-era"></h1>
+      <div class="period" id="f-period"></div>
+      <div class="rule"></div>
+      <div class="work-label">Obra de referencia</div>
+      <h2 class="work" id="f-work"></h2>
+      <div class="author jp" id="f-author"></div>
+      <p class="desc" id="f-desc"></p>
+    </section>
+    <aside class="seal-wrap">
+      <div class="seal">
+        <svg viewBox="0 0 340 340" aria-hidden="true">
+          <rect class="field" x="20" y="20" width="300" height="300" rx="26" />
+          <rect class="ring"  x="20" y="20" width="300" height="300" rx="26" />
+        </svg>
+        <span class="glyph jp" id="f-glyph"></span>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+  /* Datos VERIFICADOS, tomados de la linea del tiempo del propio recurso
+     (recurso.html, "Las 9 eras de Japon", de Heian a Reiwa). */
+  var KICKER = "Las eras de Japon \u00b7 El manga";
+  var ERAS = [
+    { era:"Heian", era_jp:"\u5e73\u5b89\u6642\u4ee3", glyph:"\u5e73", period:"794 \u2013 1185 \u00b7 la corte y el rollo pintado",
+      work:"Ch\u014dj\u016b-giga \u9ce5\u7363\u6232\u753b", author:"Atribuido a Toba S\u014dj\u014d (escuela)",
+      desc:"Los rollos de animales sat\u00edricos del siglo XII: caricatura y secuencia visual siglos antes de que existiera el t\u00e9rmino \u00abmanga\u00bb." },
+    { era:"Kamakura \u00b7 Muromachi", era_jp:"\u938c\u5009\u30fb\u5ba4\u753a\u6642\u4ee3", glyph:"\u938c", period:"1185 \u2013 1573 \u00b7 samur\u00e1is, monasterios y guerra",
+      work:"La leyenda de Kujaku \u5b54\u96c0\u738b", author:"\u8429\u91ce\u771f \u00b7 Makoto Ogino",
+      desc:"El Jap\u00f3n medieval de monjes esot\u00e9ricos y conflicto, llevado a la vi\u00f1eta como escenario de aventura sobrenatural." },
+    { era:"Sengoku \u00b7 Momoyama", era_jp:"\u6226\u56fd\u30fb\u6843\u5c71\u6642\u4ee3", glyph:"\u6226", period:"1467 \u2013 1603 \u00b7 el pa\u00eds en guerra",
+      work:"Dororo \u3069\u308d\u308d", author:"\u624b\u585a\u6cbb\u866b \u00b7 Osamu Tezuka",
+      desc:"Tezuka sit\u00faa en el Jap\u00f3n de las guerras civiles la f\u00e1bula de Hyakkimaru, que recupera su cuerpo combatiendo demonios." },
+    { era:"Edo", era_jp:"\u6c5f\u6238\u6642\u4ee3", glyph:"\u6c5f", period:"1603 \u2013 1868 \u00b7 del ukiyo-e a la estampa popular",
+      work:"Hokusai Manga \u5317\u658e\u6f2b\u753b", author:"\u845b\u98fe\u5317\u658e \u00b7 Katsushika Hokusai",
+      desc:"Los quince cuadernos de bocetos de Hokusai (1814\u20131878) fijan el t\u00e9rmino \u00abmanga\u00bb: un repertorio visual que anticipa la narrativa secuencial." },
+    { era:"Meiji", era_jp:"\u660e\u6cbb\u6642\u4ee3", glyph:"\u660e", period:"1868 \u2013 1912 \u00b7 modernizaci\u00f3n y apertura",
+      work:"La \u00e9poca de Botchan \u300c\u574a\u3063\u3061\u3083\u3093\u300d\u306e\u6642\u4ee3", author:"Sekikawa \u00b7 Taniguchi, sobre Natsume S\u014dseki",
+      desc:"El Jap\u00f3n que se moderniza a marchas forzadas, le\u00eddo a trav\u00e9s de los literatos de la era Meiji y la obra de S\u014dseki." },
+    { era:"Taish\u014d", era_jp:"\u5927\u6b63\u6642\u4ee3", glyph:"\u5927", period:"1912 \u2013 1926 \u00b7 breve y cosmopolita",
+      work:"Kimetsu no Yaiba \u9b3c\u6ec5\u306e\u5203", author:"\u543e\u5ce0\u547c\u4e16\u6674 \u00b7 Koyoharu Got\u014dge \u00b7 2016",
+      desc:"Ambientada en el Jap\u00f3n Taish\u014d, populariz\u00f3 esa est\u00e9tica hist\u00f3rica entre toda una generaci\u00f3n de lectores." },
+    { era:"Sh\u014dwa", era_jp:"\u662d\u548c\u6642\u4ee3", glyph:"\u662d", period:"1926 \u2013 1989 \u00b7 guerra, reconstrucci\u00f3n y auge",
+      work:"Akira \u30a2\u30ad\u30e9", author:"\u5927\u53cb\u514b\u6d0b \u00b7 Katsuhiro \u014ctomo \u00b7 1982\u20131990",
+      desc:"Obra bisagra del manga moderno: su Neo-Tokio dist\u00f3pico cierra la era Sh\u014dwa y proyecta el medio al mundo." },
+    { era:"Heisei", era_jp:"\u5e73\u6210\u6642\u4ee3", glyph:"\u5e73", period:"1989 \u2013 2019 \u00b7 burbuja, crisis y digitalizaci\u00f3n",
+      work:"A Silent Voice \u8074\u306e\u5f62", author:"\u5927\u4eca\u826f\u6642 \u00b7 Yoshitoki \u014cima \u00b7 2013",
+      desc:"Acoso escolar, sordera y reconciliaci\u00f3n: el drama \u00edntimo del Jap\u00f3n Heisei y su debate sobre la inclusi\u00f3n." },
+    { era:"Reiwa", era_jp:"\u4ee4\u548c\u6642\u4ee3", glyph:"\u4ee4", period:"2019 \u2013 presente \u00b7 \u00abbella armon\u00eda\u00bb",
+      work:"Okinawa \u6c96\u7e04", author:"\u6bd4\u5609\u6177 \u00b7 Susumu Higa \u00b7 2025",
+      desc:"La memoria de Okinawa y de su poblaci\u00f3n civil, atendida desde la vi\u00f1eta ya en plena era Reiwa." },
+  ];
+
+  var PER_CARD = 4000;   // ms por era (entrada ~4 s); ajustable para acortar/alargar
+  function $(id){ return document.getElementById(id); }
+  var stage = $('stage');
+
+  function paint(e){
+    $('f-kicker').textContent = KICKER;
+    $('f-erajp').textContent  = e.era_jp;
+    $('f-era').textContent    = e.era;
+    $('f-period').textContent = e.period;
+    $('f-work').textContent   = e.work;
+    $('f-author').textContent = e.author;
+    $('f-desc').textContent   = e.desc;
+    $('f-glyph').textContent  = e.glyph;
+  }
+  var i = 0;
+  function show(){
+    paint(ERAS[i]);
+    stage.classList.remove('go');
+    void stage.offsetWidth;            // reflujo: reinicia las animaciones de entrada
+    stage.classList.add('go');
+  }
+  function next(){
+    i++;
+    if (i < ERAS.length){ show(); setTimeout(next, PER_CARD); }
+    else { setTimeout(done, 1000); }
+  }
+  function done(){
+    try{ console.log('INTRO_DONE'); }catch(e){}
+    try{ if (parent) parent.postMessage('intro-done','*'); }catch(e){}
+  }
+  function start(){ show(); setTimeout(next, PER_CARD); }
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+  else window.addEventListener('load', start);
+  </script>
+</body>
+</html>

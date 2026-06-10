@@ -1,0 +1,47 @@
+spec_version: 1
+id: intro-eras-japon-manga
+name: Intro · Las eras de Japón y el manga (secuencia)
+description: >
+  Tráiler de apertura del recurso: secuencia de tarjetas editoriales animadas, una
+  por cada una de las nueve eras de Japón (de Heian a Reiwa) con su obra de manga de
+  referencia. Sistema de diseño "pergamino + tinta + sello hanko" (Cinzel / EB
+  Garamond / Noto Serif JP). Instancia de la skill «frame-manga-era».
+
+engine: hyperframes
+engine_version: ^0.4.0
+source_entry: card.html        # secuencia data-driven; emite INTRO_DONE al terminar
+
+category: education
+subcategory: title-card-sequence
+tags: [manga, japon, eras, trailer, biblioteca, educativo, hanko]
+
+output:
+  formats: [mp4, webm]
+  default_format: mp4
+  resolution:
+    default: { width: 1920, height: 1080 }
+    supported_aspects: ["16:9"]
+  fps: { default: 60, supported: [30, 60] }
+  duration:
+    type: variable           # la marca la secuencia (~4 s por era · 9 eras ≈ 37 s)
+    approx_sec: 37
+  alpha: false
+
+# Secuencia de 9 eras — datos VERIFICADOS desde la línea del tiempo del recurso.
+sequence:
+  - { era: "Heian",                era_jp: "平安時代",       work: "Chōjū-giga 鳥獣戯画",            author: "Atribuido a Toba Sōjō (escuela)" }
+  - { era: "Kamakura · Muromachi", era_jp: "鎌倉・室町時代", work: "La leyenda de Kujaku 孔雀王",     author: "荻野真 · Makoto Ogino" }
+  - { era: "Sengoku · Momoyama",   era_jp: "戦国・桃山時代", work: "Dororo どろろ",                  author: "手塚治虫 · Osamu Tezuka" }
+  - { era: "Edo",                  era_jp: "江戸時代",       work: "Hokusai Manga 北斎漫画",          author: "葛飾北斎 · Katsushika Hokusai" }
+  - { era: "Meiji",                era_jp: "明治時代",       work: "La época de Botchan",            author: "Sekikawa · Taniguchi, sobre Natsume Sōseki" }
+  - { era: "Taishō",               era_jp: "大正時代",       work: "Kimetsu no Yaiba 鬼滅の刃",        author: "吾峠呼世晴 · Koyoharu Gotōge · 2016" }
+  - { era: "Shōwa",                era_jp: "昭和時代",       work: "Akira アキラ",                    author: "大友克洋 · Katsuhiro Ōtomo · 1982–1990" }
+  - { era: "Heisei",               era_jp: "平成時代",       work: "A Silent Voice 聲の形",           author: "大今良時 · Yoshitoki Ōima · 2013" }
+  - { era: "Reiwa",                era_jp: "令和時代",       work: "Okinawa 沖縄",                    author: "比嘉慂 · Susumu Higa · 2025" }
+
+license: { spdx: CC-BY-NC-4.0, attribution_required: true, commercial_use: false }
+provenance:
+  via_skill: "frame-manga-era"
+  data_source: "Línea del tiempo de recurso.html (9 eras verificadas)"
+author: { name: "FCEDU · Biblioteca del Campus del Obelisco (ULPGC)" }
+version: 2.0.0

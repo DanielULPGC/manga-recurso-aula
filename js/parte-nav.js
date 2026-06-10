@@ -55,4 +55,30 @@
     window.addEventListener("resize", tick, { passive: true });
     tick();
   }
+
+  // ── modo Leer / Consultar (persistente) ────────────────
+  var modeBtn = document.getElementById("modo-consulta");
+  if (modeBtn) {
+    var KEY = "mr-modo";
+    var apply = function (on) {
+      document.body.classList.toggle("modo-consulta", on);
+      modeBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    };
+    apply(localStorage.getItem(KEY) === "consulta");
+    modeBtn.addEventListener("click", function () {
+      var on = document.body.classList.contains("modo-consulta");
+      apply(!on);
+      try { localStorage.setItem(KEY, !on ? "consulta" : "leer"); } catch (e) {}
+    });
+  }
+
+  // ── marcas de la lista de control (persistentes) ───────
+  var ticks = document.querySelectorAll(".mb-dec-tick input");
+  ticks.forEach(function (cb, i) {
+    var k = "mr-tick-" + i;
+    try { if (localStorage.getItem(k) === "1") cb.checked = true; } catch (e) {}
+    cb.addEventListener("change", function () {
+      try { localStorage.setItem(k, cb.checked ? "1" : "0"); } catch (e) {}
+    });
+  });
 })();

@@ -1,0 +1,198 @@
+/* ══════════════════════════════════════════════════════════════
+   v551-visual.css — Refinado visual de los bloques v5.49–v5.50
+   Sistema: pergamino #f5efe0 · tinta #1a1008 · rojo hanko #8b1a1a
+            oro #b8860b · Cinzel / EB Garamond / Noto Serif JP
+   Diales: VARIANZA 5 · ANIMACION 3 · DENSIDAD 6
+   Firma visual: sello hanko «真» en las tarjetas de mitos.
+   Sin !important: este fichero se carga el último y gana cascada.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Tabla editorial (demografías · puentes lectores) ────── */
+.tabla-editorial {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'EB Garamond', serif;
+  font-size: .92rem;
+  background: rgba(255,252,235,.7);
+  border: 1px solid rgba(184,134,11,.35);
+  box-shadow: 0 1px 6px rgba(26,16,8,.08);
+}
+.tabla-editorial caption.visible-caption {
+  caption-side: top;
+  text-align: left;
+  font-style: italic;
+  color: var(--grey);
+  font-size: .85rem;
+  padding: 0 0 .6rem;
+}
+.tabla-editorial thead th {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--paper, #f5efe0);
+  background: var(--ink, #1a1008);
+  border-bottom: 2px solid var(--gold, #b8860b);
+  padding: .6rem .8rem;
+}
+.tabla-editorial tbody th,
+.tabla-editorial tbody td {
+  padding: .55rem .8rem;
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.55;
+  border-bottom: 1px solid rgba(184,134,11,.22);
+}
+.tabla-editorial tbody tr:last-child th,
+.tabla-editorial tbody tr:last-child td { border-bottom: 0; }
+.tabla-editorial tbody tr:nth-child(even) { background: rgba(245,239,224,.55); }
+.tabla-editorial tbody tr:hover { background: rgba(184,134,11,.10); }
+.tabla-editorial tbody th[scope="row"],
+.tabla-editorial tbody td:first-child {
+  font-weight: 600;
+  color: var(--ink, #1a1008);
+}
+.tabla-editorial .celda-cautela { font-size: .86rem; color: var(--grey); }
+.tabla-editorial em { font-style: italic; }
+
+/* Colapso a tarjetas en pantallas estrechas: cada celda muestra su
+   etiqueta de columna (data-label) como kicker. */
+@media (max-width: 768px) {
+  .tabla-editorial thead { position: absolute; clip: rect(0 0 0 0); height: 1px; width: 1px; overflow: hidden; }
+  .tabla-editorial, .tabla-editorial tbody { display: block; }
+  .tabla-editorial tbody tr {
+    display: block;
+    padding: .65rem .8rem;
+    border-bottom: 1px solid rgba(184,134,11,.30);
+  }
+  .tabla-editorial tbody tr:nth-child(even) { background: rgba(245,239,224,.55); }
+  .tabla-editorial tbody th, .tabla-editorial tbody td {
+    display: block;
+    border: 0;
+    padding: .2rem 0;
+  }
+  .tabla-editorial tbody th::before,
+  .tabla-editorial tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold, #b8860b);
+    margin-bottom: .1rem;
+  }
+}
+
+/* ── 2 · Tarjetas de mito: tachado caligráfico + sello hanko ─── */
+.mito-card {
+  position: relative;
+  background: rgba(255,250,242,.85);
+  border: 1px solid rgba(139,26,26,.30);
+  border-left: 3px solid #8b1a1a;
+  padding-right: 52px; /* aire para el sello */
+  min-width: 250px;
+  max-width: 360px;    /* refutaciones largas: más cuerpo que el glosario */
+}
+.mito-card b {
+  text-decoration: line-through;
+  text-decoration-color: rgba(139,26,26,.65);
+  text-decoration-thickness: .08em;
+  text-decoration-skip-ink: auto;
+  color: rgba(26,16,8,.78);
+}
+.mito-card i { color: #8b1a1a; }
+.mito-card .hanko-sello {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: #8b1a1a;
+  border: 2px solid #8b1a1a;
+  border-radius: 5px;
+  transform: rotate(-7deg);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(139,26,26,.10), transparent 60%),
+    rgba(255,252,235,.6);
+  box-shadow: inset 0 0 0 1px rgba(139,26,26,.18);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ── 3 · Kickers japoneses en cabeceras de sección nuevas ────── */
+.kicker-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 600;
+  color: var(--gold, #b8860b);
+  margin-right: .45em;
+  letter-spacing: .05em;
+}
+#mitos > h2 .kicker-jp { color: #8b1a1a; }
+
+/* ── 4 · Pie del panel de preguntas: chips de títulos del fondo ─ */
+.era-q-fondo {
+  display: block;
+  margin-top: .55rem;
+  padding-top: .55rem;
+  border-top: 1px solid rgba(184,134,11,.35);
+}
+.era-q-fondo-label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(245,239,224,.55);
+  margin-bottom: .35rem;
+}
+.era-q-chip {
+  display: inline-block;
+  font-family: 'EB Garamond', serif;
+  font-size: .74rem;
+  line-height: 1.25;
+  color: var(--paper, #f5efe0);
+  border: 1px solid rgba(184,134,11,.55);
+  border-radius: 999px;
+  padding: .12rem .55rem;
+  margin: 0 .3rem .3rem 0;
+  background: rgba(184,134,11,.12);
+}
+
+/* Marcador sutil de las preguntas de cronología comparada (🌊):
+   filete lateral dorado para distinguirlas sin nuevo acento. */
+.era-q-list li.q-paralelo {
+  border-left: 2px solid rgba(184,134,11,.55);
+  padding-left: 1.1rem;
+}
+.era-q-list li.q-paralelo::before { content: '◦'; color: var(--gold, #b8860b); }
+
+/* ── 5 · Revelado sobrio al entrar en viewport ───────────────── */
+/* Visible por defecto (sin JS no se oculta nada). Solo cuando el
+   script añade .rv-armed al <html> se parte de opacidad 0.        */
+.rv-armed .rv { opacity: 0; transform: translateY(10px); }
+.rv-armed .rv.rv-in {
+  opacity: 1; transform: none;
+  transition: opacity .24s ease-out, transform .24s ease-out;
+}
+.rv-armed .rv.rv-in:nth-child(2) { transition-delay: .04s; }
+.rv-armed .rv.rv-in:nth-child(3) { transition-delay: .08s; }
+.rv-armed .rv.rv-in:nth-child(4) { transition-delay: .12s; }
+.rv-armed .rv.rv-in:nth-child(5) { transition-delay: .16s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-armed .rv { opacity: 1; transform: none; transition: none; }
+}
+
+/* Impresión: tablas con bordes plenos y sin sombras */
+@media print {
+  .tabla-editorial { box-shadow: none; }
+  .tabla-editorial thead th { background: #fff; color: #000; border: 1px solid #000; }
+  .tabla-editorial tbody th, .tabla-editorial tbody td { border: 1px solid #555; }
+  .mito-card .hanko-sello { transform: none; }
+}

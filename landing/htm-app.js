@@ -1,4 +1,4 @@
-/* ══════════════════════════════════════════════════════════════════
+﻿/* ══════════════════════════════════════════════════════════════════
    htm-app.js — Landing page sin Babel, usando htm + React
    htm convierte template literals en React.createElement, evitando
    el bug de babel-standalone con bundles grandes.
@@ -103,8 +103,8 @@
 
   function Nav() {
     const links = [
-      { l:'Marco', h:'#marco' }, { l:'Caminos', h:'#caminos' },
-      { l:'Fondo', h:'#fondo' }, { l:'Aula', h:'#aula' }, { l:'Equipo', h:'#equipo' },
+      { l:'Marco', h:'recurso.html#parte-i' }, { l:'Línea', h:'recurso.html?timeline=1#sc' },
+      { l:'Fondo', h:'#fondo' }, { l:'Situaciones', h:'recurso.html#situaciones' }, { l:'Equipo', h:'#equipo' },
     ];
     return html`
       <nav className="fixed top-4 left-0 right-0 z-50 px-6 lg:px-12 flex items-center justify-between">
@@ -154,13 +154,13 @@
             </>
             <${BlurText} text="El manga como recurso didáctico." italic delay=${0.7} stagger=${140} className="font-heading text-paper text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] tracking-[-0.03em] font-semibold mb-6 justify-center" tag="h1" />
             <${motion.p} ...${fadeUp} transition=${{...ease, delay:1.15}} className="mx-auto max-w-2xl text-paper/80 text-lg md:text-xl leading-relaxed font-body mb-10">
-              Marco pedagógico, catálogo curado de <em className="text-gold not-italic font-medium">279 títulos</em>, situaciones LOMLOE listas e itinerarios por etapa.
+              Marco pedagógico, catálogo curado de <em className="text-gold not-italic font-medium">280 títulos</em>, situaciones LOMLOE listas e itinerarios por etapa.
             </>
             <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.35}} className="flex flex-wrap items-center justify-center gap-4 mb-16">
               <${PaperBtn} href="recurso.html#parte-i" className="!px-7 !py-3.5 text-[12px]">
                 Entrar al recurso <${ArrowUpRight} size=${16} />
               </>
-              <a href="recurso.html#sc" className="inline-flex items-center gap-2 text-paper/85 hover:text-paper transition-colors font-mono uppercase tracking-kicker text-[11px] px-3 py-2 group">
+              <a href="recurso.html?timeline=1#sc" className="inline-flex items-center gap-2 text-paper/85 hover:text-paper transition-colors font-mono uppercase tracking-kicker text-[11px] px-3 py-2 group">
                 <span className="w-9 h-9 rounded-full liquid-glass flex items-center justify-center">
                   <${Play} size=${10} className="text-paper translate-x-[1px]" />
                 </span>
@@ -168,7 +168,7 @@
               </a>
             </>
             <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.55}} className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-              <${StatCard} icon=${html`<${IconBook} />`}  number="279" suffix="títulos" label="Catálogo curado del fondo Aula de Cómic" />
+              <${StatCard} icon=${html`<${IconBook} />`}  number="280" suffix="títulos" label="Catálogo curado del fondo Aula de Cómic" />
               <${StatCard} icon=${html`<${IconClock} />`} number="9"   suffix="eras"     label="De Heian (s. XII) a Reiwa contemporánea" />
               <${StatCard} icon=${html`<${IconGlobe} />`} number="5"   suffix="niveles"  label="De Infantil a Universidad · LOMLOE" />
             </>
@@ -190,7 +190,7 @@
   const PATHS = [
     { n:'01', t:'Marco pedagógico', b:'Por qué el manga funciona en el aula, decálogo de mediación, anatomía visual de la página y protocolo en tres fases.', tags:['Decálogo','Anatomía','Protocolo 3 fases','Defender en claustro'], h:'recurso.html#parte-i', icon: html`<${IconBook} size=${24}/>`, featured:false },
     { n:'02', t:'Para primeras etapas', b:'Selección garantía sin advertencias, criterios para elegir, protocolo de 25 min y errores frecuentes a evitar.', tags:['Infantil','Primaria','6 títulos garantía','Protocolo 25 min'], h:'recurso.html#parte-ii', icon: html`<${IconLayers} size=${24}/>`, featured:true },
-    { n:'03', t:'El fondo', b:'279 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras y glosario japonés.', tags:['279 títulos','9 eras','OPAC','Glosario'], h:'recurso.html#parte-iii', icon: html`<${IconMap} size=${24}/>`, featured:false },
+    { n:'03', t:'El fondo', b:'280 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras y glosario japonés.', tags:['280 títulos','9 eras','OPAC','Glosario'], h:'recurso.html#parte-iii', icon: html`<${IconMap} size=${24}/>`, featured:false },
     { n:'04', t:'Llevar al aula', b:'Situaciones LOMLOE listas, itinerarios por ciclo, recorridos universitarios y materiales descargables.', tags:['5 SA LOMLOE','4 itinerarios','7 grados ULPGC','Manual docente'], h:'recurso.html#parte-iv', icon: html`<${IconCompass} size=${24}/>`, featured:false },
   ];
 
@@ -246,8 +246,8 @@
 
   /* ─── CAPABILITIES (3 cards) ────────────────────────────────── */
   const CAPS = [
-    { iconKey: 'timeline', t:'Línea del tiempo', b:'Nueve eras de Japón desde Heian (s. XII) hasta Reiwa. 57 títulos del fondo situados cronológicamente con tooltip pedagógico y enlace al OPAC.', tags:['9 eras','57 títulos hitos','Tooltips docentes','Línea occidental paralela'], cta:'Abrir la línea →', h:'recurso.html#sc' },
-    { iconKey: 'catalog',  t:'Catálogo curado', b:'279 títulos del fondo con descripción pedagógica, badges de uso, nivel y ODS. Filtros cruzados, búsqueda y fichas con sugerencias de aula.', tags:['279 fichas','7 áreas pedagógicas','Filtros ODS','Búsqueda libre'], cta:'Explorar el catálogo →', h:'recurso.html#catalogo' },
+    { iconKey: 'timeline', t:'Línea del tiempo', b:'Nueve eras de Japón desde Heian (s. XII) hasta Reiwa. 57 títulos del fondo situados cronológicamente con tooltip pedagógico y enlace al OPAC.', tags:['9 eras','57 títulos hitos','Tooltips docentes','Línea occidental paralela'], cta:'Abrir la línea →', h:'recurso.html?timeline=1#sc' },
+    { iconKey: 'catalog',  t:'Catálogo curado', b:'280 títulos del fondo con descripción pedagógica, badges de uso, nivel y ODS. Filtros cruzados, búsqueda y fichas con sugerencias de aula.', tags:['280 fichas','7 áreas pedagógicas','Filtros ODS','Búsqueda libre'], cta:'Explorar el catálogo →', h:'recurso.html#catalogo' },
     { iconKey: 'lomloe',   t:'Situaciones LOMLOE', b:'Cinco situaciones de aprendizaje completas (Infantil → Bachillerato) con competencias clave, saberes básicos, secuencia de tareas e instrumentos de evaluación.', tags:['5 niveles','Competencias clave','Saberes básicos','Rúbrica generada IA'], cta:'Ver situaciones →', h:'recurso.html#situaciones' },
   ];
   function capIcon(k) {
@@ -312,12 +312,12 @@
             <${motion.div} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6 }} className="font-mono text-[11px] uppercase tracking-kicker text-gold mb-8">// Bienvenida al recurso</>
             <${BlurText} text="Empieza por el camino que necesitas." italic className="font-heading text-paper text-5xl md:text-7xl lg:text-[6rem] leading-[0.95] tracking-[-0.02em] font-semibold mb-8 justify-center" tag="h2" stagger=${90} />
             <${motion.p} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6, delay:0.5 }} className="text-paper/85 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
-              Marco pedagógico, fondo de 279 títulos, situaciones LOMLOE e itinerarios — todo en un único recurso, abierto y mantenido por la Biblioteca del Campus del Obelisco.
+              Marco pedagógico, fondo de 280 títulos, situaciones LOMLOE e itinerarios — todo en un único recurso, abierto y mantenido por la Biblioteca del Campus del Obelisco.
             </>
             <${motion.div} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6, delay:0.7 }} className="flex flex-wrap items-center justify-center gap-3">
               <${PaperBtn} href="recurso.html#parte-i" className="!px-8 !py-4 text-[12px]">Entrar al recurso <${ArrowUpRight} size=${16} /></>
               <a href="manual-docente.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">⎙ Manual docente</a>
-              <a href="deck-claustro.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">▶ Deck claustro</a>
+              <a href="deck-claustro.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">â–¶ Deck claustro</a>
             </>
           </div>
         </div>
@@ -348,7 +348,7 @@
           </div>
           <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-rule flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono uppercase tracking-kicker text-paper/55">
             <span>El manga como recurso didáctico · v5.9 · CC BY-NC 4.0</span>
-            <span>21 mayo 2026 · 279 títulos · 5 niveles · 9 eras</span>
+            <span>5 junio 2026 · 280 títulos · 5 niveles · 9 eras</span>
           </div>
         </div>
       </section>

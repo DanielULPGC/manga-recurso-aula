@@ -1,4 +1,4 @@
-/* ══════════════════════════════════════════════════════════════
+﻿/* ══════════════════════════════════════════════════════════════
    catalog-collapse.js — Mejoras didácticas del catálogo
    1. Catálogo oculto por defecto + banner editorial con búsquedas sugeridas
    2. Vista mínima de filtros (ODS oculto en modo colapsado)
@@ -46,7 +46,7 @@
 
       banner.innerHTML = `
         <div class="ccb-eyebrow">El catálogo está oculto</div>
-        <h3 class="ccb-title">279 títulos esperan tu búsqueda.</h3>
+        <h3 class="ccb-title">280 títulos esperan tu búsqueda.</h3>
         <p class="ccb-body">Llega con una pregunta concreta: <em>"manga para historia de Roma"</em>, <em>"título sobre identidad para 4.º ESO"</em>, <em>"Tezuka"</em>. Filtra arriba por color (uso pedagógico) y nivel, o prueba uno de estos puntos de entrada:</p>
         <div class="ccb-suggested">${chipsHTML}</div>
         <div class="ccb-tips">
@@ -74,12 +74,12 @@
       });
     }
 
-    // ── Botón "Ver los 279 títulos" ─────────────────────────
+    // ── Botón "Ver los 280 títulos" ─────────────────────────
     if (!section.querySelector('.catalog-explore-btn')) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'catalog-explore-btn';
-      btn.textContent = '⊕ Ver los 279 títulos en cuadrícula';
+      btn.textContent = '⊕ Ver los 280 títulos en cuadrícula';
       btn.setAttribute('aria-label', 'Mostrar el catálogo completo sin filtrar');
       btn.addEventListener('click', () => {
         section.classList.remove('catalog-collapsed');

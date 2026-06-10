@@ -107,19 +107,20 @@ html{scroll-behavior:smooth;}
    ============================================================ */
 .mb-steps{margin-top:1.5rem;}
 .mb-steps .st-radio{position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;}
-.mb-steps-nav{display:grid; grid-template-columns:repeat(3,1fr); border:1.5px solid var(--mb-ink); background:var(--mb-paper);}
+.mb-steps-nav{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1.5px solid var(--mb-ink); background:var(--mb-paper);}
 .st-tab{
   display:flex; flex-direction:row; align-items:flex-start; gap:.75rem; padding:1.05rem 1.2rem; cursor:pointer;
   border-right:1px solid var(--mb-rule); transition:background .15s; position:relative;
+  min-width:0;
 }
 .st-tab:last-child{border-right:none;}
-.st-meta{display:flex; flex-direction:column; gap:.18rem;}
+.st-meta{display:flex; flex-direction:column; gap:.18rem; min-width:0;}
 .st-tab .st-n{
   flex:0 0 auto; font-family:var(--mb-fdisplay); font-weight:600; font-size:1.5rem; line-height:1;
   color:var(--mb-paper3); -webkit-text-stroke:1px var(--mb-gold);
 }
-.st-tab .st-ph{font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mb-red);}
-.st-tab .st-t{font-family:var(--mb-fdisplay); font-weight:600; font-size:1.08rem; line-height:1.15; color:var(--mb-ink);}
+.st-tab .st-ph{font-family:var(--mb-fmono); font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--mb-red); overflow-wrap:anywhere;}
+.st-tab .st-t{font-family:var(--mb-fdisplay); font-weight:600; font-size:1.08rem; line-height:1.15; color:var(--mb-ink); overflow-wrap:anywhere;}
 .st-tab .st-time{font-family:var(--mb-fmono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mb-grey);}
 .st-tab:hover{background:var(--mb-paper2);}
 .st-tab:focus-within{outline:2px solid var(--mb-gold); outline-offset:-2px;}
@@ -147,7 +148,10 @@ html{scroll-behavior:smooth;}
 .st-panel .mb-list{margin:0;}
 .st-panel .mb-foot{margin-top:1rem;}
 @media (max-width:760px){
+  .mb-steps-nav{grid-template-columns:1fr;}
   .st-tab{padding:.85rem .8rem;}
+  .st-tab{border-right:none; border-bottom:1px solid var(--mb-rule);}
+  .st-tab:last-child{border-bottom:none;}
   .st-tab .st-n{font-size:1.3rem;}
   .st-tab .st-t{font-size:.92rem;}
   .st-tab .st-time{display:none;}
