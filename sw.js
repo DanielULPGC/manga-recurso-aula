@@ -1,7 +1,7 @@
-/**
+﻿/**
  * sw.js — Service Worker para El manga como recurso didáctico
  * Biblioteca Campus del Obelisco · Aula de Cómic · ULPGC
- * Versión: 5.34  ('primeras etapas' en landing, autocomprobación y recurso.html)
+ * Versión: 5.51.0  (minificacion real, script de release, version unica)
  *
  * ── PROTOCOLO DE MANTENIMIENTO ─────────────────────────────────
  * Cada vez que se publique una nueva versión del recurso:
@@ -24,7 +24,7 @@
 'use strict';
 
 /* ── VERSIÓN DE CACHÉ ── actualizar en cada release ── */
-const CACHE_NAME = 'manga-ulpgc-v5.34';
+const CACHE_NAME = 'manga-ulpgc-v5.51.0';
 
 /* ── Assets precacheados en la instalación del SW ─────────────────
    Incluir aquí cualquier archivo nuevo que se añada al proyecto. */
@@ -50,16 +50,43 @@ const PRECACHE_ASSETS = [
   './js/left-dock.js',
   './js/overlay-fab-hide.js',
   './js/filter-collapse-sticky.js',
+  './js/timeline-jump.js',
   './js/lazy-fonts.js',
   './js/url-state.js',
   './js/ficha-pdf.js',
   './manifest.json',
   './icons/icon.svg',
+  './intro/card.html',
   './img/banner-ulpgc-aulacomic.jpg',
   './img/banner-ulpgc-aulacomic.webp',
   './img/logo-aula-comic.jpg',
   './img/logo-aula-comic.webp',
   './ficha_trabajo_manga.pdf',
+  './assets/libs/react.production.min.js',
+  './assets/libs/react-dom.production.min.js',
+  './assets/libs/framer-motion.js',
+  './assets/libs/htm.js',
+  './assets/libs/d3.min.js',
+  './landing/portada-bind.js',
+  './landing/intro-boot.js',
+  './landing/tailwind.css',
+  './icons/icon-180.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-192-maskable.png',
+  './icons/icon-512-maskable.png',
+  './css/marco-bloques.css',
+  './css/marco-bloques-2.css',
+  './css/estructura.css',
+  './css/pendientes.css',
+  './css/a11y-contrast.css',
+  './css/preferencias.css',
+  './css/andamiaje-lectura.css',
+  './css/v551-visual.css',
+  './js/parte-nav.js',
+  './js/preferencias.js',
+  './js/andamiaje-lectura.js',
+  './js/v551-reveal.js',
 ];
 
 /* ── Dominios que van SIEMPRE a red (nunca se cachean) ────────────
@@ -134,3 +161,4 @@ self.addEventListener('fetch', event => {
     })
   );
 });
+

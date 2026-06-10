@@ -1,0 +1,36 @@
+{
+  "version": "5.51.0",
+  "nota": "Fuente unica de version. Editar SOLO este fichero y ejecutar: node tools/build.mjs",
+  "historial": [
+    {
+      "version": "5.51.0",
+      "fecha": "2026-06-10",
+      "cambio": "Refinado visual de los bloques v5.49-v5.50 dentro del sistema pergamino/tinta/oro: componente de tabla editorial (cabecera en tinta con filete dorado, zebra sutil, hover, colapso responsive a tarjetas con data-label) para demografías y puentes lectores; tarjetas de mitos con tachado caligráfico del mito y sello hanko 真; kickers japoneses en las cabeceras nuevas (誤解, 架け橋, 引用, 文献); pie del panel de preguntas por era como chips de títulos y filete dorado en las preguntas de cronología comparada; revelado sobrio al hacer scroll (IntersectionObserver, visible sin JS, desactivado con prefers-reduced-motion) y estilos de impresión. Nuevo css/v551-visual.css y js/v551-reveal.js, ambos en precache."
+    },
+    {
+      "version": "5.50.0",
+      "fecha": "2026-06-10",
+      "cambio": "Build: verificación automática de codificación en tools/build.mjs (aborta la release ante mojibake; probada con caso positivo y negativo). Intro: secuencia ralentizada de 3,3 s a 4 s por era (~37 s) y playbackRate 0.85 para el MP4 cuando exista. Corrección histórica: el término manga circulaba desde finales del s. XVIII (Hokusai lo popularizó en 1814, no lo acuñó); gekiga datado a finales de los años cincuenta (Tatsumi, 1957). Contenido didáctico: sección 'Mitos y malentendidos sobre el manga' (claustros y familias, con datos reales del fondo); tabla de demografías editoriales y etapas con cautelas de mediación; los paneles de preguntas detonadoras listan los títulos de su era (derivados del DOM); banco de autocomprobación 'Raíces: del ukiyo-e a la viñeta'; sección 'Puentes lectores' con nueve correspondencias verificadas entre adaptaciones del fondo y obras literarias de partida."
+    },
+    {
+      "version": "5.49.0",
+      "fecha": "2026-06-10",
+      "cambio": "Reparación de doble codificación UTF-8 en app.js, datos.js, .min, manual-docente.html y deck-claustro.html (mojibake en todo el texto inyectado). Contenido: glosario ampliado (ukiyo-e, kamishibai, bushidō, samurái/shōgun, kabuki, mecha); tercera pregunta detonadora de cronología comparada Canarias/España por era; banco de autocomprobación 'Las eras de Japón'; bibliografía académica visible con DOI verificados (APA 7); bloque 'Cómo citar este recurso' y metadatos Dublin Core + JSON-LD (schema.org/LearningResource)."
+    },
+    {
+      "version": "5.48.0",
+      "fecha": "2026-06-09",
+      "cambio": "Soberania offline (React/ReactDOM/framer-motion/htm/d3/Tailwind vendorizados + CSP coherente); iconos PNG 180/192/512 any+maskable y manifest corregido; carga de scripts unificada a defer; precache ampliado; separacion de material de revision (dev/)."
+    },
+    {
+      "version": "5.47.0",
+      "fecha": "2026-06-09",
+      "cambio": "Minificacion real de app.min.js y datos.min.js (Terser); script de release tools/build.mjs; version unica en version.json"
+    },
+    {
+      "version": "5.46.17",
+      "fecha": "2026-06",
+      "cambio": "Catalogo verificado: retirada obra no manga"
+    }
+  ]
+}

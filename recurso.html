@@ -3,7 +3,7 @@
 <head>
 <!-- Content Security Policy v5.34 · ver docs/csp-notes.md para el porqué
      de cada origen. Compactada para producción; sin 'unsafe-eval'. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://books.google.com https://books.googleusercontent.com https://*.googleapis.com https://chart.googleapis.com; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com https://www.googleapis.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://books.google.com https://books.googleusercontent.com https://*.googleapis.com https://chart.googleapis.com; connect-src 'self' https://api.anthropic.com https://generativelanguage.googleapis.com https://www.googleapis.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
 <meta charset="UTF-8">
   <meta name="theme-color" content="#0e0a04">
   <meta name="mobile-web-app-capable" content="yes">
@@ -12,7 +12,8 @@
   <!-- ── PWA: manifest + icono para pantalla de inicio ── -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -20,16 +21,60 @@
 <title>Las eras de Japón y el manga — Recurso didáctico · Biblioteca ULPGC</title>
 
 <!-- ── SEO básico ── -->
-<meta name="description" content="Línea del tiempo interactiva, catálogo pedagógico de 279 títulos, situaciones de aprendizaje LOMLOE, itinerarios para Infantil y Primaria, tabla currículo-manga y recursos para el aula. Biblioteca del Campus del Obelisco · Aula de Cómic, Facultad de Ciencias de la Educación, ULPGC.">
+<meta name="description" content="Línea del tiempo interactiva, catálogo pedagógico de 280 títulos, situaciones de aprendizaje LOMLOE, itinerarios para Infantil y Primaria, tabla currículo-manga y recursos para el aula. Biblioteca del Campus del Obelisco · Aula de Cómic, Facultad de Ciencias de la Educación, ULPGC.">
 <meta name="keywords" content="manga, educación, LOMLOE, recurso didáctico, alfabetización visual, línea del tiempo, catálogo manga, situaciones de aprendizaje, Educación Primaria, Secundaria, Bachillerato, universidad">
 <meta name="author" content="Daniel Becerra Romero (Dir.) — Paula Arocha Moros · Lucía Hernández Chio · Daniel Hernández García · Zaira Rodríguez Panadero — Biblioteca del Campus del Obelisco · Aula de Cómic, Facultad de Ciencias de la Educación, ULPGC">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://biblioteca.ulpgc.es/manga-recurso-didactico">
 
+<!-- ── Metadatos Dublin Core (interoperabilidad bibliotecaria) ── -->
+<meta name="DC.title" content="El manga como recurso didáctico">
+<meta name="DC.creator" content="Becerra Romero, Daniel (Dir.)">
+<meta name="DC.contributor" content="Arocha Moros, Paula">
+<meta name="DC.contributor" content="Hernández Chio, Lucía">
+<meta name="DC.contributor" content="Hernández García, Daniel">
+<meta name="DC.contributor" content="Rodríguez Panadero, Zaira">
+<meta name="DC.publisher" content="Biblioteca del Campus del Obelisco · Aula de Cómic · Universidad de Las Palmas de Gran Canaria">
+<meta name="DC.date" content="2026">
+<meta name="DC.type" content="InteractiveResource">
+<meta name="DC.format" content="text/html">
+<meta name="DC.language" content="es">
+<meta name="DC.rights" content="CC BY-NC 4.0 · https://creativecommons.org/licenses/by-nc/4.0/deed.es">
+<meta name="DC.subject" content="manga; recurso didáctico; alfabetización visual; LOMLOE; biblioteca universitaria">
+
+<!-- ── JSON-LD schema.org/LearningResource (no ejecutable; legible por buscadores y agregadores) ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "El manga como recurso didáctico",
+  "description": "Línea del tiempo interactiva de las eras de Japón, catálogo pedagógico de 280 títulos de manga, situaciones de aprendizaje LOMLOE, itinerarios para Infantil y Primaria y recursos para el aula.",
+  "inLanguage": "es",
+  "learningResourceType": "Recurso educativo interactivo",
+  "educationalLevel": ["Educación Primaria", "Educación Secundaria Obligatoria", "Bachillerato", "Educación Superior"],
+  "audience": { "@type": "EducationalAudience", "educationalRole": "teacher" },
+  "license": "https://creativecommons.org/licenses/by-nc/4.0/deed.es",
+  "isAccessibleForFree": true,
+  "author": { "@type": "Person", "name": "Daniel Becerra Romero", "roleName": "Director" },
+  "contributor": [
+    { "@type": "Person", "name": "Paula Arocha Moros" },
+    { "@type": "Person", "name": "Lucía Hernández Chio" },
+    { "@type": "Person", "name": "Daniel Hernández García" },
+    { "@type": "Person", "name": "Zaira Rodríguez Panadero" }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Biblioteca del Campus del Obelisco · Aula de Cómic, Facultad de Ciencias de la Educación, Universidad de Las Palmas de Gran Canaria"
+  },
+  "datePublished": "2026",
+  "url": "https://biblioteca.ulpgc.es/manga-recurso-didactico"
+}
+</script>
+
 <!-- ── Open Graph (LinkedIn, Facebook, WhatsApp) ── -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Las eras de Japón y el manga — Recurso didáctico · Biblioteca ULPGC">
-<meta property="og:description" content="Línea del tiempo interactiva con 57 títulos en 9 eras históricas japonesas · Catálogo pedagógico de 279 títulos del fondo · Situaciones de aprendizaje con estructura LOMLOE · Itinerarios para Infantil y Primaria · Tabla currículo → manga · Recursos para el aula.">
+<meta property="og:description" content="Línea del tiempo interactiva con 57 títulos en 9 eras históricas japonesas · Catálogo pedagógico de 280 títulos del fondo · Situaciones de aprendizaje con estructura LOMLOE · Itinerarios para Infantil y Primaria · Tabla currículo → manga · Recursos para el aula.">
 <meta property="og:url" content="https://biblioteca.ulpgc.es/manga-recurso-didactico">
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="Biblioteca del Campus del Obelisco — ULPGC">
@@ -37,7 +82,7 @@
 <!-- ── Twitter / X Card ── -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Las eras de Japón y el manga — Recurso didáctico · Biblioteca ULPGC">
-<meta name="twitter:description" content="Línea del tiempo interactiva · 279 títulos catalogados · Situaciones de aprendizaje LOMLOE · Itinerarios Infantil y Primaria · Tabla currículo → manga.">
+<meta name="twitter:description" content="Línea del tiempo interactiva · 280 títulos catalogados · Situaciones de aprendizaje LOMLOE · Itinerarios Infantil y Primaria · Tabla currículo → manga.">
 <meta name="twitter:site" content="@BibliotecaULPGC">
 
 <!-- ── Dublin Core (repositorios académicos e institucionales) ── -->
@@ -58,7 +103,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "El manga como recurso didáctico: línea del tiempo interactiva y catálogo pedagógico",
-  "description": "Recurso educativo interactivo con línea del tiempo del manga japonés, catálogo pedagógico de 279 títulos, situaciones de aprendizaje con estructura LOMLOE e itinerarios para Infantil y Primaria.",
+  "description": "Recurso educativo interactivo con línea del tiempo del manga japonés, catálogo pedagógico de 280 títulos, situaciones de aprendizaje con estructura LOMLOE e itinerarios para Infantil y Primaria.",
   "url": "https://biblioteca.ulpgc.es/manga-recurso-didactico",
   "inLanguage": "es",
   "datePublished": "2026-03-26",
@@ -90,9 +135,9 @@
 }
 </script>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Shippori+Mincho+B1:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css">
-<link rel="stylesheet" href="css/editorial.css">
-<link rel="stylesheet" href="css/editorial-extras.css">
+<link rel="stylesheet" href="css/estilos.css?v=5.51.0">
+<link rel="stylesheet" href="css/editorial.css?v=5.51.0">
+<link rel="stylesheet" href="css/editorial-extras.css?v=5.51.0">
 <link rel="stylesheet" href="css/marco-bloques.css"><!-- Parte I editorial -->
 <link rel="stylesheet" href="css/marco-bloques-2.css"><!-- Parte I nuevosbis -->
 <link rel="stylesheet" href="css/estructura.css"><!-- Navegacion Parte I -->
@@ -100,6 +145,7 @@
 <link rel="stylesheet" href="css/a11y-contrast.css"><!-- G1: corrección de contraste WCAG 1.4.3 -->
 <link rel="stylesheet" href="css/preferencias.css"><!-- G2: panel de accesibilidad (DUA) -->
 <link rel="stylesheet" href="css/andamiaje-lectura.css"><!-- D1: andamiaje de lectura -->
+<link rel="stylesheet" href="css/v551-visual.css?v=5.51.0"><!-- v5.51: refinado visual de bloques nuevos -->
 </head>
 <body>
 
@@ -117,7 +163,7 @@
     <div>
       <div class="portada-eyebrow">Aula de Cómic · Biblioteca Campus del Obelisco · ULPGC</div>
       <h1 class="portada-h1">El manga como recurso <em>didáctico</em>.</h1>
-      <p class="portada-lede">Recurso interactivo para profesorado: marco pedagógico, catálogo curado de 279 títulos, situaciones de aprendizaje LOMLOE, itinerarios por etapa y materiales imprimibles. Construido sobre el fondo Aula de Cómic de la Biblioteca del Campus del Obelisco.</p>
+      <p class="portada-lede">Recurso interactivo para profesorado: marco pedagógico, catálogo curado de 280 títulos, situaciones de aprendizaje LOMLOE, itinerarios por etapa y materiales imprimibles. Construido sobre el fondo Aula de Cómic de la Biblioteca del Campus del Obelisco.</p>
     </div>
     <aside class="portada-attribution">
       <picture>
@@ -154,7 +200,7 @@
     <a class="path-card" href="#parte-iii">
       <div class="path-num">03</div>
       <h3 class="path-title">El fondo</h3>
-      <p class="path-body">279 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras japonesas, glosario japonés y tabla currículo→manga.</p>
+      <p class="path-body">280 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras japonesas, glosario japonés y tabla currículo→manga.</p>
     </a>
 
     <a class="path-card" href="#parte-iv">
@@ -278,7 +324,7 @@
     <div class="mb-parts">
       <a class="mb-part is-current" href="#parte-i"><span class="pt-n">I</span><span class="pt-t">Marco pedagógico</span><span class="pt-here">Estás aquí</span></a>
       <a class="mb-part" href="#parte-ii"><span class="pt-n">II</span><span class="pt-t">Para etapas bajas</span><span class="pt-s">Infantil · Primaria</span></a>
-      <a class="mb-part" href="#parte-iii"><span class="pt-n">III</span><span class="pt-t">El fondo</span><span class="pt-s">279 títulos · glosario</span></a>
+      <a class="mb-part" href="#parte-iii"><span class="pt-n">III</span><span class="pt-t">El fondo</span><span class="pt-s">280 títulos · glosario</span></a>
       <a class="mb-part" href="#parte-iv"><span class="pt-n">IV</span><span class="pt-t">Llevar al aula</span><span class="pt-s">Situaciones · itinerarios</span></a>
     </div>
   </div>
@@ -312,13 +358,27 @@
   <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="10" y="13" width="100" height="54" rx="2" class="ln pf"/><circle cx="34" cy="36" r="6" class="gdf"/><path d="M14 60 L30 44 L42 54 L56 38 L70 58" class="ln"/><path d="M70 20 h30 a4 4 0 0 1 4 4 v9 a4 4 0 0 1 -4 4 h-16 l-6 6 v-6 h-8 a4 4 0 0 1 -4 -4 v-9 a4 4 0 0 1 4 -4 z" class="ln pf"/><line x1="78" y1="28" x2="98" y2="28" class="lnt"/><line x1="78" y1="33" x2="93" y2="33" class="lnt"/></svg><span class="mb-cap">Bocadillo sobre la imagen dibujada</span></div><div class="mb-rowtx"><div class="mb-rownum">01</div><div class="mb-rowin"><h4 class="mb-rowtitle">Doble decodificación, imagen y texto</h4><p class="mb-rowbody">El manga obliga a procesar lo verbal y lo visual al mismo tiempo. Esa lectura multimodal es lo que la alfabetización del siglo XXI exige y lo que la LOMLOE reconoce como competencia clave.</p></div></div></article>
   <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="14" width="30" height="24" rx="1.5" class="ln pf"/><rect x="46" y="14" width="30" height="24" rx="1.5" class="ln pf"/><rect x="80" y="14" width="28" height="24" rx="1.5" class="ln pf"/><rect x="12" y="42" width="30" height="24" rx="1.5" class="ln pf"/><rect x="46" y="42" width="30" height="24" rx="1.5" class="ln pf"/><rect x="80" y="42" width="28" height="24" rx="1.5" class="ln pf"/></svg><span class="mb-cap">Una página, seis viñetas, saltos de tiempo</span></div><div class="mb-rowtx"><div class="mb-rownum">02</div><div class="mb-rowin"><h4 class="mb-rowtitle">Densidad narrativa alta</h4><p class="mb-rowbody">Una página puede contener varios saltos temporales, dos puntos de vista y un símbolo recurrente. Descifrarlo entrena músculo lector: anticipación, inferencia, jerarquía de información.</p></div></div></article>
   <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="40" y="14" width="40" height="52" rx="2" class="ln pf"/><line x1="49" y1="14" x2="49" y2="66" class="lnt"/><line x1="56" y1="24" x2="74" y2="24" class="lnt"/><line x1="56" y1="31" x2="74" y2="31" class="lnt"/><line x1="56" y1="38" x2="68" y2="38" class="lnt"/><rect x="62" y="14" width="8" height="14" class="gdf"/></svg><span class="mb-cap">El tomo que ya leen fuera del aula</span></div><div class="mb-rowtx"><div class="mb-rownum">03</div><div class="mb-rowin"><h4 class="mb-rowtitle">Cercanía cultural real</h4><p class="mb-rowbody">Parte del alumnado ya lo lee fuera del aula. El recurso parte de un código que dominan parcialmente; el aula les enseña a leerlo críticamente, con vocabulario y herramientas.</p></div></div></article>
-  <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><line x1="14" y1="67" x2="108" y2="67" class="ln"/><rect x="18" y="30" width="11" height="37" class="ln t2"/><rect x="32" y="22" width="11" height="45" class="ln t1"/><rect x="46" y="34" width="11" height="33" class="ln t3"/><rect x="60" y="18" width="11" height="49" class="ln t1"/><rect x="74" y="28" width="11" height="39" class="ln t2"/><rect x="88" y="24" width="11" height="43" class="ln t1"/><rect x="60" y="18" width="11" height="49" class="gd" fill="none"/></svg><span class="mb-cap">Lomos por género: histórico, científico…</span></div><div class="mb-rowtx"><div class="mb-rownum">04</div><div class="mb-rowin"><h4 class="mb-rowtitle">Un manga para cada materia</h4><p class="mb-rowbody">No es solo shōnen de acción: hay manga histórico, científico, biográfico, ensayístico, intimista y filosófico. El fondo de 279 títulos cubre ocho usos pedagógicos distintos.</p></div></div></article>
+  <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><line x1="14" y1="67" x2="108" y2="67" class="ln"/><rect x="18" y="30" width="11" height="37" class="ln t2"/><rect x="32" y="22" width="11" height="45" class="ln t1"/><rect x="46" y="34" width="11" height="33" class="ln t3"/><rect x="60" y="18" width="11" height="49" class="ln t1"/><rect x="74" y="28" width="11" height="39" class="ln t2"/><rect x="88" y="24" width="11" height="43" class="ln t1"/><rect x="60" y="18" width="11" height="49" class="gd" fill="none"/></svg><span class="mb-cap">Lomos por género: histórico, científico…</span></div><div class="mb-rowtx"><div class="mb-rownum">04</div><div class="mb-rowin"><h4 class="mb-rowtitle">Un manga para cada materia</h4><p class="mb-rowbody">No es solo shōnen de acción: hay manga histórico, científico, biográfico, ensayístico, intimista y filosófico. El fondo de 280 títulos cubre ocho usos pedagógicos distintos.</p></div></div></article>
   <article class="mb-row"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="30" width="26" height="26" rx="2" class="ln pf"/><line x1="18" y1="37" x2="32" y2="37" class="lnt"/><line x1="18" y1="43" x2="32" y2="43" class="lnt"/><rect x="82" y="18" width="26" height="46" rx="2" class="ln pf"/><line x1="88" y1="26" x2="102" y2="26" class="lnt"/><line x1="88" y1="33" x2="102" y2="33" class="lnt"/><line x1="88" y1="40" x2="102" y2="40" class="lnt"/><line x1="88" y1="47" x2="98" y2="47" class="lnt"/><path d="M44 43 H74" class="gd"/><path d="M68 37 L76 43 L68 49" class="gd"/></svg><span class="mb-cap">Del tomo a la novela</span></div><div class="mb-rowtx"><div class="mb-rownum">05</div><div class="mb-rowin"><h4 class="mb-rowtitle">Puente hacia la lectura larga</h4><p class="mb-rowbody">Quien se engancha a Urasawa, Tezuka o Taniguchi adquiere un hábito de lectura sostenida que se transfiere a la novela. El manga no compite con el libro: lo prepara.</p></div></div></article>
   <article class="mb-row rev"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="68" y="15" width="38" height="50" rx="2" class="ln pf"/><rect x="52" y="15" width="16" height="50" class="gband"/><line x1="60" y1="17" x2="60" y2="63" class="dash"/><circle cx="60" cy="40" r="3.4" class="gdf"/></svg><span class="mb-cap">La «calle» (ma) entre dos viñetas</span></div><div class="mb-rowtx"><div class="mb-rownum">06</div><div class="mb-rowin"><h4 class="mb-rowtitle">Trabaja la elipsis</h4><p class="mb-rowbody">El espacio entre viñetas —el ma— es donde el lector imagina lo que pasa. Inferencia activa en cada página, sin que el alumno lo perciba. La mejor escuela de lectura entre líneas.</p></div></div></article>
   </div>
-</section>
 
-<!-- ══════════════════ UN MANGA PARA CADA MATERIA ══════════════════ -->
+  <details class="adapt" id="referencias-marco" style="background:rgba(245,239,224,.6); border-top:3px solid var(--gold); padding:1.2rem 1.4rem; margin-top:1.5rem;">
+    <summary style="cursor:pointer; font-weight:700; color:var(--ink,#1a1008); font-size:1rem;"><span class="kicker-jp" lang="ja">文献</span>Para profundizar: referencias académicas</summary>
+    <p style="font-size:.85rem; font-style:italic; color:var(--grey); margin:.8rem 0;">Selección de estudios revisados por pares y obras de referencia que fundamentan el uso del manga y el cómic como recurso didáctico. Formato APA 7.ª edición.</p>
+    <ul style="font-size:.88rem; line-height:1.55; list-style:none; padding-left:0; margin:0;">
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Beronä, D. A. (2008). <em>Wordless books: The original graphic novels</em>. Abrams.</li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Cary, S. (2004). <em>Going graphic: Comics at work in the multilingual classroom</em>. Heinemann.</li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Cohn, N. (2013). <em>The visual language of comics: Introduction to the structure and cognition of sequential images</em>. Bloomsbury.</li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Delgado-Algarra, E. J. (2017). El cómic como recurso educativo en la enseñanza de las ciencias sociales: compromiso socio-histórico y valores en el manga de Tezuka. <em>Cultura y Educación, 29</em>(4), 848-862. <a href="https://doi.org/10.1080/11356405.2017.1370819" target="_blank" rel="noopener">https://doi.org/10.1080/11356405.2017.1370819</a></li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Gravett, P. (2004). <em>Manga: Sixty years of Japanese comics</em>. Collins Design.</li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">McCloud, S. (1993). <em>Understanding comics: The invisible art</em>. HarperPerennial. [Trad. esp.: <em>Entender el cómic: el arte invisible</em>. Astiberri, 2005].</li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Paré, C., y Soto-Pallarés, C. (2017). El fomento de la lectura de cómics en la enseñanza de las lenguas en Educación Primaria. <em>Ocnos. Revista de Estudios sobre Lectura, 16</em>(1), 134-143. <a href="https://doi.org/10.18239/ocnos_2017.16.1.1300" target="_blank" rel="noopener">https://doi.org/10.18239/ocnos_2017.16.1.1300</a></li>
+      <li style="margin-bottom:.6rem; padding-left:1.4rem; text-indent:-1.4rem;">Roediger, H. L., y Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. <em>Psychological Science, 17</em>(3), 249-255. <a href="https://doi.org/10.1111/j.1467-9280.2006.01693.x" target="_blank" rel="noopener">https://doi.org/10.1111/j.1467-9280.2006.01693.x</a></li>
+      <li style="margin-bottom:0; padding-left:1.4rem; text-indent:-1.4rem;">Schwartz, A., y Rubinstein-Ávila, E. (2006). Understanding the manga hype: Uncovering the multimodality of comic-book literacies. <em>Journal of Adolescent &amp; Adult Literacy, 50</em>(1), 40-49. <a href="https://doi.org/10.1598/JAAL.50.1.5" target="_blank" rel="noopener">https://doi.org/10.1598/JAAL.50.1.5</a></li>
+    </ul>
+  </details>
+</section>IA ══════════════════ -->
 <section class="ed-block" id="cruce">
   <div class="ed-block-header">
     <div class="ed-block-num">
@@ -335,13 +395,13 @@
     <div class="mb-cruce-row"><div class="cx-mat">Lengua y Literatura<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Pluto</b><span>Naoki Urasawa · 8 tomos</span><em>Intriga coral, saltos de punto de vista y estructura de novela negra.</em></div><div class="cx-comp"><span class="cx-tag">Comunicación lingüística</span>Reconstruir la trama desde voces que se contradicen; distinguir narrador y personaje.</div></div>
     <div class="mb-cruce-row"><div class="cx-mat">Biología y Geología<small>ESO</small></div><div class="cx-obra"><b>Cells at Work!</b><span>Akane Shimizu · 6 tomos</span><em>El cuerpo humano narrado como una ciudad de células con oficios.</em></div><div class="cx-comp"><span class="cx-tag">Competencia STEM</span>Fijar funciones de glóbulos, plaquetas e inmunidad mediante la metáfora visual.</div></div>
     <div class="mb-cruce-row"><div class="cx-mat">Geografía e Historia<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Vinland Saga</b><span>Makoto Yukimura · en curso</span><em>Expansión vikinga, violencia y el difícil tránsito a la paz.</em></div><div class="cx-comp"><span class="cx-tag">Conciencia histórica</span>Separar el dato histórico de la licencia narrativa; situar fuentes.</div></div>
-    <div class="mb-cruce-row"><div class="cx-mat">Física y Química<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Dr. Stone</b><span>Riichiro Inagaki · 26 tomos</span><em>Reconstruir la civilización reinventando cada tecnología desde cero.</em></div><div class="cx-comp"><span class="cx-tag">Competencia STEM</span>Seguir el método científico: hipótesis, experimento, escalado, error.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Física y Química<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>Planetes :integral</b><span>Makoto Yukimura · integral</span><em>Basureros espaciales, órbitas y sostenibilidad en una ciencia ficción de trabajo.</em></div><div class="cx-comp"><span class="cx-tag">Competencia STEM</span>Conectar exploración espacial, tecnología, riesgos laborales y responsabilidad ambiental.</div></div>
     <div class="mb-cruce-row"><div class="cx-mat">Valores · Tutoría<small>ESO</small></div><div class="cx-obra"><b>A Silent Voice</b><span>Yoshitoki Ōima · 7 tomos</span><em>Acoso escolar, discapacidad auditiva y la posibilidad de reparar.</em></div><div class="cx-comp"><span class="cx-tag">Personal, social y de aprender</span>Cambiar de punto de vista entre víctima y agresor; hablar de culpa y perdón.</div></div>
     <div class="mb-cruce-row"><div class="cx-mat">Filosofía y Ética<small>Bachillerato</small></div><div class="cx-obra"><b>Astro Boy → Pluto</b><span>Osamu Tezuka / Urasawa</span><em>Una misma historia contada por el maestro y por su heredero.</em></div><div class="cx-comp"><span class="cx-tag">Competencia ciudadana</span>Debatir conciencia, identidad y qué nos hace humanos comparando dos versiones.</div></div>
     <div class="mb-cruce-row"><div class="cx-mat">Educación Plástica y Visual<small>ESO · Bachillerato</small></div><div class="cx-obra"><b>El caminante</b><span>Jirō Taniguchi · 1 tomo</span><em>Casi sin diálogo: ritmo, mirada y composición silenciosa.</em></div><div class="cx-comp"><span class="cx-tag">Conciencia y expresión culturales</span>Analizar encuadre, planos y tempo visual sin apoyo del texto.</div></div>
-    <div class="mb-cruce-row"><div class="cx-mat">Educación Física<small>ESO</small></div><div class="cx-obra"><b>Slam Dunk</b><span>Takehiko Inoue · 31 tomos</span><em>Un grupo dispar aprende a ser equipo a través del baloncesto.</em></div><div class="cx-comp"><span class="cx-tag">Personal y social</span>Trabajar esfuerzo, frustración, rol en el equipo y superación.</div></div>
+    <div class="mb-cruce-row"><div class="cx-mat">Educación Física<small>ESO</small></div><div class="cx-obra"><b>The one pound gospel.</b><span>Rumiko Takahashi · 2008</span><em>Un boxeador novato mezcla deporte, disciplina, humor y vocación.</em></div><div class="cx-comp"><span class="cx-tag">Personal y social</span>Trabajar esfuerzo, autocontrol, frustración y hábitos saludables.</div></div>
   </div>
-  <p class="mb-cruce-foot"><b>Ocho materias, ocho puertas.</b> El fondo de 279 títulos del catálogo amplía cada fila — filtra por materia para encontrar alternativas según el nivel y la sensibilidad del grupo.</p>
+  <p class="mb-cruce-foot"><b>Ocho materias, ocho puertas.</b> El fondo de 280 títulos del catálogo amplía cada fila — filtra por materia para encontrar alternativas según el nivel y la sensibilidad del grupo.</p>
 </section>
 
 <!-- ══════════════════ DECÁLOGO DE MEDIACIÓN ══════════════════ -->
@@ -377,6 +437,39 @@
   <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><line x1="12" y1="64" x2="108" y2="64" class="ln"/><rect x="20" y="30" width="10" height="34" class="ln t1"/><rect x="33" y="24" width="10" height="40" class="ln t2"/><rect x="46" y="34" width="10" height="30" class="ln t1"/><g transform="rotate(12 64 64)"><rect x="59" y="30" width="10" height="34" class="ln t3"/></g><rect x="78" y="28" width="10" height="36" class="ln t1"/><rect x="91" y="34" width="10" height="30" class="ln t2"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 08 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 08</div><div class="mb-dec-title">Permite la lectura voluntaria.</div><p class="mb-dec-body">Cataloga una pequeña selección y deja que tomen lo que quieran sin tarea asociada. La animación lectora funciona, sobre todo, cuando no obliga.</p><div class="mb-dec-clase"><span class="mb-dec-when">Transversal</span><p class="mb-dec-do">Monta un expositor con 8–10 títulos; préstamo libre, sin ficha obligatoria.</p></div></div></div>
   <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="14" y="15" width="92" height="50" rx="2" class="lnt pf"/><path d="M30 54 q14 -22 32 -14 q10 5 22 -10" class="gd"/><g transform="rotate(40 78 30)"><rect x="70" y="18" width="9" height="30" class="ln pf"/><path d="M70 48 L74.5 56 L79 48 Z" class="fl"/><rect x="70" y="18" width="9" height="7" class="gdf"/></g></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 09 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 09</div><div class="mb-dec-title">Produce, no solo leas.</div><p class="mb-dec-body">Cierra cada unidad con una producción: una página propia, un storyboard, un análisis de viñeta. Lo que se compone, se entiende.</p><div class="mb-dec-clase"><span class="mb-dec-when t-despues">Después</span><p class="mb-dec-do">Cierra con una producción: una página propia, un storyboard o un análisis de viñeta.</p></div></div></div>
   <div class="mb-dec-item"><div class="mb-fig"><svg viewBox="0 0 120 80" preserveAspectRatio="xMidYMid meet"><rect x="12" y="30" width="26" height="26" rx="2" class="ln pf"/><line x1="18" y1="37" x2="32" y2="37" class="lnt"/><line x1="18" y1="43" x2="32" y2="43" class="lnt"/><rect x="82" y="18" width="26" height="46" rx="2" class="ln pf"/><line x1="88" y1="26" x2="102" y2="26" class="lnt"/><line x1="88" y1="33" x2="102" y2="33" class="lnt"/><line x1="88" y1="40" x2="102" y2="40" class="lnt"/><line x1="88" y1="47" x2="98" y2="47" class="lnt"/><path d="M44 43 H74" class="gd"/><path d="M68 37 L76 43 L68 49" class="gd"/></svg></div><div class="mb-dec-tx"><label class="mb-dec-tick"><input type="checkbox" aria-label="Marcar pauta 10 como hecha"><span class="tk-box"></span></label><div class="mb-dec-num">Pauta 10</div><div class="mb-dec-title">Vuelve al texto clásico.</div><p class="mb-dec-body">El manga es puerta de entrada, no destino. La unidad cierra cuando el alumnado salta a la novela, al ensayo o al filme adaptado.</p><div class="mb-dec-clase"><span class="mb-dec-when t-despues">Después</span><p class="mb-dec-do">Enlaza con la novela, el ensayo o el filme que el catálogo sugiere para ese título.</p></div></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ MITOS Y MALENTENDIDOS ══════════════════ -->
+<section class="adapt" id="mitos" aria-labelledby="mitos-heading" style="background:rgba(245,239,224,.6); border-top:3px solid #8b1a1a;">
+  <h2 id="mitos-heading" style="color:#8b1a1a; font-size:1.1rem;"><span class="kicker-jp" lang="ja">誤解</span>Mitos y malentendidos sobre el manga</h2>
+  <p style="font-size:.9rem; color:var(--grey); font-style:italic; margin-bottom:1.2rem;">Cinco objeciones que aparecen una y otra vez en claustros, reuniones de familias y comisiones de biblioteca, con la respuesta que este recurso permite dar. Útiles para preparar la defensa del manga como recurso antes de proponerlo.</p>
+  <div class="adapt-grid">
+    <div class="ac mito-card"><span class="hanko-sello" lang="ja" aria-hidden="true">真</span>
+      <b>«El manga es cosa de niños»</b>
+      <i>Confunde un medio con un público</i>
+      <s>La industria japonesa publica para todas las edades mediante demografías editoriales: kodomo (infantil), shōnen y shōjo (juvenil), seinen y josei (adulto). Decir que el manga es infantil equivale a decir que el cine lo es porque existen películas para niños. El fondo de esta biblioteca abarca desde Primaria hasta posgrado.</s>
+    </div>
+    <div class="ac mito-card"><span class="hanko-sello" lang="ja" aria-hidden="true">真</span>
+      <b>«Todo manga es violento o sexualizado»</b>
+      <i>Generaliza una parte al todo</i>
+      <s>De los 280 títulos del fondo, 59 (alrededor de uno de cada cinco) llevan etiqueta de contenido sensible, siempre visible en el catálogo. El resto no la necesita. Como en cualquier medio, la mediación consiste en elegir el título adecuado para cada edad, no en descartar el medio entero.</s>
+    </div>
+    <div class="ac mito-card"><span class="hanko-sello" lang="ja" aria-hidden="true">真</span>
+      <b>«Leer manga no es leer de verdad»</b>
+      <i>Subestima la lectura multimodal</i>
+      <s>La página de manga exige integrar texto, imagen, secuencia, vacío (ma) y sentido de lectura: una lectura inferencial activa que la investigación describe como exigente en destrezas críticas y multimodales (Schwartz y Rubinstein-Ávila, 2006; Cohn, 2013; referencias completas en el marco pedagógico de este recurso).</s>
+    </div>
+    <div class="ac mito-card"><span class="hanko-sello" lang="ja" aria-hidden="true">真</span>
+      <b>«Manga y anime son lo mismo»</b>
+      <i>Confunde el medio de origen con su adaptación</i>
+      <s>El manga es narrativa gráfica impresa; el anime, animación audiovisual. La relación habitual es de adaptación (el manga suele preceder al anime). Distinguirlos importa en el aula: la página impresa permite detenerse, releer y analizar; el episodio impone su ritmo.</s>
+    </div>
+    <div class="ac mito-card"><span class="hanko-sello" lang="ja" aria-hidden="true">真</span>
+      <b>«El manga se lee al revés»</b>
+      <i>Presupone que nuestro orden es el natural</i>
+      <s>El manga se lee en el sentido original japonés, de derecha a izquierda. Llamarlo «al revés» da por hecho que la convención occidental es universal. Convertir esa extrañeza inicial en pregunta (¿quién decide el sentido de una lectura?) es una de las oportunidades didácticas más baratas y potentes del medio.</s>
+    </div>
   </div>
 </section>
 
@@ -595,6 +688,179 @@
   <div class="mb-raices-pair">
     <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · fukei-ga</span><img src="img/hiroshige-lluvia.jpg" width="1200" height="1818" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake"><figcaption class="mb-cartela">Utagawa Hiroshige · «Chaparrón sobre Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Líneas cinéticas.</b> La lluvia como trazo de velocidad</p><p class="mb-rp-desc">Las finas líneas paralelas que cruzan la estampa son el mismo recurso gráfico que el manga usa para fijar movimiento, dirección y atmósfera.</p></figure>
     <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · yakusha-e</span><img src="img/sharaku-actor.jpg" width="1200" height="1866" loading="lazy" alt="Sharaku: el actor Ōtani Oniji II"><figcaption class="mb-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji II como Yakko Edobei» · 1794 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Expresión al límite.</b> El primer plano del rostro y el gesto</p><p class="mb-rp-desc">Ceño, mirada y manos abiertas llevados a la caricatura: el retrato de kabuki anticipa el gran plano emocional con el que el manga marca cada clímax.</p></figure>
+  </div>
+
+      <!-- ===== Raíces ampliada · «Tres maestros, leídos de cerca» + «El cuaderno que dio nombre» (imágenes externas en img/raices-atlas/) ===== -->
+<div class="mb-atlas">
+    <div class="mb-atlas-intro">
+      <p class="mb-atlas-eyebrow">Atlas visual · leer la imagen con método</p>
+      <h4 class="mb-atlas-title">Tres maestros, leídos <em>de cerca</em>.</h4>
+      <p class="mb-atlas-lead">El mismo ejercicio que pedimos al alumnado —<b>aislar un detalle, nombrar el recurso, rastrear su herencia</b>— aplicado a tres estampas del periodo Edo, todas de dominio público. Cada lámina enseña una lección distinta; cada recorte señala un recurso gráfico que la viñeta del manga heredó casi intacto.</p>
+    </div>
+
+    <!-- 01 · KUNIYOSHI -->
+    <div class="mb-atlas-entry">
+      <div class="mb-atlas-head">
+        <div class="ae-n">01</div>
+        <div class="ae-meta">
+          <p class="ae-master">Edo · musha-e — <b>Utagawa Kuniyoshi</b></p>
+          <h5 class="ae-lesson">El tamaño como <em>golpe de efecto</em>.</h5>
+          <p class="ae-desc">Un espectro esqueleto invade los tres paneles del tríptico y rompe el marco para imponer su escala. La misma estrategia con que una <i>splash page</i> detiene la acción para un clímax.</p>
+        </div>
+      </div>
+      <div class="mb-atlas-grid">
+        <figure class="mb-atlas-anchor">
+          <span class="ad-seal">Lámina</span>
+          <img src="img/kuniyoshi-esqueleto.jpg" width="1280" height="629" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto">
+          <figcaption class="mb-atlas-cartela">Utagawa Kuniyoshi · «Takiyasha la hechicera y el espectro esqueleto» · c. 1844 · Dominio público — Wikimedia Commons<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
+        </figure>
+        <div class="mb-atlas-details">
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/kuniyoshi-craneo.jpg" width="360" height="330" loading="lazy" alt="Detalle: el cráneo gigante del espectro en primer plano"><div class="ad-cap">El cráneo · panel central</div></div>
+            <p class="ad-dev"><small>Primer plano</small>El gran plano monstruoso</p>
+            <p class="ad-note">El cráneo ocupa casi un panel entero. Lo descomunal en una sola imagen: el manga marca así sus momentos de máxima tensión.</p>
+            <span class="ad-her">splash page</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/kuniyoshi-pergamino.jpg" width="268" height="372" loading="lazy" alt="Detalle: Takiyasha leyendo un pergamino dibujado dentro de la escena"><div class="ad-cap">El pergamino · panel izquierdo</div></div>
+            <p class="ad-dev"><small>Texto en la escena</small>La palabra que se lee dentro</p>
+            <p class="ad-note">Takiyasha lee un pergamino dibujado en la propia estampa. Texto integrado en la imagen: el antecedente del bocadillo y la cartela.</p>
+            <span class="ad-her">cartela · bocadillo</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/kuniyoshi-costillar.jpg" width="402" height="392" loading="lazy" alt="Detalle: el costillar del esqueleto resuelto con líneas limpias y rítmicas"><div class="ad-cap">El costillar · panel derecho</div></div>
+            <p class="ad-dev"><small>Estructura como dibujo</small>La anatomía hecha línea</p>
+            <p class="ad-note">El costillar, de trazo limpio y rítmico, vuelve legible una anatomía compleja con economía de línea — la claridad gráfica del manga.</p>
+            <span class="ad-her">línea clara</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · HIROSHIGE -->
+    <div class="mb-atlas-entry">
+      <div class="mb-atlas-head">
+        <div class="ae-n">02</div>
+        <div class="ae-meta">
+          <p class="ae-master">Edo · fūkei-ga — <b>Utagawa Hiroshige</b></p>
+          <h5 class="ae-lesson">Dibujar lo <em>invisible</em>: lluvia, viento, prisa.</h5>
+          <p class="ae-desc">Un chaparrón repentino sobre el puente. Hiroshige fija el clima, el movimiento y la atmósfera con puro trazo — sin una palabra que lo explique.</p>
+        </div>
+      </div>
+      <div class="mb-atlas-grid">
+        <figure class="mb-atlas-anchor">
+          <span class="ad-seal">Lámina</span>
+          <img src="img/hiroshige-lluvia.jpg" width="1280" height="1939" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake">
+          <figcaption class="mb-atlas-cartela">Utagawa Hiroshige · «Chaparrón repentino sobre el puente Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
+        </figure>
+        <div class="mb-atlas-details">
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/hiroshige-lineas.jpg" width="624" height="624" loading="lazy" alt="Detalle: las líneas paralelas de la lluvia cruzando el cielo"><div class="ad-cap">La lluvia · sobre el río</div></div>
+            <p class="ad-dev"><small>Líneas cinéticas</small>El aire hecho textura</p>
+            <p class="ad-note">Finas líneas paralelas, grabadas en dos planchas cruzadas, convierten la lluvia en trazo. El manga hereda el recurso exacto para marcar velocidad y dirección.</p>
+            <span class="ad-her">líneas de velocidad</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/hiroshige-figuras.jpg" width="530" height="430" loading="lazy" alt="Detalle: figuras encorvadas bajo paraguas y esteras cruzando el puente"><div class="ad-cap">Los viandantes · sobre el puente</div></div>
+            <p class="ad-dev"><small>Lenguaje corporal</small>La postura que cuenta</p>
+            <p class="ad-note">Cuerpos encorvados, paraguas inclinados, pasos apretados: la silueta narra el temporal. El manga lee la emoción en la pose antes que en el rostro.</p>
+            <span class="ad-her">pose · silueta</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/hiroshige-vigas.jpg" width="632" height="408" loading="lazy" alt="Detalle: el armazón de vigas en diagonal bajo el puente"><div class="ad-cap">El armazón · bajo el tablero</div></div>
+            <p class="ad-dev"><small>Encuadre geométrico</small>La diagonal que ordena</p>
+            <p class="ad-note">La rejilla de vigas en diagonal corta la imagen y crea profundidad. Líneas estructurales que dirigen la mirada — composición de viñeta avant la lettre.</p>
+            <span class="ad-her">composición</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · SHARAKU -->
+    <div class="mb-atlas-entry">
+      <div class="mb-atlas-head">
+        <div class="ae-n">03</div>
+        <div class="ae-meta">
+          <p class="ae-master">Edo · yakusha-e (ōkubi-e) — <b>Tōshūsai Sharaku</b></p>
+          <h5 class="ae-lesson">El rostro y las manos al <em>límite</em>.</h5>
+          <p class="ae-desc">Un retrato de actor de kabuki en el instante de máxima tensión. Sharaku exagera el gesto hasta la caricatura: el clímax emocional, congelado.</p>
+        </div>
+      </div>
+      <div class="mb-atlas-grid">
+        <figure class="mb-atlas-anchor">
+          <span class="ad-seal">Lámina</span>
+          <img src="img/sharaku-actor.jpg" width="1280" height="1991" loading="lazy" alt="Sharaku: el actor Ōtani Oniji en el papel de Yakko Edobei">
+          <figcaption class="mb-atlas-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji III en el papel de Yakko Edobei» · 1794 · Dominio público<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
+        </figure>
+        <div class="mb-atlas-details">
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/sharaku-rostro.jpg" width="528" height="612" loading="lazy" alt="Detalle: el rostro de gesto crispado, cejas quebradas y ojos bizcos"><div class="ad-cap">El rostro · gesto crispado</div></div>
+            <p class="ad-dev"><small>Expresión al límite</small>El gran plano emocional</p>
+            <p class="ad-note">Cejas quebradas, mirada bizca, boca tensa: el gesto llevado a la caricatura. El manga marca cada clímax con un rostro deformado por la emoción.</p>
+            <span class="ad-her">gran plano</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/sharaku-manos.jpg" width="720" height="372" loading="lazy" alt="Detalle: las dos manos abiertas y crispadas en tensión"><div class="ad-cap">Las manos · abiertas en tensión</div></div>
+            <p class="ad-dev"><small>El gesto congelado</small>Las manos como signo</p>
+            <p class="ad-note">Las manos crispadas detienen un instante de máxima tensión. El manga congela la acción en una pose que lo dice todo, sin texto.</p>
+            <span class="ad-her">pose dramática</span>
+          </div>
+          <div class="ad-card">
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/sharaku-kimono.jpg" width="426" height="486" loading="lazy" alt="Detalle: las rayas del kimono y el blasón (mon) como patrón gráfico"><div class="ad-cap">El kimono · rayas y blasón</div></div>
+            <p class="ad-dev"><small>Textura y patrón</small>Tinta plana, repetida</p>
+            <p class="ad-note">Las rayas del traje y el blasón (<i>mon</i>) son patrón puro. El manga rellena ropas y fondos con tramas que funcionan exactamente igual.</p>
+            <span class="ad-her">screentone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="mb-atlas-foot"><b>Tres láminas · nueve recortes · un mismo linaje.</b> Todo dominio público (periodo Edo, ss. XVIII–XIX). La gramática del manga no se inventó: se heredó, y aquí se puede señalar con el dedo.</p>
+  </div>
+
+  <!-- HOKUSAI MANGA · el cuaderno que dio nombre -->
+  <div class="mb-hm">
+    <p class="mb-hm-eyebrow">Coda · la palabra fundacional</p>
+    <h4 class="mb-hm-title">El cuaderno que dio <em>nombre</em>.</h4>
+    <p class="mb-hm-lead">En <b>1814</b> Hokusai publicó el primer tomo de una serie que llegaría a diez volúmenes (más cinco póstumos): miles de bocetos de todo —paisajes, oficios, animales, luchadores, fantasmas— reunidos como <i>e-dehon</i>, manual de modelos para aprendices. Lo tituló <span class="mb-hm-kanji">漫画</span> (<i>man-ga</i>), «dibujos a vuelapluma». No es el manga de hoy, pero <b>le dio el nombre</b>: el puente entre la estampa del Edo y la viñeta contemporánea tiene aquí su palabra fundacional.</p>
+
+    <figure class="mb-hm-hero">
+      <span class="hm-seal">Hokusai Manga · página de rostros</span>
+      <img src="img/raices-atlas/hokusai-manga-rostros.jpg" width="2312" height="1488" loading="lazy" alt="Doble página del Hokusai Manga con decenas de rostros y expresiones">
+      <div class="mb-hm-herobody">
+        <p class="mb-hm-concept"><b>Decenas de expresiones en una sola página.</b> El repertorio de rostros que todo dibujante de manga aprende a construir — el estudio sistemático del gesto, dos siglos antes de las hojas de modelos de personaje.</p>
+        <p class="mb-hm-cartela">Katsushika Hokusai<br>«Hokusai Manga» · 1814–1878<br>Dominio público — Wikimedia Commons</p>
+      </div>
+    </figure>
+
+    <div class="mb-hm-grid">
+      <div class="hm-card">
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-sumo.jpg" width="1040" height="1504" loading="lazy" alt="Página del Hokusai Manga: luchadores de sumo en sucesión de posturas"><div class="hm-cap">Luchadores de sumo</div></div>
+        <p class="hm-theme"><small>El cuerpo en movimiento</small>La acción, descompuesta</p>
+        <p class="hm-note">Sumo trabado en posturas sucesivas. Hokusai captura «la esencia del cuerpo en movimiento»: la base misma del manga de acción.</p>
+        <span class="hm-her">acción · secuencia</span>
+      </div>
+      <div class="hm-card">
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-figurillas.jpg" width="1055" height="1470" loading="lazy" alt="Página del Hokusai Manga: figurillas cómicas en muchas poses"><div class="hm-cap">Figurillas y poses</div></div>
+        <p class="hm-theme"><small>Gesto y caricatura</small>El cuerpo deformado</p>
+        <p class="hm-note">Decenas de figurillas cómicas exageradas. La deformación expresiva: antecedente directo del personaje <i>chibi</i> y del humor visual.</p>
+        <span class="hm-her">caricatura · chibi</span>
+      </div>
+      <div class="hm-card">
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-espectro.jpg" width="927" height="1309" loading="lazy" alt="Página del Hokusai Manga: un espectro de larga melena ante un hombre"><div class="hm-cap">Lo sobrenatural</div></div>
+        <p class="hm-theme"><small>Fantasmas y yōkai</small>Lo fantástico cotidiano</p>
+        <p class="hm-note">Un espectro de larga melena surge ante un hombre. Lo sobrenatural tratado con naturalidad: el linaje del manga de terror y de <i>yōkai</i>.</p>
+        <span class="hm-her">yōkai · terror</span>
+      </div>
+      <div class="hm-card">
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-cargadores.jpg" width="1080" height="1504" loading="lazy" alt="Página del Hokusai Manga: cargadores, paraguas y escenas de la vida cotidiana"><div class="hm-cap">La vida cotidiana</div></div>
+        <p class="hm-theme"><small>Oficios y costumbres</small>El Japón de a pie</p>
+        <p class="hm-note">Cargadores, paraguas, gente trabajando: el retrato costumbrista del día a día. La mirada que el manga <i>slice-of-life</i> heredó.</p>
+        <span class="hm-her">costumbrismo</span>
+      </div>
+    </div>
+
+    <p class="mb-hm-foot"><b>De 漫画 a manga.</b> El mismo término que Hokusai usó para «dibujos a vuelapluma» nombra hoy a toda una forma narrativa. Cinco páginas reales de sus cuadernos · 1814–1878 · dominio público.</p>
   </div>
 </section>
 
@@ -886,6 +1152,56 @@
     <span class="elegir-tip-tag">Atajo</span>
     <p class="elegir-tip-body">Si dudas, abre el título en una página al azar y cuéntale a un alumno imaginario de la edad objetivo lo que está pasando ahí. Si te ves usando más de tres palabras de adulto para explicar la viñeta, el manga aún no es para esa etapa.</p>
   </div>
+
+  <div id="demografias-etapas" style="margin-top:1.6rem;">
+    <h3 style="font-size:1rem; color:var(--ink,#1a1008); margin-bottom:.5rem;">Demografías editoriales y etapas: una equivalencia orientativa</h3>
+    <p style="font-size:.85rem; color:var(--grey); font-style:italic; margin-bottom:.8rem;">Las demografías son categorías comerciales de las revistas japonesas, no una clasificación por edades: orientan, pero nunca sustituyen la revisión del título concreto ni las etiquetas de contenido sensible del catálogo.</p>
+    <div style="overflow-x:auto;">
+      <table class="tabla-editorial">
+        <caption class="sr-only">Correspondencia orientativa entre demografías editoriales del manga y etapas del sistema educativo español</caption>
+        <thead>
+          <tr>
+            <th scope="col">Demografía</th>
+            <th scope="col">Público editorial en Japón</th>
+            <th scope="col">Etapa orientativa (España)</th>
+            <th scope="col">Cautela de mediación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" data-label="Demografía">Kodomo (子供)</th>
+            <td data-label="Público editorial en Japón">Infancia</td>
+            <td data-label="Etapa orientativa (España)">Infantil y primeros cursos de Primaria</td>
+            <td data-label="Cautela de mediación" class="celda-cautela">Aplicar igualmente la microguía de esta sección: bocadillos cortos, pocas viñetas, cierre por capítulo.</td>
+          </tr>
+          <tr>
+            <th scope="row" data-label="Demografía">Shōnen (少年)</th>
+            <td data-label="Público editorial en Japón">Chicos jóvenes</td>
+            <td data-label="Etapa orientativa (España)">Últimos cursos de Primaria, ESO</td>
+            <td data-label="Cautela de mediación" class="celda-cautela">Series largas: comprobar que el primer tomo funciona como entrada. La acción puede incluir violencia estilizada.</td>
+          </tr>
+          <tr>
+            <th scope="row" data-label="Demografía">Shōjo (少女)</th>
+            <td data-label="Público editorial en Japón">Chicas jóvenes</td>
+            <td data-label="Etapa orientativa (España)">Últimos cursos de Primaria, ESO</td>
+            <td data-label="Cautela de mediación" class="celda-cautela">No encasillar por género del alumnado: la demografía describe el destinatario editorial, no quién puede disfrutarlo.</td>
+          </tr>
+          <tr>
+            <th scope="row" data-label="Demografía">Seinen (青年)</th>
+            <td data-label="Público editorial en Japón">Hombres adultos</td>
+            <td data-label="Etapa orientativa (España)">Bachillerato, universidad</td>
+            <td data-label="Cautela de mediación" class="celda-cautela">Revisar siempre las etiquetas de contenido sensible del catálogo antes de proponerlo en Secundaria.</td>
+          </tr>
+          <tr>
+            <th scope="row" data-label="Demografía">Josei (女性)</th>
+            <td data-label="Público editorial en Japón">Mujeres adultas</td>
+            <td data-label="Etapa orientativa (España)">Bachillerato, universidad</td>
+            <td data-label="Cautela de mediación" class="celda-cautela">Cotidianidad y madurez emocional: muy útil en formación del profesorado y educación social.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </section>
 
 <!-- ══════════════════ PROTOCOLO ADAPTADO PRIMARIA ══════════════ -->
@@ -1044,7 +1360,7 @@
 <div class="parte-divider" id="parte-iii" data-screen-label="Parte III — El fondo">
   <span class="parte-eyebrow">Parte III de IV</span>
   <h2 class="parte-title">El <em>fondo</em>.</h2>
-  <p class="parte-lede">279 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras japonesas, glosario japonés y tabla currículo → manga. La biblioteca, abierta.</p>
+  <p class="parte-lede">280 títulos catalogados con criterio docente y enlace OPAC, línea del tiempo histórica de 9 eras japonesas, glosario japonés y tabla currículo → manga. La biblioteca, abierta.</p>
 </div>
 
 <div class="legend">
@@ -1542,7 +1858,7 @@
   </div>
   <div class="nb">
     <h3>El origen de la palabra "manga"</h3>
-    <p>El término 漫画 fue acuñado por Katsushika Hokusai en 1814 para sus cuadernos de bocetos: «imágenes espontáneas o caprichosas». No fue hasta el siglo XX cuando la palabra designó la narrativa gráfica serializada que conocemos hoy.</p>
+    <p>El término 漫画 circulaba ya a finales del siglo XVIII, pero fueron los cuadernos de bocetos de Katsushika Hokusai (1814) los que lo fijaron y popularizaron: «imágenes espontáneas o caprichosas». No fue hasta el siglo XX cuando la palabra designó la narrativa gráfica serializada que conocemos hoy.</p>
   </div>
   <div class="nb">
     <h3>Manga e historia en el aula</h3>
@@ -1596,7 +1912,7 @@
     <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
       <b id="gloss-manga">Manga (漫画)</b>
       <i>Imágenes espontáneas o caprichosas</i>
-      <s>Término acuñado por Hokusai en 1814. Hoy designa la narrativa gráfica secuencial japonesa. Fuera de Japón se usa para cualquier cómic de estética japonesa.</s>
+      <s>Término popularizado por los cuadernos de Hokusai (1814), aunque circulaba ya desde finales del siglo XVIII. Hoy designa la narrativa gráfica secuencial japonesa. Fuera de Japón se usa para cualquier cómic de estética japonesa.</s>
     </div>
     <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
       <b id="gloss-gengo">Gengō (元号)</b>
@@ -1621,7 +1937,7 @@
     <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
       <b id="gloss-gekiga">Gekiga (劇画)</b>
       <i>Imagen dramática</i>
-      <s>Movimiento de los años 60 que reivindica un manga adulto, político y expresionista. Fundado por Yoshihiro Tatsumi como reacción al manga infantil de Tezuka.</s>
+      <s>Movimiento surgido a finales de los años cincuenta y consolidado en los sesenta, que reivindica un manga adulto, político y expresionista. El término lo acuñó Yoshihiro Tatsumi en 1957, como reacción al manga orientado al público infantil dominante en la época.</s>
     </div>
     <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
       <b id="gloss-yokai">Yokai (妖怪)</b>
@@ -1678,6 +1994,36 @@
       <i>La historia de lo cotidiano</i>
       <s>Subgénero centrado en la vida ordinaria sin conflicto central ni resolución dramática. El valor narrativo está en los momentos pequeños. Ejemplos en el fondo: Yotsuba!, Hirayasumi, El gourmet solitario. Muy accesible como entrada al manga para lectores nuevos.</s>
     </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-ukiyoe">Ukiyo-e (浮世絵)</b>
+      <i>Imágenes del mundo flotante</i>
+      <s>Estampa xilográfica de la era Edo que retrataba el ocio urbano: teatro, paisajes, cortesanas y luchadores de sumo. Hokusai, Hiroshige, Kuniyoshi y Sharaku son sus maestros. Su línea, su composición y su economía expresiva son el antecedente plástico directo del manga, como muestra el atlas de raíces de este recurso.</s>
+    </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-kamishibai">Kamishibai (紙芝居)</b>
+      <i>Teatro de papel</i>
+      <s>Espectáculo callejero de láminas ilustradas narradas en voz alta, muy popular en el Japón de los años treinta a cincuenta. Varios autores de la posguerra se formaron dibujando kamishibai antes de pasar al manga. Hoy se emplea como técnica de narración oral en las aulas de Infantil y Primaria.</s>
+    </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-bushido">Bushidō (武士道)</b>
+      <i>El camino del guerrero</i>
+      <s>Código ético atribuido a la clase samurái: lealtad, honor, autodominio y aceptación de la muerte. Su formulación sistemática es tardía (era Meiji), pero ordena el imaginario del manga histórico de samuráis y permite compararlo en clase con el código caballeresco europeo.</s>
+    </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-samurai">Samurái (侍) · Shōgun (将軍)</b>
+      <i>Guerrero de élite · general gobernante</i>
+      <s>El samurái es el guerrero de la élite militar japonesa. El shōgun es el general que gobernó de facto el país entre 1192 y 1868, con el emperador reducido a figura simbólica. Ambos protagonizan el jidaigeki y gran parte del manga histórico del fondo.</s>
+    </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-kabuki">Kabuki (歌舞伎)</b>
+      <i>Teatro popular de la era Edo</i>
+      <s>Teatro urbano de gran espectacularidad: maquillaje codificado, poses congeladas (mie) y escenografía dinámica. Compartió público y estética con el ukiyo-e; las estampas de actores de Sharaku que ilustran este recurso son retratos de kabuki.</s>
+    </div>
+    <div class="ac" style="border-left-color:var(--gold); background:rgba(255,252,235,.7);">
+      <b id="gloss-mecha">Mecha (メカ)</b>
+      <i>Abreviatura de «mechanical»</i>
+      <s>Género protagonizado por robots gigantes pilotados, de Mazinger Z (1972) a Evangelion (1995). Bajo la superficie de acción, plantea la guerra, la técnica y la responsabilidad de quien maneja la máquina, lo que lo hace útil para debates de ética y tecnología.</s>
+    </div>
   </div>
 </section><!-- /glosario -->
 
@@ -1699,11 +2045,153 @@
   <div class="gen-wrap" id="vinetasGenerator"></div>
 </section>
 
+<!-- ══════════════════ ENTRADA DOCENTE AL FONDO ══════════════════ -->
+<section aria-labelledby="selector-docente-heading" class="selector-docente" id="selector-docente">
+  <div class="selector-docente-head">
+    <div>
+      <span class="selector-eyebrow">Entrada docente</span>
+      <h2 id="selector-docente-heading">Elige una ruta antes de abrir el fondo.</h2>
+      <p>El catálogo completo existe, pero no aparece de golpe. Primero se muestra una selección breve, defendible y usable en aula.</p>
+    </div>
+    <div class="catalog-mode-switch" role="group" aria-label="Modo de consulta del fondo">
+      <button type="button" class="catalog-mode-btn active" id="modeAulaBtn" data-action="setCatalogMode" data-arg="aula" aria-pressed="true">Modo aula</button>
+      <button type="button" class="catalog-mode-btn" id="modeBibliotecaBtn" data-action="setCatalogMode" data-arg="biblioteca" aria-pressed="false">Modo biblioteca</button>
+    </div>
+  </div>
+
+  <div class="docente-method" aria-label="Criterios de selección docente">
+    <div>
+      <span>01</span>
+      <strong>Etapa y madurez</strong>
+      <p>La recomendación evita títulos sensibles cuando el grupo necesita una entrada suave.</p>
+    </div>
+    <div>
+      <span>02</span>
+      <strong>Propósito didáctico</strong>
+      <p>Cada título se lee desde una intención: lengua, historia, ciencia, ética, inclusión o visualidad.</p>
+    </div>
+    <div>
+      <span>03</span>
+      <strong>Evidencia visible</strong>
+      <p>La ficha prioriza qué se puede observar en página: composición, conflicto, emoción o contexto.</p>
+    </div>
+    <div>
+      <span>04</span>
+      <strong>Salida de aula</strong>
+      <p>Cada selección termina en lectura guiada, localización del fondo o actividad defendible.</p>
+    </div>
+  </div>
+
+  <div class="docente-planner" aria-label="Selector docente de recomendación">
+    <label>
+      <span>Etapa</span>
+      <select id="docenteNivel">
+        <option value="primaria">Primaria</option>
+        <option value="secundaria" selected>Secundaria</option>
+        <option value="bachillerato">Bachillerato</option>
+        <option value="universidad">Universidad</option>
+      </select>
+    </label>
+    <label>
+      <span>Propósito</span>
+      <select id="docenteUso">
+        <option value="lenguas">Comprensión lectora</option>
+        <option value="historia">Contexto histórico</option>
+        <option value="ciencia">Ciencia / STEM</option>
+        <option value="emocional" selected>Educación emocional</option>
+          <option value="filosofia">Ética y pensamiento</option>
+          <option value="visual">Alfabetización visual</option>
+          <option value="yokai">Yōkai / folklore visual</option>
+          <option value="genero">Identidad y género</option>
+          <option value="inclusion">Inclusión</option>
+        </select>
+    </label>
+    <label>
+      <span>Tiempo</span>
+      <select id="docenteTiempo">
+        <option value="breve">15 minutos</option>
+        <option value="sesion" selected>1 sesión</option>
+        <option value="proyecto">Proyecto</option>
+      </select>
+    </label>
+    <label>
+      <span>Madurez del grupo</span>
+      <select id="docenteMadurez">
+        <option value="suave" selected>Sin contenido sensible</option>
+        <option value="media">Con mediación</option>
+        <option value="abierta">Abierta</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="docente-results-head">
+    <div>
+      <h3>Selección sugerida</h3>
+      <p id="docenteSummary">12 títulos como máximo, con criterio de uso didáctico.</p>
+    </div>
+    <button type="button" class="docente-secondary" data-action="setCatalogMode" data-arg="biblioteca">Abrir fondo completo</button>
+  </div>
+  <div class="docente-card-grid" id="docenteResults" aria-live="polite"></div>
+
+  <div class="rutas-docentes" aria-label="Rutas didácticas recomendadas">
+    <article class="ruta-card" data-ruta="primeros">
+      <span class="ruta-tag">Ruta 01</span>
+      <h3>Iniciar manga sin fricción</h3>
+      <p>Para grupos que no conocen el código visual o necesitan una entrada segura.</p>
+      <button type="button" data-action="applyDocenteRoute" data-arg="primeros">Ver 6 títulos</button>
+    </article>
+    <article class="ruta-card" data-ruta="memoria">
+      <span class="ruta-tag">Ruta 02</span>
+      <h3>Memoria, historia y conflicto</h3>
+      <p>Lecturas para situar el manga como documento cultural e histórico.</p>
+      <button type="button" data-action="applyDocenteRoute" data-arg="memoria">Ver 6 títulos</button>
+    </article>
+    <article class="ruta-card" data-ruta="cuerpo">
+      <span class="ruta-tag">Ruta 03</span>
+      <h3>Cuerpo, ciencia y cuidado</h3>
+      <p>Una vía para STEM, salud, biología y conversación ética.</p>
+      <button type="button" data-action="applyDocenteRoute" data-arg="cuerpo">Ver 6 títulos</button>
+    </article>
+    <article class="ruta-card" data-ruta="identidad">
+      <span class="ruta-tag">Ruta 04</span>
+      <h3>Identidad y adolescencia</h3>
+      <p>Títulos para tutoría, convivencia, género y lectura emocional.</p>
+      <button type="button" data-action="applyDocenteRoute" data-arg="identidad">Ver 6 títulos</button>
+    </article>
+    <article class="ruta-card" data-ruta="yokai">
+      <span class="ruta-tag">Ruta 05</span>
+      <h3>Yōkai y folklore visual</h3>
+      <p>Para conectar mitología japonesa, cultura popular y alfabetización visual.</p>
+      <button type="button" data-action="applyDocenteRoute" data-arg="yokai">Ver 6 títulos</button>
+    </article>
+  </div>
+
+  <div class="yokai-visual-band" aria-label="Láminas libres para trabajar yōkai y folklore visual">
+    <div class="yokai-copy">
+      <span class="selector-eyebrow">Ruta visual</span>
+      <h3>Del yōkai clásico al manga moderno.</h3>
+      <p>Punto de entrada para trabajar catálogo visual de criaturas, exageración expresiva y continuidad entre relato oral, estampa y manga sin mostrar láminas de referencia en esta vista.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════════════ CATÁLOGO COMPLETO ══════════════════ -->
-<section aria-labelledby="catalogo-heading" class="catalog-section" id="catalogo">
+<section aria-labelledby="catalogo-heading" class="catalog-section catalog-collapsed" id="catalogo">
   <div class="catalog-header">
-    <h2 id="catalogo-heading" class="catalog-title">Catálogo completo del fondo</h2>
-    <p class="catalog-sub">279 títulos · Pasa el cursor sobre cada tarjeta para ver la descripción pedagógica · Los filtros de uso y nivel operan sobre este catálogo y la línea del tiempo simultáneamente · Busca por título, autor o tema libre</p>
+    <h2 id="catalogo-heading" class="catalog-title">Fondo completo en modo biblioteca</h2>
+    <p class="catalog-sub">280 títulos disponibles para consulta experta. En modo aula permanece oculto para evitar sobrecarga cognitiva.</p>
+  </div>
+
+  <div class="catalog-collapsed-banner">
+    <span class="ccb-eyebrow">Modo aula activo</span>
+    <h3 class="ccb-title">El fondo completo está cerrado por diseño.</h3>
+    <p class="ccb-body">Para trabajar didácticamente conviene empezar con una selección guiada. Abre el modo biblioteca solo cuando necesites búsqueda exhaustiva, exportación o gestión del fondo.</p>
+    <div class="ccb-tips">
+      <span class="ccb-tip"><span class="ccb-k">1</span> Elige etapa y propósito arriba</span>
+      <span class="ccb-tip"><span class="ccb-k">2</span> Usa una ruta didáctica</span>
+      <span class="ccb-tip"><span class="ccb-k">3</span> Abre el fondo completo si hace falta</span>
+    </div>
+    <button type="button" class="catalog-explore-btn" id="exploreBtn" data-action="setCatalogMode" data-arg="biblioteca">Abrir modo biblioteca</button>
   </div>
 
 <!-- ── USO RÁPIDO DOCENTE ───────────────────────────────── -->
@@ -1895,7 +2383,7 @@
       <span class="comp-name">Matemática y Científico-Tecnológica</span>
     </div>
     <p class="comp-desc">Pensamiento científico, ética tecnológica, robótica y ecología.</p>
-    <div class="comp-titles-list"><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Patlabor">Patlabor</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Ghost in the Shell">Ghost in the Shell</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Akira">Akira</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Dr. Stone">Dr. Stone</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Planetes">Planetes</button></div>
+    <div class="comp-titles-list"><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Patlabor">Patlabor</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Ghost in the Shell">Ghost in the Shell</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Akira">Akira</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Team medical dragon">Team medical dragon</button><button type="button" class="comp-title-chip" data-action="filterByTitle" data-arg="Planetes :integral">Planetes :integral</button></div>
   </div>
   <div class="comp-card">
     <div class="comp-card-header">
@@ -1950,6 +2438,72 @@
   </div>
 
 </section><!-- /curriculo -->
+
+<!-- ══════════════════ PUENTES LECTORES ══════════════════ -->
+<section class="adapt" id="puentes-lectores" aria-labelledby="puentes-heading" style="background:rgba(245,239,224,.6); border-top:3px solid var(--gold);">
+  <h2 id="puentes-heading" style="color:var(--gold); font-size:1.1rem;"><span class="kicker-jp" lang="ja">架け橋</span>Puentes lectores: del manga a la literatura (y vuelta)</h2>
+  <p style="font-size:.9rem; color:var(--grey); font-style:italic; margin-bottom:1rem;">El fondo incluye adaptaciones manga de clásicos del canon escolar y universal. Leer la adaptación antes o después del original, y comparar las decisiones del adaptador (qué se condensa, qué se visualiza, qué se pierde), es una práctica de literacidad multimodal directamente aprovechable en Lengua Castellana y Literatura, Lengua Extranjera y Cultura Clásica.</p>
+  <div style="overflow-x:auto;">
+    <table class="tabla-editorial">
+      <caption class="sr-only">Adaptaciones manga del fondo y obras literarias de partida, con sugerencia de uso en el aula</caption>
+      <thead>
+        <tr>
+          <th scope="col">Manga del fondo</th>
+          <th scope="col">Obra de partida</th>
+          <th scope="col">Puente de aula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Don Quijote de la Mancha: el manga</th>
+          <td data-label="Obra de partida">Cervantes, <em>Don Quijote</em> (1605/1615)</td>
+          <td data-label="Puente de aula" class="celda-cautela">Comparar un episodio (los molinos) en prosa y en viñeta: ¿cómo se dibuja la ironía del narrador?</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Romeo y Julieta (Igarashi) · Hamlet · Macbeth</th>
+          <td data-label="Obra de partida">Shakespeare, tragedias (finales del s. XVI, principios del XVII)</td>
+          <td data-label="Puente de aula" class="celda-cautela">El monólogo frente a la página muda: ¿qué hace la imagen con un texto pensado para la voz?</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Crimen y castigo: el manga</th>
+          <td data-label="Obra de partida">Dostoievski, <em>Crimen y castigo</em> (1866)</td>
+          <td data-label="Puente de aula" class="celda-cautela">El remordimiento como problema visual: rastrear cómo la adaptación dibuja el interior de Raskólnikov.</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">La metamorfosis: el manga</th>
+          <td data-label="Obra de partida">Kafka, <em>La metamorfosis</em> (1915)</td>
+          <td data-label="Puente de aula" class="celda-cautela">Kafka nunca quiso que se dibujara al insecto: debatir si la adaptación traiciona o ilumina esa decisión.</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Orgullo y prejuicio</th>
+          <td data-label="Obra de partida">Austen, <em>Orgullo y prejuicio</em> (1813)</td>
+          <td data-label="Puente de aula" class="celda-cautela">La ironía de Austen pasada por la estética shōjo: ¿qué códigos visuales traducen el cortejo y la clase social?</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Ilíada y Odisea: el manga</th>
+          <td data-label="Obra de partida">Homero (s. VIII a. C.)</td>
+          <td data-label="Puente de aula" class="celda-cautela">Epíteto épico y diseño de personaje: «Aquiles, el de los pies ligeros» como problema de caracterización gráfica. Útil en Cultura Clásica.</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">El conde de Montecristo</th>
+          <td data-label="Obra de partida">Dumas, <em>El conde de Montecristo</em> (1844-1846)</td>
+          <td data-label="Puente de aula" class="celda-cautela">El folletín como antecesor de la serialización manga: entregas, cliffhangers y fidelidad del público.</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Historias de Edgar Allan Poe · Las montañas de la locura</th>
+          <td data-label="Obra de partida">Poe (s. XIX) · Lovecraft (1936)</td>
+          <td data-label="Puente de aula" class="celda-cautela">El terror de lo no mostrado: cómo sugiere la viñeta lo que la prosa solo insinúa. Contenido sensible: revisar etiquetas del catálogo.</td>
+        </tr>
+        <tr>
+          <th scope="row" data-label="Manga del fondo">Kokoro · La época de Botchan</th>
+          <td data-label="Obra de partida">Natsume Sōseki, <em>Kokoro</em> (1914) y <em>Botchan</em> (1906)</td>
+          <td data-label="Puente de aula" class="celda-cautela">Doble puente con la literatura japonesa: adaptación directa (Kokoro) y biografía de época (Taniguchi sobre el Japón de Sōseki).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem; color:var(--grey); margin:.8rem 0 0;">Todos los títulos de la primera columna pertenecen al fondo y pueden localizarse desde el catálogo de este recurso o en el OPAC de la ULPGC.</p>
+</section>
 
 <!-- ══════════════════ PARTE IV ══════════════════ -->
 <div class="parte-divider" id="parte-iv" data-screen-label="Parte IV — Llevar al aula">
@@ -3783,7 +4337,7 @@
   <br>
   <span style="font-size:.74rem; color:var(--grey); font-style:italic;">
     Última actualización: 21 de mayo de 2026 · v5.9 &nbsp;·&nbsp;
-    Fondo: 279 títulos &nbsp;·&nbsp;
+    Fondo: 280 títulos &nbsp;·&nbsp;
     Licencia de los contenidos propios: CC BY-NC 4.0 &nbsp;·&nbsp;
     Los derechos de los títulos reseñados pertenecen a sus respectivos autores y editoriales.
   </span>
@@ -3799,6 +4353,15 @@
     Daniel Hernández García &nbsp;·&nbsp;
     Zaira Rodríguez Panadero
   </span>
+</div>
+
+<div id="como-citar" class="adapt" role="note" aria-label="Cómo citar este recurso" style="background:rgba(245,239,224,.6); border-top:3px solid var(--gold); padding:1.2rem 1.4rem; margin-top:1.5rem;">
+  <h3 style="color:var(--gold); font-size:1rem; margin-bottom:.6rem;"><span class="kicker-jp" lang="ja">引用</span>Cómo citar este recurso</h3>
+  <p style="font-size:.85rem; color:var(--grey); font-style:italic; margin-bottom:.8rem;">Si empleas este recurso en una publicación, un trabajo académico (TFG, TFM, tesis) o una programación didáctica, puedes citarlo así (APA 7.ª edición):</p>
+  <blockquote style="font-size:.9rem; line-height:1.6; margin:0; padding:.9rem 1.1rem; background:rgba(255,252,235,.7); border-left:3px solid var(--gold);">
+    Becerra Romero, D. (Dir.), Arocha Moros, P., Hernández Chio, L., Hernández García, D., y Rodríguez Panadero, Z. (2026). <em>El manga como recurso didáctico</em> (versión 5.49.0) [Recurso educativo interactivo]. Biblioteca del Campus del Obelisco, Aula de Cómic, Universidad de Las Palmas de Gran Canaria. https://biblioteca.ulpgc.es/manga-recurso-didactico
+  </blockquote>
+  <p style="font-size:.8rem; color:var(--grey); margin:.8rem 0 0;">Recurso de acceso abierto bajo licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es" rel="license noopener" target="_blank">CC BY-NC 4.0</a>. Indica la fecha de consulta si tu normativa de citación lo requiere.</p>
 </div>
 </section><!-- /recursos -->
 
@@ -4102,7 +4665,7 @@
            aria-label="Mapa de conexiones pedagógicas del fondo manga"
            aria-describedby="grafoSvgDesc">
         <title>Mapa de conexiones pedagógicas</title>
-        <desc id="grafoSvgDesc">Grafo de fuerza con los 279 títulos del fondo agrupados por uso pedagógico. Usa Tab para navegar entre títulos y Enter para abrir la ficha de cada obra.</desc>
+        <desc id="grafoSvgDesc">Grafo de fuerza con los 280 títulos del fondo agrupados por uso pedagógico. Usa Tab para navegar entre títulos y Enter para abrir la ficha de cada obra.</desc>
       </svg>
     </div>
 
@@ -4199,28 +4762,42 @@
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script defer src="js/datos.min.js"></script>
-<script defer src="js/app.min.js"></script>
-<script src="js/vinetas-generator.js"></script>
-<script src="js/catalog-collapse.js"></script>
-<script src="js/etapa-selector.js"></script>
-<script src="js/left-dock.js"></script>
-<script src="js/overlay-fab-hide.js"></script>
-<script src="js/filter-collapse-sticky.js"></script>
-<script src="js/lazy-fonts.js"></script>
-<script src="js/parte-nav.js"></script>
-<script src="js/url-state.js"></script>
-<script src="js/ficha-pdf.js"></script>
-<script src="js/actividad-vinetas.js"></script>
-<script src="js/autocomprobacion-datos.js"></script>
-<script src="js/mediacion.js"></script>
-<script src="js/autocomprobacion.js"></script>
-<script src="js/segmentacion.js"></script>
-<script src="js/planificador.js"></script>
-<script src="js/preferencias.js"></script><!-- G2 -->
-<script src="js/andamiaje-lectura.js"></script><!-- D1 -->
+<!-- ============================================================
+     ORDEN DE CARGA DE SCRIPTS (modelo unificado: todos con defer)
+     Los scripts con defer se ejecutan en el ORDEN del documento, tras
+     completarse el parseo del HTML y antes de DOMContentLoaded. Esto
+     garantiza que d3 y la app se inicialicen antes que los modulos
+     auxiliares, eliminando dependencias implicitas de orden.
+
+     Grafo de dependencias:
+       d3.min.js        -> (base de visualizaciones)
+       datos.min.js     -> define window.CATALOGO, window.USO_COLORES
+       app.min.js       -> nucleo; usa d3 y datos; expone window.* (API)
+       modulos js/*.js   -> consumen la API de app via DOM/eventos
+       timeline-jump.js -> navegacion temporal (consume app)
+     ============================================================ -->
+<script defer src="assets/libs/d3.min.js?v=5.51.0"></script>
+<script defer src="js/datos.min.js?v=5.51.0"></script>
+<script defer src="js/app.min.js?v=5.51.0"></script>
+<script defer src="js/vinetas-generator.js"></script>
+<script defer src="js/catalog-collapse.js"></script>
+<script defer src="js/etapa-selector.js"></script>
+<script defer src="js/left-dock.js"></script>
+<script defer src="js/overlay-fab-hide.js"></script>
+<script defer src="js/filter-collapse-sticky.js"></script>
+<script defer src="js/lazy-fonts.js"></script>
+<script defer src="js/parte-nav.js"></script>
+<script defer src="js/url-state.js"></script>
+<script defer src="js/ficha-pdf.js"></script>
+<script defer src="js/actividad-vinetas.js"></script>
+<script defer src="js/autocomprobacion-datos.js"></script>
+<script defer src="js/mediacion.js"></script>
+<script defer src="js/autocomprobacion.js"></script>
+<script defer src="js/segmentacion.js"></script>
+<script defer src="js/planificador.js"></script>
+<script defer src="js/preferencias.js"></script><!-- G2 -->
+<script defer src="js/andamiaje-lectura.js"></script><!-- D1 -->
+<script defer src="js/v551-reveal.js?v=5.51.0"></script><!-- v5.51: revelado sobrio -->
 
 <div id="lecturaOverlay" role="dialog" aria-modal="true" aria-labelledby="lecturaTitleEl">
   <div id="lecturaModal">
@@ -4431,6 +5008,8 @@
     </div>
   </div>
 </div>
+  <script defer src="js/timeline-jump.js?v=5.51.0"></script>
   <script src="sw-register.js"></script>
 </body>
 </html>
+

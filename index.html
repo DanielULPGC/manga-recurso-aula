@@ -2,54 +2,28 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portada — El manga como recurso didáctico · Biblioteca Campus del Obelisco · ULPGC</title>
-<meta name="description" content="Recurso interactivo para profesorado: marco pedagógico, catálogo curado de 279 títulos, situaciones LOMLOE, itinerarios por etapa.">
+<title>Portada - El manga como recurso didactico - Biblioteca Campus del Obelisco - ULPGC</title>
+<meta name="description" content="Recurso interactivo para profesorado: marco pedagogico, catalogo curado de 281 titulos, situaciones LOMLOE, itinerarios por etapa.">
 <meta name="theme-color" content="#0e0a04">
 
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/framer-motion@10.18.0/dist/framer-motion.js"></script>
-<script src="https://unpkg.com/htm@3.1.1/dist/htm.js"></script>
-<script>
-  window.Motion = window.Motion || window.FramerMotion || {};
-  window.html   = htm.bind(React.createElement);
-</script>
-
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        heading: ['Shippori Mincho B1', 'serif'],
-        body:    ['Shippori Mincho B1', 'serif'],
-        mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
-        jp:      ['Noto Serif JP', 'serif'],
-      },
-      colors: {
-        ink:     '#0e0a04',
-        ink2:    '#1a1410',
-        paper:   '#f3ede1',
-        paper2:  '#e8ddc8',
-        red:     '#b8341d',
-        gold:    '#b8860b',
-        rule:    'rgba(243,237,225,0.18)',
-      },
-      borderRadius: { DEFAULT: '9999px' },
-      letterSpacing: { kicker: '0.16em' },
-    }
-  }
-};
-</script>
+<!-- Librerias y Tailwind vendorizados localmente (soberania offline; CSP script-src 'self') -->
+<link rel="stylesheet" href="landing/tailwind.css?v=5.51.0">
+<script src="assets/libs/react.production.min.js"></script>
+<script src="assets/libs/react-dom.production.min.js"></script>
+<script src="assets/libs/framer-motion.js"></script>
+<script src="assets/libs/htm.js"></script>
+<script src="landing/portada-bind.js?v=5.51.0"></script>
 
 <style>
   html, body { background: #0e0a04; color: #f3ede1; }
@@ -125,13 +99,36 @@ tailwind.config = {
     animation: float-up var(--dur, 12s) ease-out infinite;
     animation-delay: var(--delay, 0s);
   }
+
+  /* -- Intro de apertura (video -> frontend) --------------------- */
+  #intro-overlay{position:fixed;inset:0;z-index:9999;background:#f5efe0;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    opacity:1;transition:opacity .6s ease;}
+  #intro-overlay.intro-hide{opacity:0;pointer-events:none;}
+  #intro-mp4{width:100%;height:100%;object-fit:contain;background:#f5efe0;}
+  #intro-card{display:none;width:100%;height:100%;border:0;background:#f5efe0;}
+  #intro-skip{position:fixed;right:22px;bottom:20px;z-index:10000;
+    font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.06em;
+    color:#1a1008;background:rgba(245,239,224,.72);border:1px solid rgba(26,16,8,.35);
+    border-radius:999px;padding:8px 16px;cursor:pointer;backdrop-filter:blur(4px);}
+  #intro-skip:hover{background:#1a1008;color:#f5efe0;border-color:#1a1008;}
 </style>
 
 </head>
 <body>
+  <div id="intro-overlay" role="dialog" aria-label="Apertura del recurso">
+    <video id="intro-mp4" muted playsinline preload="auto">
+      <source src="intro/intro.mp4" type="video/mp4">
+    </video>
+    <iframe id="intro-card" title="Tarjeta de apertura - era Edo" src="about:blank"></iframe>
+  </div>
+  <button id="intro-skip" type="button">Saltar intro &rarr;</button>
+
+  <script src="landing/intro-boot.js?v=5.51.0"></script>
+
   <div id="root"></div>
 
-  <script src="landing/htm-app.js"></script>
+  <script src="landing/htm-app.js?v=5.51.0"></script>
   <script src="sw-register.js"></script>
 </body>
 </html>
