@@ -1,4 +1,4 @@
-﻿/* ══════════════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════════
    htm-app.js — Landing page sin Babel, usando htm + React
    htm convierte template literals en React.createElement, evitando
    el bug de babel-standalone con bundles grandes.
@@ -57,7 +57,7 @@
   }
 
   /* ─── CINEMATIC BACKGROUND ──────────────────────────────────── */
-  function CinematicBg({ image=null, tint='red', intensity=1 }) {
+  function CinematicBg({ image=null, tint='red', intensity=1, imageOpacity=0.28 }) {
     const particlesRef = useRef(null);
     useEffect(() => {
       const root = particlesRef.current; if (!root) return;
@@ -80,7 +80,7 @@
     return html`
       <div className="absolute inset-0 overflow-hidden grain" aria-hidden="true">
         <div className="absolute inset-0 bg-ink"></div>
-        ${image && html`<div className="absolute inset-0 kenburns" style=${{ backgroundImage:`url("${image}")`, backgroundSize:'cover', backgroundPosition:'center', opacity:0.28, mixBlendMode:'screen' }}></div>`}
+        ${image && html`<div className="absolute inset-0 kenburns" style=${{ backgroundImage:`url("${image}")`, backgroundSize:'cover', backgroundPosition:'center', opacity:imageOpacity, mixBlendMode:'screen' }}></div>`}
         <div className="absolute inset-0" style=${{ background: grad }}></div>
         <div className="absolute inset-x-0 bottom-0 h-2/3 wave-bg"></div>
         <div className="absolute inset-0" style=${{ background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 100%)' }}></div>
@@ -136,10 +136,18 @@
   }
 
   /* ─── HERO ──────────────────────────────────────────────────── */
+  const PROFILE_LINKS = [
+    { l:'Docente novel', h:'recurso.html#parte-i', d:'Marco y protocolo' },
+    { l:'Etapa definida', h:'recurso.html#selector-docente', d:'Selector docente' },
+    { l:'Biblioteca / Aula', h:'recurso.html#catalogo', d:'Fondo y OPAC' },
+    { l:'Alumnado', h:'recurso.html#puentes-lectores', d:'Lectura guiada' },
+    { l:'Investigador / formador', h:'recurso.html#universidad', d:'Itinerarios ULPGC' },
+  ];
+
   function Hero() {
     return html`
       <section id="top" className="relative min-h-screen flex flex-col overflow-hidden">
-        <${CinematicBg} image="img/banner-ulpgc-aulacomic.jpg" tint="red" intensity=${0.9} />
+        <${CinematicBg} image="img/hokusai-gran-ola.jpg" tint="red" intensity=${0.9} />
         <${Nav} />
         <div className="relative z-10 flex-1 flex items-center px-6 lg:px-12 pt-28 pb-12">
           <div className="max-w-5xl mx-auto w-full text-center">
@@ -166,6 +174,22 @@
                 </span>
                 Ver línea del tiempo
               </a>
+            </>
+            <${motion.nav}
+              ...${fadeUp}
+              transition=${{...ease, delay:1.45}}
+              className="max-w-4xl mx-auto mb-12"
+              aria-label="Acceso rápido por perfil de usuario"
+            >
+              <div className="font-mono text-[10px] uppercase tracking-kicker text-paper/50 mb-3">Acceso por perfil</div>
+              <div className="flex flex-wrap justify-center gap-2.5">
+                ${PROFILE_LINKS.map(p => html`
+                  <a key=${p.l} href=${p.h} className="liquid-glass inline-flex flex-col items-center gap-1 px-4 py-3 text-paper hover:text-paper transition-colors" style=${{ borderRadius:'1rem', minWidth:'132px' }}>
+                    <span className="font-mono text-[10px] uppercase tracking-kicker">${p.l}</span>
+                    <span className="text-[12px] text-paper/65 font-body">${p.d}</span>
+                  </a>
+                `)}
+              </div>
             </>
             <${motion.div} ...${fadeUp} transition=${{...ease, delay:1.55}} className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
               <${StatCard} icon=${html`<${IconBook} />`}  number="280" suffix="títulos" label="Catálogo curado del fondo Aula de Cómic" />
@@ -307,17 +331,29 @@
     return html`
       <section id="aula" className="relative overflow-hidden">
         <div className="relative min-h-[80vh] flex items-center px-6 lg:px-12 py-32">
-          <${CinematicBg} image="img/banner-ulpgc-aulacomic.jpg" tint="gold" intensity=${1.1} />
+          <${CinematicBg} image="img/hiroshige-lluvia.jpg" tint="gold" intensity=${1.1} />
           <div className="relative z-10 max-w-5xl mx-auto w-full text-center">
             <${motion.div} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6 }} className="font-mono text-[11px] uppercase tracking-kicker text-gold mb-8">// Bienvenida al recurso</>
             <${BlurText} text="Empieza por el camino que necesitas." italic className="font-heading text-paper text-5xl md:text-7xl lg:text-[6rem] leading-[0.95] tracking-[-0.02em] font-semibold mb-8 justify-center" tag="h2" stagger=${90} />
             <${motion.p} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6, delay:0.5 }} className="text-paper/85 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
-              Marco pedagógico, fondo de 280 títulos, situaciones LOMLOE e itinerarios — todo en un único recurso, abierto y mantenido por la Biblioteca del Campus del Obelisco.
+              Marco pedagógico, fondo de 280 títulos, situaciones LOMLOE e itinerarios — todo en un único recurso, abierto y mantenido por el Aula de Cómic de la Facultad de Ciencias de la Educación.
             </>
-            <${motion.div} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6, delay:0.7 }} className="flex flex-wrap items-center justify-center gap-3">
+            <${motion.div} initial=${{ opacity:0, y:10 }} whileInView=${{ opacity:1, y:0 }} viewport=${{ once:true, amount:0.3 }} transition=${{ duration:0.6, delay:0.7 }} className="flex flex-col items-center gap-8">
               <${PaperBtn} href="recurso.html#parte-i" className="!px-8 !py-4 text-[12px]">Entrar al recurso <${ArrowUpRight} size=${16} /></>
-              <a href="manual-docente.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">⎙ Manual docente</a>
-              <a href="deck-claustro.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">â–¶ Deck claustro</a>
+              <div className="flex flex-wrap items-start justify-center gap-x-12 gap-y-6">
+                <div className="flex flex-col items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-kicker text-paper/45">Para ti</span>
+                  <a href="manual-docente.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">⎙ Manual docente</a>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-kicker text-paper/45">Para presentarlo</span>
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    <a href="deck-claustro.html" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">▶ Deck claustro</a>
+                    <a href="jardin-de-tinta.html" title="Pieza de apertura para proyectar en claustro o primera sesión" className="inline-flex items-center gap-2 liquid-glass px-5 py-3.5 rounded-full text-paper font-mono uppercase tracking-kicker text-[11px]">❀ Jardín de tinta</a>
+                  </div>
+                  <span className="font-mono text-[9px] uppercase tracking-kicker text-paper/35">deck para el claustro · jardín para proyectar</span>
+                </div>
+              </div>
             </>
           </div>
         </div>
@@ -339,7 +375,7 @@
             </div>
             <div>
               <div className="font-mono text-[10px] uppercase tracking-kicker text-gold mb-4">Institución</div>
-              <h3 className="font-heading italic text-paper text-2xl md:text-3xl leading-tight mb-3">Biblioteca Campus del Obelisco</h3>
+              <h3 className="font-heading italic text-paper text-2xl md:text-3xl leading-tight mb-3">Facultad de Ciencias de la Educación</h3>
               <p className="text-paper/65 text-sm font-body leading-relaxed mb-4">Aula de Cómic · Facultad de Ciencias de la Educación · ULPGC</p>
               <a href="https://educ.ulpgc.es/cultura/aula-de-comic" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-kicker text-gold hover:text-paper transition-colors">
                 Aula de Cómic ULPGC <${ArrowUpRight} size=${14} />

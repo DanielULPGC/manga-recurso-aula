@@ -348,112 +348,11 @@ const Logger = (() => {
    el volumen de este recurso (< 20 llamadas por sesión de usuario).
 ══════════════════════════════════════════════════════════════════ */
 
-/**
- * Lista blanca de etiquetas HTML permitidas en contenido externo.
- * @type {Set<string>}
- */
-const SANITIZE_ALLOWLIST_TAGS = new Set([
-  'P', 'BR', 'STRONG', 'EM', 'B', 'I',
-  'UL', 'OL', 'LI',
-  'H1', 'H2', 'H3', 'H4',
-  'BLOCKQUOTE', 'CODE', 'PRE',
-  'MARK', 'SPAN',
-  'A',
-]);
+const sanitizeHtml = window.MangaUtils?.sanitizeHtml;
+const escapeHtml = window.MangaUtils?.escapeHtml;
 
-/**
- * Atributos permitidos por etiqueta. El resto se elimina.
- * @type {Object<string, string[]>}
- */
-const SANITIZE_ALLOWLIST_ATTRS = {
-  A: ['href', 'title'],
-  MARK: ['class'],
-  SPAN: ['class'],
-  CODE: ['class'],
-};
-
-/**
- * Sanitiza una cadena HTML de fuente externa.
- * Elimina etiquetas no permitidas (conserva su contenido de texto),
- * elimina atributos no permitidos y bloquea URLs javascript: en href.
- *
- * @param {string} dirtyHtml  - HTML sin confianza (IA, datos externos)
- * @returns {string}          - HTML seguro listo para innerHTML
- */
-function sanitizeHtml(dirtyHtml) {
-  if (!dirtyHtml || typeof dirtyHtml !== 'string') return '';
-
-  let doc;
-  try {
-    doc = new DOMParser().parseFromString(dirtyHtml, 'text/html');
-  } catch {
-    // DOMParser no disponible (entorno muy antiguo): devolver texto plano
-    return dirtyHtml.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  /**
-   * Limpia recursivamente un nodo y sus descendientes.
-   * @param {Node} node
-   */
-  function _clean(node) {
-    const children = Array.from(node.childNodes);
-    for (const child of children) {
-      if (child.nodeType === Node.TEXT_NODE) continue; // texto: siempre seguro
-
-      if (child.nodeType === Node.ELEMENT_NODE) {
-        const tag = child.tagName.toUpperCase();
-
-        if (!SANITIZE_ALLOWLIST_TAGS.has(tag)) {
-          // Etiqueta no permitida: conservar texto interior, eliminar etiqueta
-          const text = document.createTextNode(child.textContent);
-          child.replaceWith(text);
-          continue;
-        }
-
-        // Limpiar atributos no permitidos
-        const allowedAttrs = SANITIZE_ALLOWLIST_ATTRS[tag] || [];
-        const attrNames = Array.from(child.attributes).map(a => a.name);
-        for (const attr of attrNames) {
-          if (!allowedAttrs.includes(attr)) {
-            child.removeAttribute(attr);
-          }
-        }
-
-        // Bloquear hrefs peligrosos (javascript:, data:, vbscript:)
-        if (tag === 'A') {
-          const href = child.getAttribute('href') || '';
-          if (/^(javascript|data|vbscript):/i.test(href.trim())) {
-            child.removeAttribute('href');
-          }
-        }
-
-        _clean(child); // recursivo
-      } else {
-        // Nodo de otro tipo (comentario, PI…): eliminar
-        child.remove();
-      }
-    }
-  }
-
-  _clean(doc.body);
-  return doc.body.innerHTML;
-}
-
-/**
- * Escapa una cadena para uso seguro como texto plano en innerHTML.
- * Usar cuando el contenido NO debe contener ninguna etiqueta HTML.
- *
- * @param {string} str - Texto sin confianza
- * @returns {string}   - Texto con caracteres HTML escapados
- */
-function escapeHtml(str) {
-  if (!str || typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
+if (typeof sanitizeHtml !== 'function' || typeof escapeHtml !== 'function') {
+  throw new Error('MangaUtils no esta disponible. Revisa la carga de js/core/utils.js.');
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -653,6 +552,16 @@ const FocusTrap = (() => {
       .filter(el => !el.closest('[hidden]') && !el.closest('[aria-hidden="true"]'));
   }
 
+  function _closeActiveDialog() {
+    const dialog = _container?.closest?.('[role="dialog"]') || _container;
+    const action = dialog?.dataset?.closeAction;
+    if (action && typeof window[action] === 'function') {
+      window[action]();
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Activa la trampa de foco en el modal dado.
    * @param {HTMLElement} modalEl   - Contenedor del modal
@@ -681,7 +590,7 @@ const FocusTrap = (() => {
     _handler = function(e) {
       if (e.key === 'Escape') {
         e.preventDefault();
-        deactivate();
+        if (!_closeActiveDialog()) deactivate();
         return;
       }
 
@@ -1138,7 +1047,7 @@ function _refreshCatalogoEfectivo() {
 // ── CONSTANTE GLOBAL DE CLAVE API ────────────────────────────────
 // Usada en ambos IIFEs del asistente (líneas ~1861 y ~4360).
 // Si se renombra, cambiar en los dos sitios.
-const MANGA_ASIST_KEY = 'manga_asist_apikey';
+const MANGA_ASIST_KEY = window.MANGA_APP_CONFIG?.storageKeys?.asistenteApi || 'manga_asist_apikey';
 
 // ══════════════════════════════════════════════════════════════════
 // MOTOR IA DUAL — Claude (artifact) + Gemini (standalone, con clave)
@@ -1316,7 +1225,7 @@ function exitEraDiscovery(silent) {
   // Remove active class from all
   eraColumns.forEach(c => c.classList.remove('era-active'));
   const btn = document.getElementById('eraDiscBtn');
-  if (btn) btn.textContent = 'â–¶';
+  if (btn) btn.textContent = '▶';
   updateEraDiscBar();
 }
 
@@ -1496,7 +1405,7 @@ function openPanelDocente(tab = 'stats') {
         ${[
           { id:'stats',    icon:'📊', label:'Estadísticas' },
           { id:'notas',    icon:'✎',  label:'Notas'        },
-          { id:'historial',icon:'â§–',  label:'Historial'    },
+          { id:'historial',icon:'⧖',  label:'Historial'    },
           { id:'exportar', icon:'⬇',  label:'Exportar'     },
           { id:'catalogo', icon:'✚',  label:'Catálogo'     },
         ].map(t => `
@@ -1798,7 +1707,7 @@ function _showImportResult(el, report, filename = '') {
   let html = filename ? `<strong>${escapeHtml(filename)}</strong><br>` : '';
   if (report.ok)      html += `✓ ${report.ok} título${report.ok !== 1 ? 's' : ''} importado${report.ok !== 1 ? 's' : ''}. `;
   if (report.skipped) html += `⊘ ${report.skipped} omitido${report.skipped !== 1 ? 's' : ''}. `;
-  if (hasErrors)      html += `<br><span class="pd-import-errors">${report.errors.map(e => `âš  ${escapeHtml(e)}`).join('<br>')}</span>`;
+  if (hasErrors)      html += `<br><span class="pd-import-errors">${report.errors.map(e => `⚠ ${escapeHtml(e)}`).join('<br>')}</span>`;
   if (isSuccess)      html += `<br><small>El catálogo se ha actualizado. Los cambios son visibles en el grid de títulos.</small>`;
 
   el.innerHTML = html;
@@ -1839,7 +1748,7 @@ function _pdCatalogoValidar() {
     result.errors.length   ? `🚨 ${result.errors.length} error${result.errors.length > 1 ? 'es' : ''}:`   : '',
     ...result.errors.slice(0, 10).map(e => `  · ${e}`),
     result.errors.length > 10 ? `  … y ${result.errors.length - 10} más (ver consola F12)` : '',
-    result.warnings.length ? `âš  ${result.warnings.length} aviso${result.warnings.length > 1 ? 's' : ''}:` : '',
+    result.warnings.length ? `⚠ ${result.warnings.length} aviso${result.warnings.length > 1 ? 's' : ''}:` : '',
     ...result.warnings.slice(0, 5).map(w => `  · ${w}`),
   ].filter(Boolean).join('\n');
 
@@ -2574,6 +2483,13 @@ function _errorHtml(err, onRetry, padding = '1rem') {
     `</div>`;
 }
 
+function sanitizeAiHtml(html) {
+  return sanitizeHtml(String(html || '')
+    .replace(/```html?[\r\n]?/g, '')
+    .replace(/```[\r\n]?/g, '')
+    .trim());
+}
+
 /* ══════════════════════════════════════════════════════════════════
    _delegateActions — Sistema de event delegation para handlers inline
    v1.0 · El manga como recurso didáctico · ULPGC
@@ -2674,6 +2590,65 @@ function toggleAsistKeyWrap() {
   wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
 }
 
+function syncGeneratorKeyPanels() {
+  const active = !!sessionStorage.getItem(MANGA_ASIST_KEY);
+  document.querySelectorAll('[data-key-status-text]').forEach(el => {
+    el.textContent = active ? 'Gemini activo' : 'Modo local';
+  });
+  document.querySelectorAll('.gen-key-status').forEach(el => {
+    el.textContent = active
+      ? 'Gemini activo. La clave se borrará al cerrar la pestaña.'
+      : 'Sin clave: se usará el modo local.';
+    el.classList.toggle('ok', active);
+    el.classList.remove('err');
+  });
+}
+
+function toggleGeneratorKeyPanel({ target }) {
+  const wrap = target.closest('.gen-key-wrap');
+  const panel = wrap?.querySelector('.gen-key-panel');
+  if (!panel) return;
+  if (!panel.id) panel.id = 'gen-key-panel-' + Math.random().toString(36).slice(2, 8);
+  target.setAttribute('aria-controls', panel.id);
+  const open = panel.hasAttribute('hidden');
+  panel.toggleAttribute('hidden', !open);
+  target.setAttribute('aria-expanded', open ? 'true' : 'false');
+  syncGeneratorKeyPanels();
+  if (open) wrap.querySelector('.gen-key-input')?.focus();
+}
+
+function saveGeneratorKey({ target }) {
+  const wrap = target.closest('.gen-key-wrap');
+  const input = wrap?.querySelector('.gen-key-input');
+  const status = wrap?.querySelector('.gen-key-status');
+  const val = input?.value.trim() || '';
+  if (!val.startsWith('AIza')) {
+    if (status) {
+      status.textContent = 'La clave de Gemini debe empezar por AIza.';
+      status.classList.add('err');
+      status.classList.remove('ok');
+    }
+    input?.focus();
+    return;
+  }
+  sessionStorage.setItem(MANGA_ASIST_KEY, val);
+  if (input) input.value = '';
+  syncGeneratorKeyPanels();
+}
+
+function clearGeneratorKey({ target }) {
+  const wrap = target.closest('.gen-key-wrap');
+  const input = wrap?.querySelector('.gen-key-input');
+  sessionStorage.removeItem(MANGA_ASIST_KEY);
+  if (input) input.value = '';
+  syncGeneratorKeyPanels();
+}
+
+window.toggleGeneratorKeyPanel = toggleGeneratorKeyPanel;
+window.saveGeneratorKey = saveGeneratorKey;
+window.clearGeneratorKey = clearGeneratorKey;
+document.addEventListener('DOMContentLoaded', syncGeneratorKeyPanels);
+
 /**
  * Desplaza suavemente al ancla del inicio.
  * Reemplaza el handler inline del enlace de navegación principal.
@@ -2759,7 +2734,7 @@ function _initDirectListeners() {
     ?.addEventListener('change', e => grafoFilterNivel(e.target.value));
 
   // Buscador del panel de guía de lectura
-  document.getElementById('guiaSearchInput')
+  (document.getElementById('guiaSearch') || document.getElementById('guiaSearchInput'))
     ?.addEventListener('input', e => filterGuiaPicker(e.target.value));
 
   Logger.debug('Delegation', 'Listeners directos registrados');
@@ -2960,7 +2935,9 @@ function applyFilters() {
 function filterUso(v) {
   activeUso = v;
   document.querySelectorAll('.fb-all-uso, [data-uso]').forEach(b => {
-    b.classList.toggle('active', b.dataset.uso === v);
+    const active = b.dataset.uso === v;
+    b.classList.toggle('active', active);
+    if (b.matches('button')) b.setAttribute('aria-pressed', String(active));
   });
   applyFilters();
 }
@@ -2968,13 +2945,21 @@ function filterUso(v) {
 function filterNivel(v) {
   activeNivel = v;
   document.querySelectorAll('.fb-all-nivel, [data-nivel]').forEach(b => {
-    b.classList.toggle('active', b.dataset.nivel === v);
+    const active = b.dataset.nivel === v;
+    b.classList.toggle('active', active);
+    if (b.matches('button')) b.setAttribute('aria-pressed', String(active));
   });
   applyFilters();
 }
 
 
 // ── Compact / full toggle ───────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.filter-bar button.fb, #ods-filter-row button.fb').forEach(btn => {
+    btn.setAttribute('aria-pressed', String(btn.classList.contains('active')));
+  });
+});
+
 function toggleCompact() {
   const on = document.body.classList.toggle('compact');
   // El #cmpBtn original quedó oculto en I-05; ahora la acción vive en el
@@ -3240,6 +3225,7 @@ function _activateTab(panelPrefix, tabClass, id, btn) {
   document.querySelectorAll('.' + tabClass).forEach(t => {
     t.classList.remove('active');
     t.setAttribute('aria-selected', 'false');
+    if (t.hasAttribute('aria-expanded')) t.setAttribute('aria-expanded', 'false');
     t.setAttribute('tabindex', '-1');
   });
   // Activate target panel
@@ -3252,6 +3238,7 @@ function _activateTab(panelPrefix, tabClass, id, btn) {
   if (btn) {
     btn.classList.add('active');
     btn.setAttribute('aria-selected', 'true');
+    if (btn.hasAttribute('aria-expanded')) btn.setAttribute('aria-expanded', 'true');
     btn.setAttribute('tabindex', '0');
     btn.focus();
   }
@@ -3384,6 +3371,7 @@ function ensureVitrinaUI() {
   drawer.setAttribute('aria-modal', 'true');
   drawer.setAttribute('aria-hidden', 'true');
   drawer.setAttribute('aria-labelledby', 'vitrineTitle');
+  drawer.dataset.closeAction = 'closeVitrina';
   drawer.innerHTML = `
     <div id="vitrineStripe" class="vitrina-era-stripe"></div>
     <div class="vitrina-header">
@@ -3553,11 +3541,7 @@ function openVitrina(card) {
   overlay.classList.add('open');
   drawer.classList.add('open');
   drawer.setAttribute('aria-hidden', 'false');
-  // Track which card opened the drawer so focus returns on close
-  drawer._triggerCard = card;
-  drawer.querySelector('.vitrina-close').focus();
-  drawer._escH = e => { if(e.key==='Escape') closeVitrina(); };
-  document.addEventListener('keydown', drawer._escH);
+  FocusTrap.activate(drawer, card);
 }
 
 // ── Itinerarios universitarios tabs ──────────────────────────────
@@ -3572,12 +3556,7 @@ function closeVitrina() {
   overlay.classList.remove('open');
   drawer.classList.remove('open');
   drawer.setAttribute('aria-hidden', 'true');
-  if (drawer._escH) { document.removeEventListener('keydown', drawer._escH); drawer._escH = null; }
-  // Return focus to the card that opened the drawer
-  if (drawer._triggerCard) {
-    drawer._triggerCard.focus();
-    drawer._triggerCard = null;
-  }
+  FocusTrap.deactivate();
 }
 
 
@@ -4032,6 +4011,12 @@ function fichaNotasKey(title) {
 // ── Hints para la escala de estrellas ────────────────────────
 const STAR_HINTS = ['','Muy baja','Baja','Media','Alta','Muy alta'];
 
+function syncFichaStarsA11y(val) {
+  document.querySelectorAll('.ficha-star').forEach(s => {
+    s.setAttribute('aria-pressed', String(parseInt(s.dataset.val) <= val));
+  });
+}
+
 // ── Cargar notas en los campos ────────────────────────────────
 function loadFichaNotas(title) {
   const key  = fichaNotasKey(title);
@@ -4045,6 +4030,7 @@ function loadFichaNotas(title) {
   const stars = document.querySelectorAll('.ficha-star');
   const val   = parseInt(data.stars || '0', 10);
   stars.forEach(s => s.classList.toggle('on', parseInt(s.dataset.val) <= val));
+  syncFichaStarsA11y(val);
   document.getElementById('fichaStarHint').textContent = val ? STAR_HINTS[val] : '';
 
   // Guardar título activo en el modal para el autosave
@@ -4109,6 +4095,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const currentVal = parseInt(document.querySelector('.ficha-star.on:last-of-type')?.dataset.val || '0');
       if (currentVal === val) newVal = 0;
       stars.forEach(s => s.classList.toggle('on', parseInt(s.dataset.val) <= newVal));
+      syncFichaStarsA11y(newVal);
       document.getElementById('fichaStarHint').textContent = newVal ? STAR_HINTS[newVal] : '';
       saveFichaNotas();
     });
@@ -4388,6 +4375,17 @@ async function generarRubrica() {
     return;
   }
 
+  const generarLocal = (nota) => {
+    if (typeof generarRubricaLocal !== 'function') return false;
+    bodyEl.innerHTML = generarRubricaLocal(titulo, nivel, comps) +
+      `<p class="rubrica-fallback-note">${nota}</p>`;
+    return true;
+  };
+
+  if (!apiKey && generarLocal('Generada con plantilla local: no hay clave de Gemini activa.')) {
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = 'Generando…';
   bodyEl.innerHTML = `<p class="rubrica-placeholder">Generando rúbrica${apiKey ? ' con Gemini' : ' con Claude'}…</p>`;
@@ -4398,15 +4396,17 @@ async function generarRubrica() {
   const _tipR  = _catR?.tip    ? ` Descripción pedagógica del título: "${_catR.tip}".` : '';
   const _odsR  = _catR?.ods?.length ? ` ODS vinculados: ${_catR.ods.map(n=>'ODS '+n).join(', ')}.` : '';
   const _sensR = _catR?.sensitive   ? ` Nota: obra con contenido sensible (${_catR.sens_label||'16+'}), adapta los criterios.` : '';
+  const _normativaR = window.MANGA_CURRICULO_NORMATIVO?.textoNormativoEtapa(nivel)
+    || 'Marco general LOMLOE. Selecciona una etapa para concretar normativa estatal y canaria.';
 
-  const prompt = `Actúa como experto en pedagogía LOMLOE. Genera una rúbrica de evaluación detallada para trabajar el manga "${titulo}" en ${nivel}.${_tipR}${_odsR}${_sensR} Competencias clave: ${comp}. Devuelve SOLO código HTML limpio (sin bloques de código markdown). Incluye un párrafo de contexto y una tabla 4x4 con niveles: Inicial, En desarrollo, Conseguido y Excelente. Para cada criterio indica a qué competencia corresponde.`;
+  const prompt = `Actúa como experto en pedagogía LOMLOE. Genera una rúbrica de evaluación detallada para trabajar el manga "${titulo}" en ${nivel}.${_tipR}${_odsR}${_sensR} Marco normativo: ${_normativaR}. Competencias clave: ${comp}. Devuelve SOLO código HTML limpio (sin bloques de código markdown). Incluye un párrafo de contexto y una tabla 4x4 con niveles: Inicial, En desarrollo, Conseguido y Excelente. Para cada criterio indica a qué competencia corresponde.`;
 
   try {
     let html = await _withRetry(
       () => aiRequest(prompt, apiKey),
       { statusEl: bodyEl, maxRetries: 3, baseDelay: 1000, onRetry: generarRubrica }
     );
-    html = String(html).replace(/```html?[\r\n]?/g, '').replace(/```[\r\n]?/g, '').trim();
+    html = sanitizeAiHtml(html);
     if (!html) throw new Error('La IA devolvió una respuesta vacía.');
     bodyEl.innerHTML =
       `<div class="rubrica-content">${html}` +
@@ -4414,11 +4414,65 @@ async function generarRubrica() {
       `✦ Generado con <strong>${_lastAiProvider} IA</strong> · ` +
       `Revisa y adapta antes de usar en el aula · EU AI Act Art. 50</p></div>`;
   } catch (e) {
-    bodyEl.innerHTML = _errorHtml(e, generarRubrica);
+    if (!generarLocal('La generación con IA no respondió. Se usó la plantilla local.')) {
+      bodyEl.innerHTML = _errorHtml(e, generarRubrica);
+    }
   } finally {
     btn.disabled = false;
     btn.textContent = 'Generar rúbrica ✦';
   }
+}
+
+window.generarRubrica = generarRubrica;
+
+function generarSecuenciaLocal(titulo, etapa, sesiones, comps) {
+  const comp = comps.length ? comps.join(' · ') : 'CCL';
+  const compPrincipal = comps[0] || 'CCL';
+  const cat = (typeof CATALOGO !== 'undefined')
+    ? CATALOGO.find(t => t.titulo === titulo || titulo.toLowerCase().includes(t.titulo.toLowerCase().substring(0, 12)))
+    : null;
+  const uso = cat?.badges?.[0] || cat?.uso || 'lectura multimodal';
+  const tip = cat?.tip || 'Título útil para activar lectura visual, conversación guiada y producción breve.';
+  const ods = cat?.ods?.length ? cat.ods.map(n => 'ODS ' + n).join(' · ') : 'ODS 4 · Educación de calidad';
+  const total = Math.max(1, parseInt(sesiones, 10) || 4);
+  const rows = Array.from({ length: total }, (_, i) => {
+    const n = i + 1;
+    const fase = n === 1 ? 'Activación y contrato lector'
+      : n === total ? 'Producto final y evaluación'
+      : n === 2 ? 'Lectura guiada y análisis visual'
+      : 'Taller de interpretación y transferencia';
+    const actividad = n === 1
+      ? `Presentación de «${titulo}», hipótesis de lectura y vocabulario visual básico.`
+      : n === total
+        ? 'El alumnado entrega una producción breve y la contrasta con la rúbrica.'
+        : 'Trabajo por grupos sobre viñetas, personajes, contexto y pregunta curricular.';
+    const indicador = n === total
+      ? `Integra ${compPrincipal} en un producto comunicable y revisado.`
+      : 'Participa con evidencias del texto visual y verbal.';
+    return `<tr><td>${n}</td><td>${fase}</td><td>${actividad}</td><td>Manga seleccionado, proyector/PDI, ficha de lectura, cuaderno.</td><td>${indicador}</td></tr>`;
+  }).join('');
+
+  return `<div class="sec-content">
+    <h3>Secuencia didáctica: <em>${escapeHtml(titulo)}</em></h3>
+    <p><strong>Etapa:</strong> ${escapeHtml(etapa)} · <strong>Sesiones:</strong> ${total} · <strong>Competencias:</strong> ${escapeHtml(comp)}</p>
+    <h4>Justificación</h4>
+    <p>La propuesta usa el manga como texto multimodal para trabajar comprensión lectora, análisis de imagen secuencial y producción guiada. ${escapeHtml(tip)}</p>
+    <p><strong>Conexión ODS:</strong> ${escapeHtml(ods)}. <strong>Uso pedagógico:</strong> ${escapeHtml(uso)}.</p>
+    <h4>Objetivos didácticos</h4>
+    <ul>
+      <li>Leer una obra manga integrando texto, imagen, secuencia y contexto.</li>
+      <li>Relacionar la obra con contenidos curriculares de ${escapeHtml(etapa)}.</li>
+      <li>Argumentar interpretaciones con evidencias visuales y verbales.</li>
+      <li>Producir una respuesta final breve, revisada y comunicable.</li>
+    </ul>
+    <h4>Tabla de sesiones</h4>
+    <table><thead><tr><th>Sesión</th><th>Fase</th><th>Actividad</th><th>Recursos</th><th>Indicador</th></tr></thead><tbody>${rows}</tbody></table>
+    <h4>Metodología</h4>
+    <p>Lectura guiada, conversación literaria, trabajo cooperativo, modelado docente y cierre metacognitivo. La obra se usa como detonador, no como sustituto del currículo.</p>
+    <h4>Evaluación</h4>
+    <p>Instrumentos: observación, producto final, breve autoevaluación y rúbrica vinculada a ${escapeHtml(compPrincipal)}.</p>
+    <p class="ia-transparency-note" role="note">Generada con plantilla local sin IA. Revisa y adapta antes de usar en el aula.</p>
+  </div>`;
 }
 
 async function generarSecuencia() {
@@ -4437,6 +4491,16 @@ async function generarSecuencia() {
     return;
   }
 
+  const generarLocal = (nota) => {
+    bodyEl.innerHTML = generarSecuenciaLocal(titulo, etapa, sesiones, comps) +
+      `<p class="rubrica-fallback-note">${nota}</p>`;
+  };
+
+  if (!apiKey) {
+    generarLocal('Generada con plantilla local: no hay clave de Gemini activa.');
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = 'Generando…';
   bodyEl.innerHTML = `<p class="sec-placeholder">Diseñando secuencia didáctica${apiKey ? ' con Gemini' : ' con Claude'}…</p>`;
@@ -4450,6 +4514,8 @@ async function generarSecuencia() {
   const _catBadges = _catEntry?.badges?.length ? `\nUSO PEDAGÓGICO: ${_catEntry.badges.join(', ')}` : '';
   const _catNivel  = _catEntry?.nivel  ? `\nNIVEL EN CATÁLOGO: ${_catEntry.nivel}` : '';
   const _catSens   = _catEntry?.sensitive ? `\nNOTA: Esta obra tiene contenido sensible (${_catEntry.sens_label || '16+'}). Adapta las actividades en consecuencia.` : '';
+  const _normativaContexto = window.MANGA_CURRICULO_NORMATIVO?.textoNormativoEtapa(etapa)
+    || 'Marco general LOMLOE. Selecciona una etapa para concretar normativa estatal y canaria.';
 
   const prompt = `Eres un experto en didáctica y currículo escolar de Canarias (España).
 Genera una secuencia didáctica completa y aplicable en un aula canaria usando el manga "${titulo}" como recurso principal.
@@ -4457,7 +4523,7 @@ Genera una secuencia didáctica completa y aplicable en un aula canaria usando e
 DATOS DEL FONDO ULPGC:${_catTip}${_catBadges}${_catOds}${_catNivel}${_catSens}
 
 CONTEXTO CURRICULAR (${etapa}):
-${etapa.includes('Infantil') ? 'Decreto 196/2022 Canarias. Áreas: Crecimiento en Armonía · Descubrimiento del Entorno · Comunicación y Representación. Metodología: aprendizaje globalizado, rincones, juego simbólico.' : ''}${etapa.includes('Primaria') ? 'Decreto 83/2022 Canarias + RD 157/2022. Énfasis en entorno insular, situaciones de aprendizaje contextualizadas, interdisciplinariedad.' : ''}${(etapa.includes('ESO') || etapa.includes('Secundaria')) ? 'RD 217/2022 + normativa canaria. Situaciones de aprendizaje, ODS, ciudadanía global.' : ''}${etapa.includes('Bachillerato') ? 'RD 217/2022 bachillerato. Pensamiento crítico, investigación, preparación universitaria.' : ''}
+${_normativaContexto}
 Competencias clave trabajadas: ${comp}. Competencia principal: ${compPrincipal}. Sesiones: ${sesiones} × 50 min.
 
 ESTRUCTURA HTML (sin markdown):
@@ -4475,7 +4541,7 @@ Solo HTML: <h3><h4><p><ul><li><table><thead><tbody><tr><th><td>`;
       () => aiRequest(prompt, apiKey),
       { statusEl: bodyEl, maxRetries: 3, baseDelay: 1000, onRetry: generarSecuencia }
     );
-    html = String(html).replace(/```html?[\r\n]?/g, '').replace(/```[\r\n]?/g, '').trim();
+    html = sanitizeAiHtml(html);
     if (!html) throw new Error('La IA devolvió una respuesta vacía.');
     bodyEl.innerHTML =
       `<div class="sec-content">${html}` +
@@ -4483,12 +4549,14 @@ Solo HTML: <h3><h4><p><ul><li><table><thead><tbody><tr><th><td>`;
       `✦ Generado con <strong>${_lastAiProvider} IA</strong> · ` +
       `Revisa y adapta antes de usar en el aula · EU AI Act Art. 50</p></div>`;
   } catch (e) {
-    bodyEl.innerHTML = _errorHtml(e, generarSecuencia);
+    generarLocal('La generación con IA no respondió. Se usó la plantilla local.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Generar secuencia ✦';
   }
 }
+
+window.generarSecuencia = generarSecuencia;
 
 // ══════════════════════════════════════════════════════════════════
 // ASISTENTE PEDAGÓGICO IA (Chat)
@@ -4647,6 +4715,7 @@ ${catalogContext || 'Consulta el catálogo visible de la página para selecciona
   }
 
   function openPanel() {
+    const opener = document.activeElement;
     overlay.classList.add('open');
     panel.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -4654,6 +4723,7 @@ ${catalogContext || 'Consulta el catálogo visible de la página para selecciona
     keyArea.style.display = 'none';
     sendBtn.disabled = false;
     if (conversationHistory.length === 0) showWelcome();
+    FocusTrap.activate(panel, opener);
     setTimeout(() => input.focus(), 300);
   }
 
@@ -4661,6 +4731,7 @@ ${catalogContext || 'Consulta el catálogo visible de la página para selecciona
     overlay.classList.remove('open');
     panel.classList.remove('open');
     document.body.style.overflow = '';
+    FocusTrap.deactivate();
   }
 
   function buildUI() {
@@ -4674,13 +4745,14 @@ ${catalogContext || 'Consulta el catálogo visible de la página para selecciona
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-labelledby', 'asist-dialog-title');
+    panel.dataset.closeAction = 'closeLegacyAsistPanel';
     panel.innerHTML = `
       <div id="asist-head"><h2 id="asist-dialog-title">✦ Asistente Pedagógico</h2><button type="button" id="asist-close">Cerrar ✕</button></div>
       <div id="asist-key-area"><p>Clave de <strong>Google AI Studio / Gemini</strong>. <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#7AB4FF">Obtén tu clave →</a></p>
-        <div id="asist-key-row"><input type="password" id="asist-key-input" placeholder="AIzaSy…"><button type="button" id="asist-key-save">Activar</button></div>
+        <div id="asist-key-row"><input type="password" id="asist-key-input" placeholder="AIzaSy…" aria-label="Clave API Gemini"><button type="button" id="asist-key-save">Activar</button></div>
         <p id="asist-key-status" class="asist-key-status"></p></div>
-      <div id="asist-messages"></div>
-      <div id="asist-input-area"><textarea id="asist-input" placeholder="Escribe tu consulta…"></textarea><button type="button" id="asist-send">Enviar</button></div>`;
+      <div id="asist-messages" aria-live="polite" aria-label="Conversación del asistente"></div>
+      <div id="asist-input-area"><textarea id="asist-input" placeholder="Escribe tu consulta…" aria-label="Mensaje al asistente"></textarea><button type="button" id="asist-send">Enviar</button></div>`;
     document.body.appendChild(panel);
 
     messages = document.getElementById('asist-messages');
@@ -4691,6 +4763,7 @@ ${catalogContext || 'Consulta el catálogo visible de la página para selecciona
     keyArea = document.getElementById('asist-key-area');
 
     document.getElementById('asist-close').onclick = closePanel;
+    window.closeLegacyAsistPanel = closePanel;
     document.getElementById('asist-key-save').onclick = saveKey;
     keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') saveKey(); });
     input.addEventListener('input', function() {
@@ -5870,10 +5943,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update button active state
     document.querySelectorAll('[data-ods]').forEach(btn => {
       if (!btn.classList.contains('cat-card')) {
-        btn.classList.toggle('active', btn.getAttribute('data-ods') === v);
+        const active = btn.getAttribute('data-ods') === v;
+        btn.classList.toggle('active', active);
+        if (btn.matches('button')) btn.setAttribute('aria-pressed', String(active));
       }
     });
-    document.querySelector('.fb-all-ods')?.classList.toggle('active', v === 'all');
+    const allOdsBtn = document.querySelector('.fb-all-ods');
+    allOdsBtn?.classList.toggle('active', v === 'all');
+    allOdsBtn?.setAttribute('aria-pressed', String(v === 'all'));
 
     const isActive = v !== 'all';
     document.body.classList.toggle('filtering-ods', isActive);
@@ -6396,7 +6473,7 @@ function renderCatalog() {
       const isOrange = t.sens_label?.includes('18+');
       sens.className = 'sens-badge' + (isOrange ? ' orange' : '');
       sens.title = t.sens_label || 'Contenido sensible';
-      sens.textContent = 'âš  ' + (t.sens_label || 'Contenido sensible');
+      sens.textContent = '⚠ ' + (t.sens_label || 'Contenido sensible');
       body.appendChild(sens);
     }
 
@@ -6847,8 +6924,8 @@ document.addEventListener('DOMContentLoaded', function () {
      · Situaciones de Aprendizaje (.sa-card)
    ══════════════════════════════════════════════════════════════ */
 
-const GLOBAL_SEARCH_MIN = 2;   // mínimo de caracteres para buscar
-const GLOBAL_SEARCH_MAX = 8;   // máximo de resultados por sección
+const GLOBAL_SEARCH_MIN = window.MANGA_APP_CONFIG?.busquedaGlobal?.minCaracteres || 2;   // mínimo de caracteres para buscar
+const GLOBAL_SEARCH_MAX = window.MANGA_APP_CONFIG?.busquedaGlobal?.maxResultadosPorSeccion || 8;   // máximo de resultados por sección
 
 function globalSearch(q) {
   const term  = q.trim().toLowerCase();
@@ -7982,10 +8059,14 @@ setMapaView = function(view) {
     const btn   = document.getElementById('aiFloatingBtn');
     _panelOpen  = !_panelOpen;
     panel?.classList.toggle('open', _panelOpen);
+    btn?.setAttribute('aria-expanded', _panelOpen ? 'true' : 'false');
     if (_panelOpen) {
       _syncKeyArea();
       if (!_welcomed) { _welcome(); _welcomed = true; }
+      FocusTrap.activate(panel, btn || document.activeElement);
       document.getElementById('asistInput')?.focus();
+    } else {
+      FocusTrap.deactivate();
     }
   };
 
@@ -8158,7 +8239,7 @@ AVISO EU AI Act: Eres un sistema de IA generativa. El docente debe revisar y val
    EU AI Act: badge de transparencia en todo contenido generado
    ══════════════════════════════════════════════════════════════ */
 
-const LOMLOE_COMPS = {
+const LOMLOE_COMPS = window.MANGA_CURRICULO?.competenciasLomloePorUso || {
   historia:  'CCL, CPSAA, CC',
   filosofia: 'CCL, CPSAA, CE',
   emocional: 'CPSAA, CC, CCL',
@@ -8171,11 +8252,44 @@ const LOMLOE_COMPS = {
 
 let _guiaSelected = new Set();   // Set of títulos selected
 
+let _guiaHandlersReady = false;
+
+function _ensureGuiaHandlers() {
+  if (_guiaHandlersReady) return;
+  _guiaHandlersReady = true;
+
+  document.addEventListener('input', ev => {
+    const input = ev.target.closest?.('#guiaSearch, #guiaSearchInput');
+    if (!input) return;
+    _renderGuiaPicker(input.value || '');
+  }, true);
+
+  document.addEventListener('change', ev => {
+    const input = ev.target.closest?.('#guiaPickerList input[data-guia-title]');
+    if (!input) return;
+    window.toggleGuiaItem(input.dataset.guiaTitle, input.checked);
+  }, true);
+
+  document.addEventListener('click', ev => {
+    const item = ev.target.closest?.('#guiaPickerList .guia-picker-item');
+    if (!item) return;
+    const input = item.querySelector('input[data-guia-title]');
+    if (!input) return;
+    setTimeout(() => window.toggleGuiaItem(input.dataset.guiaTitle, input.checked), 0);
+  }, true);
+}
+
+document.addEventListener('DOMContentLoaded', _ensureGuiaHandlers);
+
 window.openGuia = function() {
   const _opener = document.activeElement;
+  _ensureGuiaHandlers();
   document.getElementById('guiaOverlay')?.classList.add('open');
   document.body.style.overflow = 'hidden';
-  _renderGuiaPicker('');
+  const search = document.getElementById('guiaSearch') || document.getElementById('guiaSearchInput');
+  if (search) search.value = '';
+  _renderGuiaPicker(search?.value || '');
+  _updateGuiaChips();
   FocusTrap.activate(document.getElementById('guiaModal'), _opener);
 };
 
@@ -8197,8 +8311,8 @@ function _renderGuiaPicker(q) {
 
   list.innerHTML = items.map(t => {
     const checked = _guiaSelected.has(t.titulo) ? 'checked' : '';
-    return `<label class="guia-picker-item">
-      <input type="checkbox" ${checked} onchange="toggleGuiaItem('${t.titulo.replace(/'/g,"\\'")}', this.checked)">
+    return `<label class="guia-picker-item" tabindex="0">
+      <input type="checkbox" ${checked} data-guia-title="${escapeHtml(t.titulo)}">
       <span class="guia-picker-dot" style="background:${t.color}"></span>
       <span>
         <span class="guia-picker-title">${t.titulo}</span><br>
@@ -8206,6 +8320,22 @@ function _renderGuiaPicker(q) {
       </span>
     </label>`;
   }).join('');
+  list.querySelectorAll('input[data-guia-title]').forEach(input => {
+    input.addEventListener('change', () => {
+      window.toggleGuiaItem(input.dataset.guiaTitle, input.checked);
+    });
+  });
+  list.querySelectorAll('.guia-picker-item').forEach(item => {
+    item.addEventListener('keydown', ev => {
+      if (ev.key !== 'Enter' && ev.key !== ' ') return;
+      const input = item.querySelector('input[data-guia-title]');
+      if (!input) return;
+      ev.preventDefault();
+      input.checked = !input.checked;
+      window.toggleGuiaItem(input.dataset.guiaTitle, input.checked);
+    });
+  });
+  _updateGuiaChips();
 }
 
 window.toggleGuiaItem = function(titulo, checked) {
@@ -8225,11 +8355,16 @@ function _updateGuiaChips() {
     `<span class="guia-chip">
       ${t.slice(0,28)}${t.length>28?'…':''}
       <button type="button" class="guia-chip-rm"
-        onclick="toggleGuiaItem('${t.replace(/'/g,"\\'")}',false);
-                 _renderGuiaPicker(document.getElementById('guiaSearch').value)"
+        data-guia-title="${escapeHtml(t)}"
         aria-label="Quitar ${t}">✕</button>
     </span>`
   ).join('');
+  chips.querySelectorAll('.guia-chip-rm[data-guia-title]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.toggleGuiaItem(btn.dataset.guiaTitle, false);
+      _renderGuiaPicker(document.getElementById('guiaSearch')?.value || '');
+    });
+  });
 }
 
 window.generarGuia = async function() {
@@ -8252,18 +8387,24 @@ window.generarGuia = async function() {
   const covers = {};
   if (incPortadas) {
     await Promise.allSettled(selected.map(async t => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 3500);
       try {
         const q   = encodeURIComponent(t.titulo + ' ' + t.autor.split('·')[0]);
-        const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1&fields=items(volumeInfo(imageLinks))`);
+        const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1&fields=items(volumeInfo(imageLinks))`, { signal: controller.signal });
         const data = await res.json();
         const thumb = data?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
         if (thumb) covers[t.titulo] = thumb.replace('zoom=1','zoom=2').replace('http://','https://');
-      } catch(e) {}
+      } catch(e) {
+      } finally {
+        clearTimeout(timeout);
+      }
     }));
   }
 
   // Build the guide HTML
   const now  = new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
+  const safeTitulo = escapeHtml(titulo);
   const badge = incBadge
     ? `<div style="margin:.8rem 0;padding:.4rem .8rem;border:1px solid rgba(138,43,226,.35);
                    border-radius:4px;font-size:.75rem;color:rgba(74,42,106,.9);
@@ -8274,39 +8415,45 @@ window.generarGuia = async function() {
        </div>` : '';
 
   const fichas = selected.map(t => {
+    const safeTitle = escapeHtml(t.titulo || '');
+    const safeAutor = escapeHtml(t.autor || '');
+    const safeColor = /^#[0-9a-f]{3,8}$/i.test(t.color || '') ? t.color : '#4a2a6a';
+    const safeUso = escapeHtml(t.badges?.[0] || t.uso || '');
+    const safeNiveles = Array.isArray(t.niveles) ? t.niveles.map(n => escapeHtml(n)).join(' / ') : '';
+    const safeOpac = /^https?:\/\//i.test(t.opac || '') ? t.opac : '';
     const coverHtml = incPortadas && covers[t.titulo]
-      ? `<img src="${covers[t.titulo]}" alt="Portada de ${t.titulo}"
+      ? `<img src="${escapeHtml(covers[t.titulo])}" alt="Portada de ${safeTitle}"
               style="width:90px;height:130px;object-fit:cover;border-radius:3px;
                      box-shadow:0 3px 12px rgba(0,0,0,.3);float:right;margin:0 0 1rem 1rem;">`
       : '';
     const lomloeHtml = incLomloe
       ? `<p style="font-size:.8rem;color:#555;margin:.4rem 0;">
-           <strong>Competencias LOMLOE:</strong> ${LOMLOE_COMPS[t.uso] || 'CCL, CPSAA'}</p>`
+           <strong>Competencias LOMLOE:</strong> ${escapeHtml(LOMLOE_COMPS[t.uso] || 'CCL, CPSAA')}</p>`
       : '';
     const tipHtml = incTip && t.tip
-      ? `<p style="font-size:.85rem;line-height:1.65;color:#333;margin:.5rem 0;">${t.tip}</p>`
+      ? `<p style="font-size:.85rem;line-height:1.65;color:#333;margin:.5rem 0;">${escapeHtml(t.tip)}</p>`
       : '';
     const odsHtml = incOds && t.ods?.length
       ? `<p style="font-size:.78rem;color:#555;margin:.3rem 0;">
-           <strong>ODS:</strong> ${t.ods.map(n => 'ODS '+n).join(' · ')}</p>`
+           <strong>ODS:</strong> ${t.ods.map(n => 'ODS '+escapeHtml(String(n))).join(' · ')}</p>`
       : '';
     return `
     <div style="page-break-inside:avoid;border:1px solid #ddd;border-radius:6px;
                 padding:1.2rem 1.4rem;margin-bottom:1.2rem;
                 font-family:'EB Garamond',Georgia,serif;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;width:5px;height:100%;background:${t.color}"></div>
+      <div style="position:absolute;top:0;left:0;width:5px;height:100%;background:${safeColor}"></div>
       <div style="padding-left:.4rem;">
         ${coverHtml}
-        <h3 style="font-family:'Cinzel',serif;font-size:1.05rem;margin:0 0 .15rem;color:#1a1008;">${t.titulo}</h3>
-        <p style="font-size:.82rem;color:#666;margin:0 0 .4rem;font-style:italic;">${t.autor}</p>
-        <span style="display:inline-block;background:${t.color};color:#fff;font-size:.68rem;
+        <h3 style="font-family:'Cinzel',serif;font-size:1.05rem;margin:0 0 .15rem;color:#1a1008;">${safeTitle}</h3>
+        <p style="font-size:.82rem;color:#666;margin:0 0 .4rem;font-style:italic;">${safeAutor}</p>
+        <span style="display:inline-block;background:${safeColor};color:#fff;font-size:.68rem;
                      padding:1px 8px;border-radius:2px;font-family:'Cinzel',serif;
                      font-weight:700;letter-spacing:.05em;margin-bottom:.4rem;">
-          ${t.badges?.[0] || t.uso}
+          ${safeUso}
         </span>
-        ${t.niveles?.length ? `<span style="font-size:.75rem;color:#777;margin-left:.5rem;">${t.niveles.join(' / ')}</span>` : ''}
+        ${safeNiveles ? `<span style="font-size:.75rem;color:#777;margin-left:.5rem;">${safeNiveles}</span>` : ''}
         ${tipHtml}${lomloeHtml}${odsHtml}
-        ${t.opac ? `<a href="${t.opac}" style="font-size:.75rem;color:#1a5a8b;display:block;margin-top:.5rem;">
+        ${safeOpac ? `<a href="${escapeHtml(safeOpac)}" style="font-size:.75rem;color:#1a5a8b;display:block;margin-top:.5rem;">
           Ver en catálogo ULPGC →</a>` : ''}
         <div style="clear:both"></div>
       </div>
@@ -8318,7 +8465,7 @@ window.generarGuia = async function() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${titulo}</title>
+  <title>${safeTitulo}</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     body { font-family:'EB Garamond',Georgia,serif; max-width:860px; margin:0 auto; padding:2rem 1.5rem; color:#1a1008; }
@@ -8327,7 +8474,7 @@ window.generarGuia = async function() {
 </head>
 <body>
   <div style="border-bottom:3px solid #B8860B;padding-bottom:1rem;margin-bottom:1.5rem;">
-    <h1 style="font-family:'Cinzel',serif;font-size:1.5rem;color:#1a1008;margin:0 0 .2rem;">${titulo}</h1>
+    <h1 style="font-family:'Cinzel',serif;font-size:1.5rem;color:#1a1008;margin:0 0 .2rem;">${safeTitulo}</h1>
     <p style="font-size:.82rem;color:#777;margin:0;">
       Biblioteca del Campus del Obelisco · Aula de Cómic · ULPGC · ${now}
     </p>
@@ -8352,6 +8499,15 @@ window.generarGuia = async function() {
     win.document.write(guideHtml);
     win.document.close();
     setTimeout(() => win.print(), 800);
+  } else if (typeof _descargarBlob === 'function') {
+    const safeName = titulo.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'guia-didactica';
+    _descargarBlob(new Blob([guideHtml], { type: 'text/html;charset=utf-8' }), `${safeName}.html`);
+  } else {
+    const url = URL.createObjectURL(new Blob([guideHtml], { type: 'text/html;charset=utf-8' }));
+    location.href = url;
   }
 
   btn.disabled = false;
@@ -8615,14 +8771,17 @@ async function runGenerar() {
   btn.textContent = 'Generando…';
   output.style.display = 'none';
 
+  const normativa = window.MANGA_CURRICULO_NORMATIVO?.textoNormativoEtapa(etapa)
+    || 'Marco general LOMLOE. Selecciona una etapa para concretar normativa estatal y canaria.';
+
   const prompts = {
-    ficha: `Actúa como experto en pedagogía LOMLOE. Genera una ficha de aula completa para trabajar el manga «${titulo}» en ${etapa}. Competencias: ${comps}. Incluye: objetivo, actividades secuenciadas, rol del docente, evaluación. Solo HTML limpio (sin markdown).`,
+    ficha: `Actúa como experto en pedagogía LOMLOE. Genera una ficha de aula completa para trabajar el manga «${titulo}» en ${etapa}. Marco normativo: ${normativa}. Competencias: ${comps}. Incluye: objetivo, actividades secuenciadas, rol del docente, evaluación. Solo HTML limpio (sin markdown).`,
 
-    sa: `Eres experto en didáctica y currículo canario (LOMLOE). Genera una situación de aprendizaje para «${titulo}» en ${etapa} con ${comps}. Incluye: situación inicial, reto, actividades, metodología, evaluación con indicadores. Cita la normativa canaria. Solo HTML limpio.`,
+    sa: `Eres experto en didáctica y currículo LOMLOE. Genera una situación de aprendizaje para «${titulo}» en ${etapa} con ${comps}. Marco normativo: ${normativa}. Incluye: situación inicial, reto, actividades, metodología, evaluación con indicadores. Cita la normativa estatal y canaria aplicable desde el marco normativo indicado. Solo HTML limpio.`,
 
-    rubrica: `Actúa como experto en evaluación LOMLOE. Genera una rúbrica de evaluación 4×4 para «${titulo}» en ${etapa}. Competencias: ${comps}. Niveles: Inicial · En desarrollo · Conseguido · Excelente. Incluye contexto pedagógico. Solo HTML limpio con tabla.`,
+    rubrica: `Actúa como experto en evaluación LOMLOE. Genera una rúbrica de evaluación 4×4 para «${titulo}» en ${etapa}. Marco normativo: ${normativa}. Competencias: ${comps}. Niveles: Inicial · En desarrollo · Conseguido · Excelente. Incluye contexto pedagógico. Solo HTML limpio con tabla.`,
 
-    expres: `Diseña una actividad exprés de 20 minutos con el manga «${titulo}» para ${etapa}. Competencias: ${comps}. Estructura: arranque (3 min) · desarrollo (14 min) · cierre (3 min). Materiales mínimos. Solo HTML limpio.`
+    expres: `Diseña una actividad exprés de 20 minutos con el manga «${titulo}» para ${etapa}. Marco normativo: ${normativa}. Competencias: ${comps}. Estructura: arranque (3 min) · desarrollo (14 min) · cierre (3 min). Materiales mínimos. Solo HTML limpio.`
   };
 
   try {
@@ -8630,9 +8789,13 @@ async function runGenerar() {
       () => geminiRequest(apiKey, prompts[_genType]),
       { statusEl: content, maxRetries: 3, baseDelay: 1000, onRetry: runGenerar }
     );
-    html = html.replace(/```html?[\r\n]?/g,'').replace(/```[\r\n]?/g,'').trim();
+    html = sanitizeAiHtml(html);
 
-    content.innerHTML = `<div class="gen-doc-content">${html}</div>`;
+    content.innerHTML =
+      `<div class="gen-doc-content">${html}` +
+      `<p class="ia-transparency-note" role="note">` +
+      `✦ Generado con <strong>Gemini IA</strong> · ` +
+      `Revisa y adapta antes de usar en el aula · EU AI Act Art. 50</p></div>`;
     if (label) label.textContent = `${typeLabels[_genType]} · ${titulo} · ${etapa}`;
     output.style.display = 'block';
 
@@ -8687,7 +8850,7 @@ function printGenOutput() {
   </head><body>
     <h2 style="font-size:1.1em;color:#5a3a1a;border-bottom:2px solid #c8b89a;padding-bottom:.4em">${label}</h2>
     ${content}
-    <div class="ia-notice">âš  Contenido generado por IA (Gemini). Revisa y adapta antes de usar en el aula. EU AI Act Art. 13 &amp; 50.</div>
+    <div class="ia-notice">⚠ Contenido generado por IA (Gemini). Revisa y adapta antes de usar en el aula. EU AI Act Art. 13 &amp; 50.</div>
   </body></html>`);
   w.document.close();
   setTimeout(() => w.print(), 400);
@@ -8776,16 +8939,16 @@ const GLOSARIO_PRONUNCIACIONES = [
   { id: 'gloss-manga',          japanese: '漫画',        romaji: 'manga',        label: 'Manga' },
   { id: 'gloss-gengo',          japanese: '元号',        romaji: 'gengō',        label: 'Gengō' },
   { id: 'gloss-tankobon',       japanese: '単行本',      romaji: 'tankōbon',     label: 'Tankōbon' },
-  { id: 'gloss-demographics',   japanese: '少年 少女',  romaji: 'shōnen, shōjo', label: 'Shōnen y Shōjo' },
-  { id: 'gloss-demographics-b', japanese: '青年 女性',  romaji: 'seinen, josei', label: 'Seinen y Josei' },
+  { id: 'gloss-demographics',   japanese: '少年　少女',  romaji: 'shōnen, shōjo', label: 'Shōnen y Shōjo' },
+  { id: 'gloss-demographics-b', japanese: '青年　女性',  romaji: 'seinen, josei', label: 'Seinen y Josei' },
   { id: 'gloss-gekiga',         japanese: '劇画',        romaji: 'gekiga',       label: 'Gekiga' },
   { id: 'gloss-yokai',          japanese: '妖怪',        romaji: 'yōkai',        label: 'Yōkai' },
   { id: 'gloss-furigana',       japanese: '振り仮名',    romaji: 'furigana',     label: 'Furigana' },
   { id: 'gloss-taisho',         japanese: '大正ロマン',  romaji: 'taishō roman', label: 'Taishō Roman' },
-  { id: 'gloss-onomatopeya',    japanese: 'ドキドキ しーん', romaji: 'doki-doki, shīn', label: 'Onomatopeyas manga' },
+  { id: 'gloss-onomatopeya',    japanese: 'ドキドキ　しーん', romaji: 'doki-doki, shīn', label: 'Onomatopeyas manga' },
   { id: 'gloss-koma',           japanese: 'コマ',        romaji: 'koma',         label: 'Koma' },
   { id: 'gloss-fukidashi',      japanese: '吹き出し',    romaji: 'fukidashi',    label: 'Fukidashi' },
-  { id: 'gloss-ma',             japanese: 'é–"',          romaji: 'ma',           label: 'Ma' },
+  { id: 'gloss-ma',             japanese: '間',          romaji: 'ma',           label: 'Ma' },
   { id: 'gloss-chibi',          japanese: 'ちび',        romaji: 'chibi',        label: 'Chibi' },
   { id: 'gloss-mangaka',        japanese: '漫画家',      romaji: 'mangaka',      label: 'Mangaka' },
   { id: 'gloss-jidaigeki',      japanese: '時代劇',      romaji: 'jidaigeki',    label: 'Jidaigeki' },
@@ -8962,7 +9125,7 @@ function _stopTour() {
   document.querySelectorAll('.ac').forEach(a => a.classList.remove('gloss-tour-highlight'));
   const btn = document.getElementById('gloss-tour-btn');
   if (btn) {
-    btn.textContent = 'â–¶ Escuchar todo el glosario';
+    btn.textContent = '▶ Escuchar todo el glosario';
     btn.classList.remove('gloss-tour-active');
     btn.setAttribute('aria-pressed', 'false');
   }
@@ -9018,7 +9181,7 @@ function initGlosarioPronunciador() {
     tourBtn.type = 'button';
     tourBtn.id   = 'gloss-tour-btn';
     tourBtn.className = 'gloss-tour-btn';
-    tourBtn.textContent = 'â–¶ Escuchar todo el glosario';
+    tourBtn.textContent = '▶ Escuchar todo el glosario';
     tourBtn.setAttribute('aria-pressed', 'false');
     tourBtn.setAttribute('title',
       'Reproducir todos los términos en japonés en orden. Útil como ejercicio de escucha en clase.');
@@ -13349,7 +13512,7 @@ const EMOCIONES = [
   {
     key:   'injusticia',
     label: 'Pienso en la justicia',
-    icon:  'âš–',
+    icon:  '⚖',
     usos:  ['filosofia'],
     color: '#4A2A6A',
     frase: 'Dilemas éticos y reflexión filosófica sobre el bien y el mal',
@@ -18709,11 +18872,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Se activa si el usuario pulsa "Generar sin IA" en el panel de rúbricas,
 // o automáticamente como fallback cuando la IA no responde en 12 s.
 //
-// Fuente normativa:
-//   RD 157/2022 de 1 de abril (Primaria)  — BOE-A-2022-3296
-//   RD 217/2022 de 29 de marzo (ESO/Bach) — BOE-A-2022-5146
-//   Decreto 83/2022 (Primaria Canarias)   — BOC 2022/083
-//   Decreto 82/2022 (ESO Canarias)        — BOC 2022/082
+// Fuente normativa: window.MANGA_CURRICULO_NORMATIVO
+// (matriz centralizada por etapa en js/curriculo-normativa.js).
 // ══════════════════════════════════════════════════════════════════
 
 /**
@@ -18879,6 +19039,8 @@ function generarRubricaLocal(titulo, etapa, comps) {
   if (!titulo || !etapa || !comps.length) {
     return '<p class="rubrica-placeholder">Completa el título, la etapa y al menos una competencia.</p>';
   }
+  const fuentesNormativas = window.MANGA_CURRICULO_NORMATIVO?.enlacesNormativosHtml(etapa)
+    || 'normativa curricular LOMLOE aplicable a la etapa seleccionada';
 
   const filas = comps.flatMap(comp => {
     const def = RUBRICA_CRITERIOS[comp];
@@ -18905,11 +19067,7 @@ function generarRubricaLocal(titulo, etapa, comps) {
         <span class="rubrica-local-etapa">${etapa}</span>
       </h3>
       <p class="rubrica-local-src">
-        Criterios adaptados de
-        <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-5146" target="_blank"
-           rel="noopener noreferrer">RD 217/2022</a> y
-        <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-3296" target="_blank"
-           rel="noopener noreferrer">RD 157/2022</a> (LOMLOE).
+        Criterios adaptados de ${fuentesNormativas} (LOMLOE).
         Generada sin IA — adapta los descriptores al contexto de tu aula.
       </p>
       <div class="rubrica-local-scroll">
@@ -20463,6 +20621,7 @@ function renderSimilares(tituloActivo) {
 
 /** Abre el panel de ranking de sesión. */
 window.openRanking = function() {
+  const _opener = document.activeElement;
   let panel = document.getElementById('rankingPanel');
   if (!panel) {
     panel = document.createElement('div');
@@ -20471,6 +20630,7 @@ window.openRanking = function() {
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-labelledby', 'rankingTitle');
+    panel.dataset.closeAction = 'closeRanking';
     panel.innerHTML = `
       <div class="ranking-header">
         <h2 id="rankingTitle" class="ranking-title">📊 Títulos más consultados hoy</h2>
@@ -20484,11 +20644,13 @@ window.openRanking = function() {
   _renderRanking();
   panel.classList.add('open');
   document.body.style.overflow = 'hidden';
+  FocusTrap.activate(panel, _opener);
 };
 
 window.closeRanking = function() {
   document.getElementById('rankingPanel')?.classList.remove('open');
   document.body.style.overflow = '';
+  FocusTrap.deactivate();
 };
 
 function _renderRanking() {
@@ -20570,6 +20732,7 @@ window.openVocabTest = function() {
     alert('Este test requiere síntesis de voz. Tu navegador no la admite.');
     return;
   }
+  const _opener = document.activeElement;
   let modal = document.getElementById('vocabModal');
   if (!modal) {
     const overlay = document.createElement('div');
@@ -20578,6 +20741,7 @@ window.openVocabTest = function() {
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-labelledby', 'vocabTitle');
+    overlay.dataset.closeAction = 'closeVocabTest';
     overlay.innerHTML = `
       <div id="vocabModal" class="vocab-modal">
         <div class="vocab-header">
@@ -20593,6 +20757,7 @@ window.openVocabTest = function() {
   _vocabStart();
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  FocusTrap.activate(document.getElementById('vocabModal'), _opener);
 };
 
 window.closeVocabTest = function() {
@@ -20600,6 +20765,7 @@ window.closeVocabTest = function() {
   document.body.style.overflow = '';
   window.speechSynthesis?.cancel();
   _vocabState = null;
+  FocusTrap.deactivate();
 };
 
 function _vocabStart() {
@@ -20731,7 +20897,7 @@ function _vocabShowResult(body, score, total) {
       <div class="vocab-result-pct">${pct}%</div>
       <p class="vocab-result-msg">${msg}</p>
       <div class="vocab-result-btns">
-        <button type="button" class="vocab-btn-pri" onclick="_vocabStart()">â–¶ Repetir test</button>
+        <button type="button" class="vocab-btn-pri" onclick="_vocabStart()">▶ Repetir test</button>
         <button type="button" class="vocab-btn-sec" onclick="closeVocabTest()">Cerrar</button>
       </div>
     </div>`;

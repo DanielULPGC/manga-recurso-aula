@@ -19,12 +19,12 @@
     if(seen||reduce){ ov.style.display='none'; if(skip) skip.style.display='none'; return; }
     if(skip) skip.addEventListener('click',finish);
     window.addEventListener('message',function(e){ if(e&&e.data==='intro-done') finish(); });
-    guard=setTimeout(finish,45000);
+    guard=setTimeout(finish,60000);
     function fallbackToCard(){
       if(usedFallback||done) return; usedFallback=true;
       if(vid) vid.style.display='none';
       if(card){ card.style.display='block'; card.src='intro/card.html'; }
-      clearTimeout(guard); guard=setTimeout(finish,45000);
+      clearTimeout(guard); guard=setTimeout(finish,60000);
     }
     if(vid){
       vid.addEventListener('ended',finish);

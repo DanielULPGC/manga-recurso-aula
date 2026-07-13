@@ -1,4 +1,4 @@
-﻿/* ══════════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    catalog-collapse.js — Mejoras didácticas del catálogo
    1. Catálogo oculto por defecto + banner editorial con búsquedas sugeridas
    2. Vista mínima de filtros (ODS oculto en modo colapsado)

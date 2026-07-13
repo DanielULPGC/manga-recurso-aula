@@ -23,8 +23,8 @@ output:
     supported_aspects: ["16:9"]
   fps: { default: 60, supported: [30, 60] }
   duration:
-    type: variable           # la marca la secuencia (~4 s por era · 9 eras ≈ 37 s)
-    approx_sec: 37
+    type: variable           # la marca la secuencia (~5,2 s por era · 9 eras ≈ 48 s)
+    approx_sec: 48
   alpha: false
 
 # Secuencia de 9 eras — datos VERIFICADOS desde la línea del tiempo del recurso.

@@ -1,120 +1,229 @@
 #!/usr/bin/env node
 /**
- * build.mjs — Script de release para "Las eras de Japon y el manga"
- * Biblioteca Campus del Obelisco · Aula de Comic · ULPGC
+ * Release build for "El manga como recurso didactico".
  *
- * Una sola fuente de version: version.json
+ * Single source of version truth: version.json.
  *
- * Que hace:
- *   1. Lee la version de version.json.
- *   2. Minifica js/app.js  -> js/app.min.js   (Terser).
- *   3. Minifica js/datos.js -> js/datos.min.js (Terser).
- *   4. Propaga la version a:
- *        · sw.js          (cabecera + const CACHE_NAME)
- *        · recurso.html   (query strings ?v=...)
- *        · index.html     (query strings ?v=...)
- *   5. Informa de los tamanos antes/despues.
+ * Build mode:
+ *   - verifies text encoding before release;
+ *   - minifies js/app.js and js/datos.js with Terser;
+ *   - propagates version to sw.js and versioned HTML entry points;
+ *   - verifies generated artifact sizes and version coherence.
  *
- * Uso:   node tools/build.mjs
+ * Check mode:
+ *   - run with --check;
+ *   - verifies encoding, generated minified output, current artifacts and
+ *     version propagation without writing files.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { minify } from 'terser';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const p = (...s) => join(ROOT, ...s);
-const kb = n => (n / 1024).toFixed(1) + ' KB';
-
-/* ── 0 · Verificacion de codificacion ─────────────────────── */
-/* La doble codificacion UTF-8 (mojibake) ha entrado al menos dos
-   veces en el repositorio y es invisible hasta abrir el recurso en
-   el navegador. Este paso recorre todos los ficheros de texto del
-   proyecto y ABORTA la release si detecta las secuencias tipicas
-   (A-tilde seguida de segundo byte, a-circunfleja + euro, A-circunfleja
-   + puntuacion). Excluye node_modules
-   y las librerias vendorizadas de assets/libs.                     */
-import { readdir, stat } from 'node:fs/promises';
+const CHECK_ONLY = process.argv.includes('--check');
+const VERSIONED_HTML = ['index.html', 'recurso.html', 'ficha-trabajo-manga.html'];
+const MINIFIED_TARGETS = [
+  ['js/app.js', 'js/app.min.js'],
+  ['js/datos.js', 'js/datos.min.js'],
+];
 
 const TEXT_EXT = /\.(js|mjs|html|css|json|md|yaml|yml|svg|txt)$/i;
-const EXCLUDE  = /(^|[\\/])(node_modules|assets[\\/]libs|\.git)([\\/]|$)/;
-// Patrones construidos con escapes para que este propio fichero no dispare
-// la deteccion: \u00C3 = "A tilde", \u00E2\u20AC = "a circunfleja + euro",
-// \u00C2 seguido de puntuacion = "A circunfleja" espuria.
-const MOJIBAKE = new RegExp(
-  '\\u00C3[\\u0080-\\u00BF\\u0152\\u0153\\u2018\\u2019\\u201C\\u201D\\u2020\\u2021\\u02C6\\u2030\\u0160\\u0161\\u017D\\u017E\\u20AC\\u2026]' +
-  '|\\u00E2\\u20AC' +
-  '|\\u00C2[\\u00B7\\u00B0\\u00AB\\u00BB\\u00BF\\u00A1]'
-);
+const EXCLUDE = /(^|[\\/])(node_modules|assets[\\/]libs|\.git)([\\/]|$)/;
+const DERIVED = new Set(['js/app.min.js', 'js/datos.min.js']);
+const SECOND_BYTE = '[\\u0080-\\u00BF\\u00A0-\\u00FF\\u0152\\u0153\\u0160\\u0161\\u017D\\u017E\\u0178\\u0192\\u02C6\\u02DC\\u2013\\u2014\\u2018\\u2019\\u201A\\u201C\\u201D\\u201E\\u2020\\u2021\\u2022\\u2026\\u2030\\u2039\\u203A\\u20AC\\u2122]';
+const MOJIBAKE = new RegExp('[\\u00C3\\u00C2\\u00E2]' + SECOND_BYTE);
+
+const terserOptions = {
+  compress: {
+    drop_debugger: true,
+    passes: 2,
+  },
+  mangle: true,
+  format: {
+    comments: false,
+  },
+};
+
+const p = (...segments) => join(ROOT, ...segments);
+const rel = file => file.slice(ROOT.length + 1).replace(/\\/g, '/');
+const kb = bytes => `${(bytes / 1024).toFixed(1)} KB`;
+
+function fail(message) {
+  console.error(`\n  ERROR: ${message}\n`);
+  process.exit(1);
+}
 
 async function* walk(dir) {
   for (const name of await readdir(dir)) {
     const full = join(dir, name);
     if (EXCLUDE.test(full)) continue;
-    const st = await stat(full);
-    if (st.isDirectory()) yield* walk(full);
+    const info = await stat(full);
+    if (info.isDirectory()) yield* walk(full);
     else if (TEXT_EXT.test(name)) yield full;
   }
 }
 
-const infected = [];
-for await (const file of walk(ROOT)) {
+async function textForMojibakeScan(file, relativePath) {
   const txt = await readFile(file, 'utf8');
-  const m = txt.match(MOJIBAKE);
-  if (m) infected.push({ file: file.slice(ROOT.length + 1), muestra: m[0] });
-}
-if (infected.length) {
-  console.error('\n  ✗ ABORTADO: mojibake (doble codificacion UTF-8) detectado en:');
-  for (const { file, muestra } of infected) console.error(`      ${file}  (muestra: "${muestra}")`);
-  console.error('  Repara la codificacion antes de publicar (p. ej. con ftfy o');
-  console.error('  decodificando cp1252 -> utf-8) y vuelve a ejecutar el build.\n');
-  process.exit(1);
-}
-console.log('\n  ✓ Codificacion verificada: sin mojibake en los ficheros de texto.');
 
-/* ── 1 · Version ──────────────────────────────────────────── */
-const { version } = JSON.parse(await readFile(p('version.json'), 'utf8'));
-console.log(`\n  Release v${version}\n  ${'─'.repeat(40)}`);
+  if (relativePath !== 'version.json') return txt;
 
-/* ── 2 · Minificacion ─────────────────────────────────────── */
-const terserOpts = {
-  compress: { passes: 2, drop_debugger: true },
-  mangle: true,
-  format: { comments: false },
-};
-
-async function minFile(src, dst) {
-  const code = await readFile(p(src), 'utf8');
-  const out = await minify(code, terserOpts);
-  if (out.error) throw out.error;
-  await writeFile(p(dst), out.code, 'utf8');
-  const ratio = (100 * (1 - out.code.length / code.length)).toFixed(0);
-  console.log(`  ${src.padEnd(16)} ${kb(code.length).padStart(9)}  ->  ${kb(out.code.length).padStart(9)}  (-${ratio}%)`);
+  // version.json is the source of the release version. Its legacy changelog
+  // can mention mojibake patterns literally, so scan only release metadata.
+  const json = JSON.parse(txt);
+  delete json.historial;
+  return JSON.stringify(json);
 }
 
-await minFile('js/app.js', 'js/app.min.js');
-await minFile('js/datos.js', 'js/datos.min.js');
+async function verifyEncoding() {
+  const infected = [];
 
-/* ── 3 · Propagacion de version ───────────────────────────── */
-async function patch(file, transforms) {
-  let txt = await readFile(p(file), 'utf8');
-  for (const [re, repl] of transforms) txt = txt.replace(re, repl);
-  await writeFile(p(file), txt, 'utf8');
-  console.log(`  version -> ${file}`);
+  for await (const file of walk(ROOT)) {
+    const relativePath = rel(file);
+    if (DERIVED.has(relativePath)) continue;
+
+    const txt = await textForMojibakeScan(file, relativePath);
+    const match = txt.match(MOJIBAKE);
+    if (match) infected.push({ file: relativePath, sample: match[0] });
+  }
+
+  if (infected.length) {
+    console.error('\n  ERROR: mojibake detected in text files:');
+    for (const { file, sample } of infected) {
+      console.error(`      ${file}  sample: "${sample}"`);
+    }
+    fail('repair encoding before publishing.');
+  }
+
+  console.log('  encoding: ok');
 }
 
-// sw.js: const CACHE_NAME (ASCII, ancla fiable) y cabecera de version.
-// La cabecera puede contener mojibake heredado en "Version"; se localiza
-// por el patron numerico que precede a la descripcion entre parentesis.
-await patch('sw.js', [
-  [/(const\s+CACHE_NAME\s*=\s*['"]manga-ulpgc-v)[\d.]+(['"])/, `$1${version}$2`],
-  [/(:\s*)[\d.]+(\s*\([^)]*\))/, `$1${version}$2`],
-]);
-
-// recurso.html e index.html: todas las query strings ?v=...
-for (const f of ['recurso.html', 'index.html']) {
-  await patch(f, [[/\?v=[\d.]+/g, `?v=${version}`]]);
+async function readVersion() {
+  const json = JSON.parse(await readFile(p('version.json'), 'utf8'));
+  if (!/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(json.version)) {
+    fail(`invalid version in version.json: ${json.version}`);
+  }
+  return json.version;
 }
 
-console.log(`  ${'─'.repeat(40)}\n  Listo. Recuerda subir el cambio de CACHE_NAME para invalidar cache.\n`);
+async function minifyTarget(src, dst) {
+  const source = await readFile(p(src), 'utf8');
+  const result = await minify(source, terserOptions);
+
+  if (result.error) throw result.error;
+  if (!result.code) fail(`Terser returned empty output for ${src}`);
+  if (Buffer.byteLength(result.code, 'utf8') >= Buffer.byteLength(source, 'utf8')) {
+    fail(`${dst} is not smaller than ${src}`);
+  }
+
+  if (CHECK_ONLY) {
+    const current = await readFile(p(dst), 'utf8');
+    if (current !== result.code) {
+      fail(`${dst} is not up to date. Run npm run build.`);
+    }
+  } else {
+    await writeFile(p(dst), result.code, 'utf8');
+  }
+
+  console.log(`  minify: ${src} ${kb(Buffer.byteLength(source, 'utf8'))} -> ${dst} ${kb(Buffer.byteLength(result.code, 'utf8'))}`);
+}
+
+function replaceAllChecked(txt, file, replacements) {
+  let out = txt;
+
+  for (const [pattern, replacement, label] of replacements) {
+    if (!pattern.test(out)) {
+      fail(`${file}: pattern not found for ${label}`);
+    }
+    out = out.replace(pattern, replacement);
+  }
+
+  return out;
+}
+
+async function patchFile(file, replacements) {
+  const before = await readFile(p(file), 'utf8');
+  const after = replaceAllChecked(before, file, replacements);
+
+  if (!CHECK_ONLY && after !== before) {
+    await writeFile(p(file), after, 'utf8');
+  }
+
+  console.log(`  version: ${file}`);
+}
+
+async function propagateVersion(version) {
+  const cacheName = `manga-ulpgc-v${version}`;
+
+  await patchFile('sw.js', [
+    [
+      /(const\s+CACHE_NAME\s*=\s*['"])manga-ulpgc-v[^'"]+(['"])/,
+      `$1${cacheName}$2`,
+      'CACHE_NAME',
+    ],
+    [
+      /(Versi.n:\s*)[\dA-Za-z.+-]+(\s*\([^)]*\))/,
+      `$1${version}$2`,
+      'service worker header version',
+    ],
+  ]);
+
+  for (const file of VERSIONED_HTML) {
+    await patchFile(file, [
+      [/\?v=[0-9A-Za-z.+-]+/g, `?v=${version}`, 'asset query strings'],
+    ]);
+  }
+}
+
+async function verifyVersion(version) {
+  const cacheName = `manga-ulpgc-v${version}`;
+  const sw = await readFile(p('sw.js'), 'utf8');
+  if (!sw.includes(`const CACHE_NAME = '${cacheName}'`) && !sw.includes(`const CACHE_NAME = "${cacheName}"`)) {
+    fail(`sw.js CACHE_NAME is not ${cacheName}`);
+  }
+
+  for (const file of VERSIONED_HTML) {
+    const txt = await readFile(p(file), 'utf8');
+    const mismatches = [...txt.matchAll(/\?v=([0-9A-Za-z.+-]+)/g)]
+      .map(match => match[1])
+      .filter(found => found !== version);
+    if (mismatches.length) {
+      fail(`${file} contains query strings not matching ${version}: ${[...new Set(mismatches)].join(', ')}`);
+    }
+  }
+
+  console.log('  version coherence: ok');
+}
+
+async function verifyMinifiedSizes() {
+  for (const [src, dst] of MINIFIED_TARGETS) {
+    const sourceSize = (await stat(p(src))).size;
+    const minifiedSize = (await stat(p(dst))).size;
+    if (minifiedSize >= sourceSize) {
+      fail(`${dst} (${minifiedSize} bytes) is not smaller than ${src} (${sourceSize} bytes)`);
+    }
+  }
+
+  console.log('  artifact sizes: ok');
+}
+
+console.log(`\n  ${CHECK_ONLY ? 'Check' : 'Build'} manga-aula-app`);
+console.log('  ----------------------------------------');
+
+await verifyEncoding();
+const version = await readVersion();
+console.log(`  version: ${version}`);
+
+for (const [src, dst] of MINIFIED_TARGETS) {
+  await minifyTarget(src, dst);
+}
+
+await propagateVersion(version);
+await verifyVersion(version);
+await verifyMinifiedSizes();
+await verifyEncoding();
+
+console.log(`  ----------------------------------------`);
+console.log(`  ${CHECK_ONLY ? 'Check complete.' : 'Build complete.'}\n`);
