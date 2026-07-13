@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jardín de tinta — paseo narrativo por el fondo de manga del Aula de Cómic (ULPGC). Una invitación al recurso didáctico.">
+<meta name="generator" content="Manga como recurso para el aula · v5.11">
+<title>Jardín de tinta — Manga como recurso para el aula · ULPGC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho+B1:wght@400;500;600&family=Noto+Serif+JP:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<style>
+:root {
+  --paper: #f3ede1;
+  --paper2: #efe7d7;
+  --ink: #1a1410;
+  --ink-soft: rgba(26,20,16,.74);
+  --red: #b8341d;
+  --gold: #a8852d;
+  --rosa: #c9556a;
+  --serif: 'Shippori Mincho B1', Georgia, serif;
+  --display: 'Cinzel', serif;
+  --jp: 'Noto Serif JP', serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--serif);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Canvas layers ── */
+#ramaCanvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+  pointer-events: none;
+}
+#petalosCanvas {
+  position: fixed; inset: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* ── Nav ── */
+.jnav {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  z-index: 100;
+  mix-blend-mode: multiply;
+}
+.jnav .marca {
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--ink);
+  text-decoration: none;
+}
+.jnav .marca .kanji { font-family: var(--jp); font-size: 15px; letter-spacing: 0; }
+.jnav .visitar {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink); text-decoration: none;
+  border: 1px solid rgba(26,20,16,.45); border-radius: 999px;
+  padding: 9px 20px;
+  transition: background .25s, color .25s;
+  min-height: 40px; display: inline-flex; align-items: center;
+}
+.jnav .visitar:hover, .jnav .visitar:focus-visible { background: var(--ink); color: var(--paper); }
+.jnav.sobre-oscuro { mix-blend-mode: normal; }
+.jnav.sobre-oscuro .marca, .jnav.sobre-oscuro .visitar { color: var(--paper); }
+.jnav.sobre-oscuro .visitar { border-color: rgba(243,237,225,.5); }
+.jnav.sobre-oscuro .visitar:hover { background: var(--paper); color: var(--ink); }
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid; place-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-inner { position: relative; z-index: 2; padding: 0 24px; }
+.hero .eyebrow {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(3.4rem, 11vw, 8.5rem);
+  letter-spacing: .12em;
+  line-height: 1;
+  margin-right: -.12em; /* compensa el tracking del último carácter */
+}
+.hero .lema {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: 26px;
+}
+.hero .scroll-hint {
+  position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 10px; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--ink-soft);
+  z-index: 2;
+}
+.hero .scroll-hint::after {
+  content: ''; display: block; width: 1px; height: 42px;
+  background: var(--ink-soft); margin: 10px auto 0;
+  animation: hintFlow 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes hintFlow { 0%,100% { transform: scaleY(.4); opacity:.4 } 50% { transform: scaleY(1); opacity:1 } }
+
+/* vertical kanji laterales */
+.kanji-lateral {
+  position: absolute; z-index: 2;
+  font-family: var(--jp); writing-mode: vertical-rl;
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem); letter-spacing: .5em;
+  color: var(--ink-soft);
+}
+.hero .kanji-lateral { left: clamp(16px, 4vw, 56px); top: 50%; transform: translateY(-50%); }
+
+/* ── Secciones ── */
+section { position: relative; }
+.interludio {
+  min-height: 88vh;
+  display: grid; place-items: center;
+  text-align: center;
+  padding: 18vh 24px;
+}
+.interludio .jp-line {
+  font-family: var(--jp); font-size: 15px; letter-spacing: .55em;
+  color: var(--ink-soft); margin-bottom: 30px;
+}
+.interludio .verso {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1.45;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.interludio .verso em { font-style: italic; color: var(--ink-soft); }
+.interludio .hanko {
+  width: 46px; height: 46px; margin: 44px auto 0;
+  background: var(--red); color: var(--paper);
+  font-family: var(--jp); font-size: 19px; line-height: 1.15;
+  display: grid; place-items: center;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(184,52,29,.25);
+  rotate: -3deg;
+}
+
+/* ── El fondo (datos) ── */
+.fondo {
+  max-width: 1060px; margin: 0 auto;
+  padding: 10vh 32px 16vh;
+}
+.fondo .fondo-head { max-width: 60ch; margin-bottom: 9vh; position: relative; }
+.fondo .eyebrow {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 18px;
+}
+.fondo h2 {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  letter-spacing: .05em; line-height: 1.12;
+  margin-bottom: 22px;
+}
+.fondo .fondo-head p { color: var(--ink-soft); font-size: 1.1rem; max-width: 52ch; }
+.fondo .kanji-lateral { right: clamp(8px, 3vw, 40px); top: 6vh; }
+
+.cifras { display: grid; gap: 0; border-top: 1px solid rgba(26,20,16,.28); }
+.cifra {
+  display: grid;
+  grid-template-columns: minmax(170px, max-content) 1fr;
+  gap: 12px 44px; align-items: baseline;
+  padding: 34px 0;
+  border-bottom: 1px solid rgba(26,20,16,.16);
+}
+.cifra .n {
+  display: flex; flex-direction: column; gap: 8px;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1; letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+}
+.cifra .n small { font-size: .3em; letter-spacing: .22em; color: var(--ink-soft); font-family: var(--mono); text-transform: uppercase; }
+.cifra .d { max-width: 52ch; color: var(--ink-soft); font-size: 1.02rem; }
+.cifra .d strong { color: var(--ink); font-weight: 600; }
+
+/* ── Cierre oscuro ── */
+.cierre {
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 96vh;
+  display: grid; place-items: center;
+  text-align: center;
+  padding: 20vh 24px 14vh;
+  position: relative;
+}
+.cierre .jp-line {
+  font-family: var(--jp); font-size: 14px; letter-spacing: .55em;
+  color: rgba(243,237,225,.6); margin-bottom: 28px;
+}
+.cierre h2 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(2.1rem, 5.4vw, 3.8rem);
+  line-height: 1.25; letter-spacing: .01em;
+  max-width: 22ch; text-wrap: balance;
+  margin: 0 auto 26px;
+}
+.cierre p {
+  color: rgba(243,237,225,.72);
+  max-width: 46ch; margin: 0 auto 52px;
+  font-size: 1.05rem;
+}
+.cierre .uso-docente {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(243,237,225,.5);
+  max-width: 52ch; margin: -30px auto 46px; line-height: 2;
+}
+.cierre .cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink); background: var(--paper);
+  text-decoration: none;
+  border-radius: 999px; padding: 16px 34px;
+  min-height: 44px;
+  transition: transform .3s, box-shadow .3s;
+}
+.cierre .cta:hover, .cierre .cta:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+.cierre .secundarios {
+  margin-top: 34px;
+  display: flex; gap: 26px; justify-content: center; flex-wrap: wrap;
+}
+.cierre .secundarios a {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(243,237,225,.66); text-decoration: none;
+  border-bottom: 1px solid rgba(243,237,225,.28);
+  padding: 6px 2px; min-height: 40px; display: inline-flex; align-items: center;
+  transition: color .25s;
+}
+.cierre .secundarios a:hover { color: var(--paper); }
+.cierre .pie {
+  position: absolute; bottom: 26px; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 32px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
+  text-transform: uppercase; color: rgba(243,237,225,.45);
+}
+.cierre .pie .hanko-mini {
+  width: 26px; height: 26px; background: var(--red); color: var(--paper);
+  font-family: var(--jp); font-size: 13px;
+  display: grid; place-items: center; border-radius: 3px; rotate: 2deg;
+}
+
+/* ── Hero: entrada escalonada + tinta que aparece ── */
+#ramaCanvas { opacity: 0; transition: opacity 2.2s ease .15s; }
+#ramaCanvas.arte-in { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero .eyebrow.rev { transition-delay: .25s; }
+  .hero h1.rev { transition-delay: .55s; transition-duration: 1.4s; }
+  .hero .lema.rev { transition-delay: 1.05s; }
+  .hero .scroll-hint { opacity: 0; animation: hintIn 1s ease 1.8s forwards; }
+  @keyframes hintIn { to { opacity: 1; } }
+}
+@media (prefers-reduced-motion: reduce) { #ramaCanvas { opacity: 1; transition: none; } }
+
+/* ── Estampas ukiyo-e ── */
+.estampas {
+  max-width: 1060px; margin: 0 auto;
+  padding: 8vh 32px 6vh;
+}
+.estampas .fondo-head { max-width: 60ch; margin-bottom: 8vh; }
+.estampa {
+  display: grid;
+  grid-template-columns: minmax(280px, 480px) 1fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  margin-bottom: 12vh;
+}
+.estampa:nth-child(even) { direction: rtl; }
+.estampa:nth-child(even) > * { direction: ltr; }
+.estampa figure { margin: 0; }
+.estampa img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid rgba(26,20,16,.18);
+  box-shadow: 0 18px 50px rgba(26,20,16,.16);
+  background: var(--paper2);
+}
+.estampa figcaption {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-soft);
+  margin-top: 12px; line-height: 1.8;
+}
+.estampa .est-num {
+  font-family: var(--jp); font-size: 14px; letter-spacing: .4em;
+  color: var(--red); margin-bottom: 14px;
+}
+.estampa h3 {
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  line-height: 1.3; margin-bottom: 14px; max-width: 24ch;
+}
+.estampa p { color: var(--ink-soft); max-width: 48ch; font-size: 1.02rem; }
+.est-actividad {
+  display: inline-block; margin-top: 18px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--red);
+  text-decoration: none; border-bottom: 1px solid var(--red);
+  padding-bottom: 3px; transition: opacity .25s;
+}
+.est-actividad:hover, .est-actividad:focus-visible { opacity: .65; }
+@media (max-width: 760px) {
+  .estampa, .estampa:nth-child(even) { grid-template-columns: 1fr; direction: ltr; }
+}
+
+/* ── Reveals ── */
+.rev { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .rev { opacity: 0; transform: translateY(26px); transition: opacity 1s ease, transform 1s cubic-bezier(.22,.61,.36,1); }
+  .rev.in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #petalosCanvas { display: none; }
+  html { scroll-behavior: auto; }
+  .hero .scroll-hint::after { animation: none; }
+}
+@media (max-width: 640px) {
+  .jnav { padding: 14px 18px; }
+  .cifra { grid-template-columns: 1fr; gap: 8px; }
+  .cierre .pie { flex-direction: column; gap: 10px; }
+  .kanji-lateral { display: none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="petalosCanvas" aria-hidden="true"></canvas>
+
+<nav class="jnav" id="jnav" aria-label="Navegación">
+  <a class="marca" href="index.html"><span class="kanji">漫画</span> Aula de Cómic · ULPGC</a>
+  <a class="visitar" href="recurso.html">Visitar el recurso</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero" data-screen-label="Hero — Jardín de tinta">
+  <canvas id="ramaCanvas" aria-hidden="true"></canvas>
+  <span class="kanji-lateral" aria-hidden="true">墨の庭</span>
+  <div class="hero-inner">
+    <p class="eyebrow rev">Un paseo por el fondo de manga</p>
+    <h1 class="rev">JARDÍN<br>DE TINTA</h1>
+    <p class="lema rev">Donde cada viñeta se convierte en aula.</p>
+  </div>
+  <p class="scroll-hint" aria-hidden="true">Desliza</p>
+</section>
+
+<!-- ══ INTERLUDIO 1 ══ -->
+<section class="interludio" data-screen-label="Interludio — pétalos">
+  <div>
+    <p class="jp-line rev" aria-hidden="true">花は散っても</p>
+    <p class="verso rev">Los pétalos caen; <em>el árbol no se aflige.</em><br>
+    La tinta se seca; <em>la historia sigue floreciendo.</em></p>
+    <div class="hanko rev" aria-hidden="true">読む</div>
+  </div>
+</section>
+
+<!-- ══ ESTAMPAS UKIYO-E ══ -->
+<section class="estampas" data-screen-label="Estampas ukiyo-e">
+  <div class="fondo-head">
+    <p class="eyebrow rev">Raíces · 浮世絵</p>
+    <h2 class="rev">Antes del manga,<br>la estampa.</h2>
+    <p class="rev">El manga no nace de la nada: hereda mil años de imagen japonesa.
+    Tres estampas de dominio público para empezar la conversación en clase.</p>
+  </div>
+
+  <div class="estampa rev">
+    <figure>
+      <img src="img/estampas/hokusai-gran-ola.jpg" alt="La gran ola de Kanagawa, xilografía de Hokusai: una ola gigante con espuma en forma de garras frente al monte Fuji" loading="lazy">
+      <figcaption>La gran ola de Kanagawa · Hokusai · c. 1831<br>Dominio público</figcaption>
+    </figure>
+    <div>
+      <p class="est-num" aria-hidden="true">一</p>
+      <h3>La imagen japonesa más reproducida del mundo.</h3>
+      <p>La ola de Hokusai llegó a Europa como papel de embalaje y cambió la pintura
+      occidental. En el aula abre la pregunta clave: ¿cómo viaja una imagen?
+      La respuesta lleva directa al manga.</p>
+    </div>
+  </div>
+
+  <div class="estampa rev">
+    <figure>
+      <img src="img/estampas/hokusai-manga-rostros.jpg" alt="Página de los Hokusai manga: estudios de rostros y expresiones" loading="lazy">
+      <figcaption>Hokusai manga · estudios de rostros · 1814<br>Dominio público · Colección del Aula de Cómic</figcaption>
+    </figure>
+    <div>
+      <p class="est-num" aria-hidden="true">二</p>
+      <h3>El hombre que puso nombre al medio.</h3>
+      <p>Hokusai publicó en 1814 sus cuadernos de bocetos: los <em>Hokusai manga</em>.
+      Dos siglos después, la palabra sigue nombrando el cómic japonés — y el fondo
+      del Aula de Cómic guarda su facsímil.</p>
+    </div>
+  </div>
+
+  <div class="estampa rev">
+    <figure>
+      <img src="img/estampas/hiroshige-lluvia.jpg" alt="Aguacero súbito sobre el puente Shin-Ōhashi y Atake, xilografía de Hiroshige: figuras cruzando un puente bajo líneas de lluvia" loading="lazy">
+      <figcaption>Aguacero súbito sobre Shin-Ōhashi · Hiroshige · 1857<br>Dominio público</figcaption>
+    </figure>
+    <div>
+      <p class="est-num" aria-hidden="true">三</p>
+      <h3>La lluvia dibujada a líneas.</h3>
+      <p>Las líneas de lluvia de Hiroshige son las abuelas de las líneas cinéticas
+      del manga: el mismo gesto para dibujar lo invisible. Comparar ambas páginas
+      es una actividad de anatomía visual inmediata.</p>
+      <a class="est-actividad" href="recurso.html#generador-vinetas">→ Probarlo en clase: generador de viñetas con líneas cinéticas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EL FONDO ══ -->
+<section class="fondo" data-screen-label="El fondo en cifras">
+  <span class="kanji-lateral" aria-hidden="true">蔵書</span>
+  <div class="fondo-head">
+    <p class="eyebrow rev">Biblioteca del Campus del Obelisco</p>
+    <h2 class="rev">Un fondo vivo,<br>catalogado con criterio docente.</h2>
+    <p class="rev">Cada título del Aula de Cómic está leído, descrito y situado en su etapa educativa.
+    No es una estantería: es un itinerario.</p>
+  </div>
+  <div class="cifras">
+    <div class="cifra rev">
+      <span class="n">280<small>títulos</small></span>
+      <p class="d"><strong>Catálogo completo</strong> con descripción pedagógica, badges de uso,
+      nivel recomendado, ODS y enlace directo al OPAC de la ULPGC.</p>
+    </div>
+    <div class="cifra rev">
+      <span class="n">9<small>eras</small></span>
+      <p class="d"><strong>Línea del tiempo</strong> desde Heian (s. XII) hasta Reiwa:
+      57 obras del fondo situadas en la historia de Japón y del manga.</p>
+    </div>
+    <div class="cifra rev">
+      <span class="n">5<small>situaciones</small></span>
+      <p class="d"><strong>Situaciones de aprendizaje LOMLOE</strong> listas para llevar al aula,
+      de Infantil a Bachillerato, con competencias, saberes y evaluación.</p>
+    </div>
+    <div class="cifra rev">
+      <span class="n">4<small>caminos</small></span>
+      <p class="d"><strong>Cuatro puertas de entrada</strong> según quién seas:
+      marco pedagógico, primeras etapas, el fondo y llevar al aula.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INTERLUDIO 2 ══ -->
+<section class="interludio" data-screen-label="Interludio — el viento">
+  <div>
+    <p class="jp-line rev" aria-hidden="true">風がページをめくる</p>
+    <p class="verso rev">El viento pasa la página.<br><em>Tú solo tienes que sentarte a leer.</em></p>
+  </div>
+</section>
+
+<!-- ══ CIERRE ══ -->
+<section class="cierre" id="cierre" data-screen-label="Cierre — CTA">
+  <div>
+    <p class="jp-line rev" aria-hidden="true">ようこそ</p>
+    <h2 class="rev">Ven a sentarte bajo el árbol.</h2>
+    <p class="rev">El recurso completo te espera: catálogo, línea del tiempo, situaciones de
+    aprendizaje y materiales imprimibles. Abierto para todo el profesorado.</p>
+    <p class="uso-docente rev">Idea de uso · proyecta esta página al abrir el claustro o la primera
+    sesión con tu grupo, y entra al recurso desde aquí.</p>
+    <a class="cta rev" href="recurso.html">Entrar al recurso →</a>
+    <div class="secundarios rev">
+      <a href="manual-docente.html">⎙ Manual docente</a>
+      <a href="deck-claustro.html">▶ Deck claustro</a>
+    </div>
+  </div>
+  <div class="pie">
+    <span>© 2026 Aula de Cómic · ULPGC</span>
+    <span class="hanko-mini" aria-hidden="true">漫</span>
+    <span>CC BY-NC 4.0</span>
+  </div>
+</section>
+
+<script src="js/jardin-arte.js"></script>
+<script src="js/jardin-scroll.js"></script>
+</body>
+</html>

@@ -100,7 +100,7 @@ ul.compact li{margin:4px 0;line-height:1.55}
 <body>
 <main class="shell">
 
-  <div class="mono eyebrow">Auditoría UX/UI · site/index.html · v5.9</div>
+  <div class="mono eyebrow">Auditoría UX/UI · site/index.html · v5.9 → cierre v5.10 · ronda evolutiva v5.11</div>
   <h1 class="cover">Lo que <em>no termina</em> de funcionar — y cómo cerrarlo.</h1>
   <p class="lede">Revisión completa del sitio principal del recurso. 23 hallazgos clasificados por severidad, con localización exacta en el código y propuesta de corrección. <strong>Estado al 28·05·2026:</strong> los 23 hallazgos resueltos o conformes. Auditoría cerrada.</p>
 
@@ -414,6 +414,59 @@ ul.compact li{margin:4px 0;line-height:1.55}
       <li><strong>Menores (6/6)</strong>: iconografía editorial, toggle accesible, visit-counter con loaded state, terminología "4 caminos", CSP compactada, versión unificada en una fuente.</li>
     </ol>
     <div class="note" style="color:rgba(255,255,255,0.75); border-color:rgba(255,255,255,0.25)">Nota — a partir de aquí, las mejoras son evolutivas (nuevas features, contenido) y no piden auditoría. El recurso está listo para presentación en claustro y publicación pública.</div>
+  </section>
+
+  <!-- ═══════════════ CAPÍTULO 04 · RONDA EVOLUTIVA v5.11 ═══════════════ -->
+  <section class="chapter">
+    <div class="chapter-num">
+      Capítulo
+      <strong>04</strong>
+      Evolutivas · v5.11
+    </div>
+    <div>
+      <h2 class="block">Ronda <em>evolutiva</em> — julio 2026.</h2>
+      <p class="kicker">Cuatro mejoras posteriores al cierre de la auditoría, sobre <code>recurso.html</code>: deuda de código, consistencia del sistema, contenido duplicado y una función nueva de accesibilidad.</p>
+
+      <div class="issue resolved">
+        <div><span class="tag done">E-01</span></div>
+        <div>
+          <h3>Isla legacy refactorizada: glosario y adaptaciones.</h3>
+          <div class="where">recurso.html · #glosario · .adapt</div>
+          <p>Los bloques de glosario, adaptaciones y propuestas de uso conservaban estilos inline masivos y usaban <code>&lt;s&gt;</code> (tachado) como contenedor de descripciones — semántica hostil para lectores de pantalla.</p>
+          <div class="fix"><strong>Aplicado</strong>Estilos inline → clases en <code>estilos.css</code>; <code>&lt;s&gt;</code> → <code>&lt;span class="ac-desc"&gt;</code>; el h2 del glosario sube a la escala del sistema (2.4rem escritorio / 1.8rem móvil). Test de regresión: <code>.ac s</code> debe contar 0.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">E-02</span></div>
+        <div>
+          <h3><code>⊕</code> devaluado: decoraba 11 títulos de sección.</h3>
+          <div class="where">h2/h3 de currículo, itinerarios, universidad, situaciones, recursos…</div>
+          <p>El sistema define <code>⊕</code> como «acción primaria / añadir», pero decoraba títulos estáticos. Un icono que significa todo no significa nada.</p>
+          <div class="fix"><strong>Aplicado</strong>Retirado de los 11 títulos; queda solo en botones de acción. Regla anotada en <code>specs/architecture/design-system.md</code>.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">E-03</span></div>
+        <div>
+          <h3>Contenido duplicado: cards garantía repetidas en la línea del tiempo.</h3>
+          <div class="where">#garantia-primaria ↔ bloque «primeros lectores»</div>
+          <p>Yotsuba!, ¡Kota ven! y La pequeña forastera aparecían dos veces con copy casi idéntico. Mantenimiento doble y señal confusa para el lector.</p>
+          <div class="fix"><strong>Aplicado</strong>Cards duplicadas eliminadas de «primeros lectores»; en su lugar, enlace cruzado a la selección garantía de la Parte II.</div>
+        </div>
+      </div>
+
+      <div class="issue resolved">
+        <div><span class="tag done">E-04</span></div>
+        <div>
+          <h3>Nueva función: modo lectura accesible.</h3>
+          <div class="where">#modoLecturaBtn · js/modo-lectura.js</div>
+          <p>Del roadmap: lectura sostenida sin interacción para alumnado con dificultades de lectura y para imprimir/proyectar.</p>
+          <div class="fix"><strong>Aplicado</strong>Toggle «Aa» en el speed dial: vista plana (todas las pestañas expandidas), alto contraste, sin animaciones, cuerpo a 112.5%. Persiste en <code>localStorage</code>, anuncia el cambio por live region, degrada sin romper si el almacenamiento falla. Spec: <code>features/09-modo-lectura.md</code> · 3 tests Playwright nuevos.</div>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main>

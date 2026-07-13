@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3ea">
+  <meta name="description" content="Ficha de trabajo accesible e imprimible para la lectura y el análisis didáctico de manga.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' data:; manifest-src 'self'; base-uri 'self'; form-action 'none';">
+  <title>Ficha de trabajo: el manga como recurso didáctico</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/ficha-trabajo.css?v=5.56.1">
+</head>
+<body>
+  <a class="skip-link" href="#ficha">Saltar a la ficha</a>
+
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Aula de Cómic · Biblioteca Campus del Obelisco · ULPGC</p>
+      <h1>Ficha de trabajo sobre manga</h1>
+      <p class="lede">Documento HTML accesible para completar en pantalla, imprimir o guardar como PDF.</p>
+    </div>
+    <nav class="page-actions" aria-label="Acciones de la ficha">
+      <a class="action-link" href="recurso.html#situaciones">Volver al recurso</a>
+      <button class="action-button" id="printButton" type="button">Imprimir o guardar como PDF</button>
+    </nav>
+  </header>
+
+  <main id="ficha" tabindex="-1">
+    <form aria-describedby="privacyNote">
+      <p class="privacy-note" id="privacyNote">Los datos escritos en esta ficha permanecen en esta página y no se envían a ningún servicio.</p>
+
+      <fieldset>
+        <legend>1. Identificación de la lectura</legend>
+        <div class="form-grid form-grid-two">
+          <label>Título de la obra
+            <input name="titulo" type="text" autocomplete="off">
+          </label>
+          <label>Autoría
+            <input name="autoria" type="text" autocomplete="off">
+          </label>
+          <label>Nombre o grupo
+            <input name="grupo" type="text" autocomplete="off">
+          </label>
+          <label>Fecha
+            <input id="worksheetDate" name="fecha" type="date">
+          </label>
+          <label>Etapa o contexto formativo
+            <select name="etapa">
+              <option value="">Selecciona una opción</option>
+              <option>Educación Infantil</option>
+              <option>Educación Primaria</option>
+              <option>Educación Secundaria Obligatoria</option>
+              <option>Bachillerato</option>
+              <option>Universidad o formación docente</option>
+              <option>Biblioteca o club de lectura</option>
+              <option>Otro contexto</option>
+            </select>
+          </label>
+          <label>Materia, proyecto o itinerario
+            <input name="materia" type="text" autocomplete="off">
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Antes de leer</legend>
+        <label>¿Qué sé ya sobre la obra, su contexto o el tema que aborda?
+          <textarea name="conocimientos" rows="4"></textarea>
+        </label>
+        <label>¿Qué espero encontrar o qué pregunta quiero responder durante la lectura?
+          <textarea name="expectativas" rows="4"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Durante la lectura</legend>
+        <p class="section-help">Registra escenas o páginas relevantes. Describe primero lo observable y después interpreta su efecto.</p>
+        <div class="observation-grid" role="group" aria-label="Registro de observaciones">
+          <label>Escena o página 1
+            <input name="referencia_1" type="text" autocomplete="off">
+          </label>
+          <label>Qué observo y qué efecto produce
+            <textarea name="observacion_1" rows="3"></textarea>
+          </label>
+          <label>Escena o página 2
+            <input name="referencia_2" type="text" autocomplete="off">
+          </label>
+          <label>Qué observo y qué efecto produce
+            <textarea name="observacion_2" rows="3"></textarea>
+          </label>
+          <label>Escena o página 3
+            <input name="referencia_3" type="text" autocomplete="off">
+          </label>
+          <label>Qué observo y qué efecto produce
+            <textarea name="observacion_3" rows="3"></textarea>
+          </label>
+        </div>
+        <label>Recursos del lenguaje del manga: composición, viñetas, ritmo, punto de vista, texto, silencio, onomatopeyas o líneas cinéticas
+          <textarea name="lenguaje_visual" rows="5"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>4. Interpretación y contraste</legend>
+        <label>Idea principal o conflicto que plantea la obra
+          <textarea name="idea_principal" rows="4"></textarea>
+        </label>
+        <label>Evidencias de la obra que apoyan mi interpretación
+          <textarea name="evidencias" rows="5"></textarea>
+        </label>
+        <label>Dato histórico, científico, social o cultural que conviene contrastar con otra fuente
+          <textarea name="contraste" rows="4"></textarea>
+        </label>
+        <label>Fuente consultada y conclusión del contraste
+          <textarea name="fuente" rows="4"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>5. Conexión didáctica y reflexión final</legend>
+        <label>Competencia, saber, objetivo o tema con el que relaciono la lectura
+          <textarea name="conexion_curricular" rows="4"></textarea>
+        </label>
+        <label>Producto o actividad que podría realizar a partir de la obra
+          <textarea name="actividad" rows="4"></textarea>
+        </label>
+        <label>Qué he comprendido, qué pregunta mantengo abierta y qué revisaría de mi interpretación
+          <textarea name="reflexion" rows="6"></textarea>
+        </label>
+      </fieldset>
+
+      <section class="review-box" aria-labelledby="reviewHeading">
+        <h2 id="reviewHeading">Revisión docente o de mediación</h2>
+        <p>La selección de fragmentos, el tratamiento de contenidos sensibles y la adecuación curricular deben validarse en función del grupo y del contexto educativo.</p>
+        <label>Observaciones de revisión
+          <textarea name="revision_docente" rows="4"></textarea>
+        </label>
+      </section>
+    </form>
+  </main>
+
+  <footer class="page-footer">
+    <p>El manga como recurso didáctico · Biblioteca Campus del Obelisco · Aula de Cómic · ULPGC</p>
+    <p>Material para uso educativo · CC BY-NC 4.0</p>
+  </footer>
+
+  <p class="print-status" id="printStatus" role="status" aria-live="polite"></p>
+  <script src="js/ficha-trabajo.js?v=5.56.1" defer></script>
+</body>
+</html>

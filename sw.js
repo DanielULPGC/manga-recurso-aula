@@ -1,12 +1,12 @@
-﻿/**
+/**
  * sw.js — Service Worker para El manga como recurso didáctico
  * Biblioteca Campus del Obelisco · Aula de Cómic · ULPGC
- * Versión: 5.51.0  (minificacion real, script de release, version unica)
+ * Versión: 5.56.1  (minificacion real, script de release, version unica)
  *
  * ── PROTOCOLO DE MANTENIMIENTO ─────────────────────────────────
  * Cada vez que se publique una nueva versión del recurso:
- *   1. Incrementar CACHE_NAME aquí (ej. 'manga-ulpgc-v5.32').
- *   2. Actualizar el número de versión en la cabecera de este archivo.
+ *   1. Incrementar version.json.
+ *   2. Ejecutar npm run build para actualizar CACHE_NAME y la cabecera.
  *   3. Verificar que PRECACHE_ASSETS incluye todos los assets nuevos.
  * Sin este paso, los usuarios con caché previa no recibirán
  * las actualizaciones hasta que limpien el navegador manualmente.
@@ -23,8 +23,8 @@
 
 'use strict';
 
-/* ── VERSIÓN DE CACHÉ ── actualizar en cada release ── */
-const CACHE_NAME = 'manga-ulpgc-v5.51.0';
+/* ── VERSIÓN DE CACHÉ ── generada desde version.json ── */
+const CACHE_NAME = 'manga-ulpgc-v5.56.1';
 
 /* ── Assets precacheados en la instalación del SW ─────────────────
    Incluir aquí cualquier archivo nuevo que se añada al proyecto. */
@@ -32,11 +32,18 @@ const PRECACHE_ASSETS = [
   './',
   './index.html',
   './recurso.html',
+  './ficha-trabajo-manga.html',
   './landing/htm-app.js',
   './css/estilos.css',
   './css/editorial.css',
   './css/editorial-extras.css',
+  './css/ficha-trabajo.css',
+  './js/core/config.js',
+  './js/core/utils.js',
+  './js/core/curriculo.js',
   './js/app.min.js',
+  './js/curriculo-normativa.js',
+  './js/guia-fix.js',
   './js/datos.min.js',
   './js/vinetas-generator.js',
   './js/actividad-vinetas.js',
@@ -54,7 +61,18 @@ const PRECACHE_ASSETS = [
   './js/lazy-fonts.js',
   './js/url-state.js',
   './js/ficha-pdf.js',
+  './js/ficha-trabajo.js',
+  './js/modo-lectura.js',
+  './jardin-de-tinta.html',
+  './js/jardin-arte.js',
+  './js/jardin-scroll.js',
+  './img/estampas/hokusai-gran-ola.jpg',
+  './img/estampas/hiroshige-lluvia.jpg',
+  './img/estampas/sharaku-actor.jpg',
+  './img/estampas/kuniyoshi-esqueleto.jpg',
+  './img/estampas/hokusai-manga-rostros.jpg',
   './manifest.json',
+  './sw-register.js',
   './icons/icon.svg',
   './intro/card.html',
   './img/banner-ulpgc-aulacomic.jpg',
@@ -83,10 +101,12 @@ const PRECACHE_ASSETS = [
   './css/preferencias.css',
   './css/andamiaje-lectura.css',
   './css/v551-visual.css',
+  './css/orden-lectura.css',
   './js/parte-nav.js',
   './js/preferencias.js',
   './js/andamiaje-lectura.js',
   './js/v551-reveal.js',
+  './js/orden-lectura.js',
 ];
 
 /* ── Dominios que van SIEMPRE a red (nunca se cachean) ────────────
@@ -161,4 +181,3 @@ self.addEventListener('fetch', event => {
     })
   );
 });
-

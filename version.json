@@ -1,7 +1,37 @@
 {
-  "version": "5.51.0",
-  "nota": "Fuente unica de version. Editar SOLO este fichero y ejecutar: node tools/build.mjs",
+  "version": "5.56.1",
+  "nota": "Fuente unica de version. Editar SOLO este fichero y ejecutar: npm run build",
   "historial": [
+    {
+      "version": "5.56.1",
+      "fecha": "2026-07-13",
+      "cambio": "Correccion editorial institucional en la portada: el bloque Institucion identifica a la Facultad de Ciencias de la Educacion en lugar de la Biblioteca Campus del Obelisco."
+    },
+    {
+      "version": "5.56.0",
+      "fecha": "2026-07-13",
+      "cambio": "Ficha de trabajo HTML accesible, editable e imprimible como alternativa al PDF estatico; integracion en recurso.html y precache PWA; versionado ampliado a la nueva ruta; comprobacion opcional de navegador, service worker y navegacion offline sin framework externo."
+    },
+    {
+      "version": "5.55.0",
+      "fecha": "2026-06-10",
+      "cambio": "Fluidez del carril de la línea del tiempo en móvil: diagnóstico y corrección del 'atasco'. Causa: scroll-snap proximity sobre columnas de ~82vw (estilos.css y editorial-extras.css, con !important); con columnas casi tan anchas como la pantalla, el navegador capturaba la inercia de los deslizamientos largos y los frenaba en el inicio de columna. Corrección: snap desactivado solo en punteros táctiles y <=760px (en escritorio nunca se aplicaba), restaurando la inercia nativa; pista will-change:scroll-position al compositor. Descartados como causas tras auditoría: escuchadores JS (pocos, pasivos o triviales; el arrastre es solo de ratón), peso del DOM del carril (259 nodos, sin imágenes), animaciones infinitas (todas fuera del carril) y coste de pintura (sombras de 1px; hovers solo de ratón). Regla aplicada desde v551-visual.css, que carga tras las hojas heredadas y gana la cascada con el mismo selector."
+    },
+    {
+      "version": "5.54.0",
+      "fecha": "2026-06-10",
+      "cambio": "Intro: secuencia ralentizada de 4 s a 5,2 s por era para lectura más calmada (~48 s en total); guardián de seguridad subido de 45 s a 60 s en intro-boot.js para no truncar la última era; YAML actualizado. Portada (landing/htm-app.js): la atribución del mantenimiento cambia de 'la Biblioteca del Campus del Obelisco' a 'el Aula de Cómic de la Facultad de Ciencias de la Educación'; se conserva la mención distinta 'Construido sobre el fondo de la Biblioteca del Campus del Obelisco' (hecho sobre el fondo físico). Verificación responsive (móvil/tableta): auditoría estática de los cinco documentos navegables; las tres alertas resultaron falsos positivos (bandas proporcionales del eje histórico con scroll propio, cur-table ya con overflow-x táctil heredado, 100vw de la intro acotado por overflow:hidden). Refuerzo defensivo de áreas táctiles (>=64px) y legibilidad del ejercicio de orden de lectura bajo 480px."
+    },
+    {
+      "version": "5.53.0",
+      "fecha": "2026-06-10",
+      "cambio": "Nuevo elemento interactivo manipulable: '¿En qué orden se lee?' (js/orden-lectura.js + css/orden-lectura.css), ejercicio de reconstrucción del orden de lectura japonés con dos maquetas (página sencilla 2x2 y página compleja con viñeta alta a la derecha), realimentación inmediata por viñeta, regla explicitada, botones Reiniciar y Ver solución. Cubre el hueco procedimental: la anatomía muestra el orden y la autocomprobación evalúa lo declarativo, pero nada permitía practicarlo. Accesible (botones reales, foco visible, aria-live, sin arrastre) y respetuoso con prefers-reduced-motion; esquemas originales sin obra reproducida. Insertado al cierre de la sección de anatomía, con kicker 練習 (práctica). Ambos ficheros en precache."
+    },
+    {
+      "version": "5.52.0",
+      "fecha": "2026-06-10",
+      "cambio": "Fusión con la rama catálogo-oculto v5.46.18 (codificación limpia, usada como referencia exacta). Restauradas 12 líneas con mojibake residual que la reparación ftfy no recuperó (símbolos ▶/⧖/⚠ en app.js, htm-app.js y editorial-extras.css); app.js reconstruido desde la referencia limpia reaplicando las ediciones v5.49-5.51 (recupera el kanji 間 y los espacios ideográficos U+3000 del glosario interactivo). Portada: título y descripción con tildes restauradas; recuento corregido de 281 a 280 títulos en index.html y manifest.json. Verificador de build ampliado a las tres familias de mojibake (Ã, Â, â) con repertorio cp1252 completo. Incorporada revision-uxui.html (auditoría UX/UI). Los borradores extras-revision-* no se fusionan: sus imágenes ya están en img/ y duplicarían 7,2 MB."
+    },
     {
       "version": "5.51.0",
       "fecha": "2026-06-10",

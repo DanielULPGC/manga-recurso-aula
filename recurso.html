@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <!-- Content Security Policy v5.34 · ver docs/csp-notes.md para el porqué
@@ -135,9 +135,9 @@
 }
 </script>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Shippori+Mincho+B1:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/estilos.css?v=5.51.0">
-<link rel="stylesheet" href="css/editorial.css?v=5.51.0">
-<link rel="stylesheet" href="css/editorial-extras.css?v=5.51.0">
+<link rel="stylesheet" href="css/estilos.css?v=5.56.1">
+<link rel="stylesheet" href="css/editorial.css?v=5.56.1">
+<link rel="stylesheet" href="css/editorial-extras.css?v=5.56.1">
 <link rel="stylesheet" href="css/marco-bloques.css"><!-- Parte I editorial -->
 <link rel="stylesheet" href="css/marco-bloques-2.css"><!-- Parte I nuevosbis -->
 <link rel="stylesheet" href="css/estructura.css"><!-- Navegacion Parte I -->
@@ -145,7 +145,8 @@
 <link rel="stylesheet" href="css/a11y-contrast.css"><!-- G1: corrección de contraste WCAG 1.4.3 -->
 <link rel="stylesheet" href="css/preferencias.css"><!-- G2: panel de accesibilidad (DUA) -->
 <link rel="stylesheet" href="css/andamiaje-lectura.css"><!-- D1: andamiaje de lectura -->
-<link rel="stylesheet" href="css/v551-visual.css?v=5.51.0"><!-- v5.51: refinado visual de bloques nuevos -->
+<link rel="stylesheet" href="css/v551-visual.css?v=5.56.1"><!-- v5.51: refinado visual de bloques nuevos -->
+<link rel="stylesheet" href="css/orden-lectura.css?v=5.56.1"><!-- v5.53: ejercicio de orden de lectura -->
 </head>
 <body>
 
@@ -156,7 +157,7 @@
   <a href="https://educ.ulpgc.es/cultura/aula-de-comic" class="portada-banner" target="_blank" rel="noopener noreferrer" aria-label="Aula de Cómic · Facultad de Ciencias de la Educación · ULPGC">
     <picture>
       <source srcset="img/banner-ulpgc-aulacomic.webp" type="image/webp" />
-      <img src="img/banner-ulpgc-aulacomic.jpg" width="1600" height="273" alt="Universidad de Las Palmas de Gran Canaria · Facultad de Ciencias de la Educación · Biblioteca Universitaria · Aula de Cómic" />
+      <img src="img/banner-ulpgc-aulacomic.webp" width="1600" height="273" decoding="async" alt="Universidad de Las Palmas de Gran Canaria · Facultad de Ciencias de la Educación · Biblioteca Universitaria · Aula de Cómic" />
     </picture>
   </a>
   <div class="portada-mast">
@@ -168,7 +169,7 @@
     <aside class="portada-attribution">
       <picture>
         <source srcset="img/logo-aula-comic.webp" type="image/webp" />
-        <img src="img/logo-aula-comic.jpg" width="800" height="536" loading="lazy" alt="Aula de Cómic" class="portada-logo" />
+        <img src="img/logo-aula-comic.webp" width="800" height="536" loading="lazy" decoding="async" alt="Aula de Cómic" class="portada-logo" />
       </picture>
       <div class="portada-credit">
         <span>Dir. Daniel Becerra Romero</span>
@@ -265,6 +266,7 @@
   <button type="button"
           class="emocion-toggle"
           id="emocionToggle"
+          aria-label="Abrir selector de emociones"
           aria-expanded="false"
           aria-controls="emocionPicker">
     <span class="emocion-toggle-core">
@@ -297,7 +299,7 @@
   <h2 class="parte-title">Marco <em>pedagógico</em>.</h2>
   <p class="parte-lede">Por qué el manga funciona en el aula, decálogo de mediación, anatomía visual de la página y protocolo en tres fases. Material para preparar y defender la propuesta.</p>
   <figure class="mb-art">
-    <div class="mb-art-plate"><span class="mb-seal">Edo · ukiyo-e</span><img src="img/hokusai-gran-ola.jpg" width="1280" height="883" loading="lazy" alt="«La gran ola de Kanagawa», estampa ukiyo-e de Katsushika Hokusai"><figcaption class="mb-cartela">Katsushika Hokusai · «La gran ola de Kanagawa» (神奈川沖浪裏), de <i>Treinta y seis vistas del monte Fuji</i> · c. 1831 · Dominio público — Wikimedia Commons</figcaption></div>
+    <div class="mb-art-plate"><span class="mb-seal">Edo · ukiyo-e</span><img src="img/hokusai-gran-ola.jpg" width="1280" height="883" loading="lazy" alt="«La gran ola de Kanagawa», estampa ukiyo-e de Katsushika Hokusai" decoding="async"><figcaption class="mb-cartela">Katsushika Hokusai · «La gran ola de Kanagawa» (神奈川沖浪裏), de <i>Treinta y seis vistas del monte Fuji</i> · c. 1831 · Dominio público — Wikimedia Commons</figcaption></div>
     <p class="mb-art-note">Fue Hokusai quien popularizó la palabra <em>manga</em> con sus cuadernos de bocetos (<em>Hokusai Manga</em>, 1814). El puente entre la estampa del periodo Edo y la viñeta contemporánea es real: el mismo linaje visual que el alumnado ya reconoce.</p>
   </figure>
 </div>
@@ -323,7 +325,7 @@
     <p class="mb-mapa-h">El recurso · cuatro partes</p>
     <div class="mb-parts">
       <a class="mb-part is-current" href="#parte-i"><span class="pt-n">I</span><span class="pt-t">Marco pedagógico</span><span class="pt-here">Estás aquí</span></a>
-      <a class="mb-part" href="#parte-ii"><span class="pt-n">II</span><span class="pt-t">Para etapas bajas</span><span class="pt-s">Infantil · Primaria</span></a>
+      <a class="mb-part" href="#parte-ii"><span class="pt-n">II</span><span class="pt-t">Para primeras etapas</span><span class="pt-s">Infantil · Primaria</span></a>
       <a class="mb-part" href="#parte-iii"><span class="pt-n">III</span><span class="pt-t">El fondo</span><span class="pt-s">280 títulos · glosario</span></a>
       <a class="mb-part" href="#parte-iv"><span class="pt-n">IV</span><span class="pt-t">Llevar al aula</span><span class="pt-s">Situaciones · itinerarios</span></a>
     </div>
@@ -563,6 +565,13 @@
     </div>
   </div>
 
+  <div id="orden-lectura" style="margin-top:1.8rem;">
+    <h3 style="font-size:1rem; color:var(--ink,#1a1008); margin-bottom:.4rem;"><span class="kicker-jp" lang="ja">練習</span>Ahora tú: ¿en qué orden se lee?</h3>
+    <p style="font-size:.88rem; color:var(--grey); font-style:italic; margin-bottom:.9rem; max-width:65ch;">El esquema anterior muestra el orden; aquí lo reconstruyes tú. Pulsa las viñetas en el orden en que se leerían en un manga y comprueba el resultado. Esquemas originales con fines didácticos. En el aula funciona bien en proyección, con el grupo decidiendo cada paso en voz alta.</p>
+    <div id="orden-lectura-root"></div>
+    <noscript><p style="font-size:.85rem; color:var(--grey);">Este ejercicio interactivo necesita JavaScript. El esquema anatómico anterior muestra el orden de lectura completo.</p></noscript>
+  </div>
+
 </section>
 
 <!-- ══════════════════ CASO TRABAJADO ══════════════════ -->
@@ -654,40 +663,40 @@
   </div>
   <ol class="mb-gw">
     <li class="mb-gw-item">
-      <div class="gw-plate"><span class="gw-seal">01</span><img src="img/gw-cresta.jpg" width="530" height="345" loading="lazy" alt="Detalle: la cresta de la ola rompiendo en dedos de espuma"><div class="gw-cap">La cresta · ángulo superior izquierdo</div></div>
+      <div class="gw-plate"><span class="gw-seal">01</span><img src="img/gw-cresta.jpg" width="530" height="345" loading="lazy" alt="Detalle: la cresta de la ola rompiendo en dedos de espuma" decoding="async"><div class="gw-cap">La cresta · ángulo superior izquierdo</div></div>
       <p class="gw-concept"><small>Composición</small>Dirección de la mirada</p>
       <p class="gw-note">La diagonal de la cresta empuja el ojo de derecha a izquierda: el mismo vector con que una página ordena el orden de lectura.</p>
     </li>
     <li class="mb-gw-item">
-      <div class="gw-plate"><span class="gw-seal">02</span><img src="img/gw-trama.jpg" width="430" height="300" loading="lazy" alt="Detalle: la espuma pulverizada en puntos sobre el cielo"><div class="gw-cap">La espuma · sobre el cielo</div></div>
+      <div class="gw-plate"><span class="gw-seal">02</span><img src="img/gw-trama.jpg" width="430" height="300" loading="lazy" alt="Detalle: la espuma pulverizada en puntos sobre el cielo" decoding="async"><div class="gw-cap">La espuma · sobre el cielo</div></div>
       <p class="gw-concept"><small>Textura</small>Trama y atmósfera</p>
       <p class="gw-note">La espuma resuelta en puntos anticipa el tramado —el <i>screentone</i>— con que el manga rellena tonos, sombras y estados de ánimo.</p>
     </li>
     <li class="mb-gw-item">
-      <div class="gw-plate"><span class="gw-seal">03</span><img src="img/gw-fuji.jpg" width="380" height="235" loading="lazy" alt="Detalle: el monte Fuji diminuto bajo la ola"><div class="gw-cap">El Fuji · bajo la ola</div></div>
+      <div class="gw-plate"><span class="gw-seal">03</span><img src="img/gw-fuji.jpg" width="380" height="235" loading="lazy" alt="Detalle: el monte Fuji diminuto bajo la ola" decoding="async"><div class="gw-cap">El Fuji · bajo la ola</div></div>
       <p class="gw-concept"><small>Ma · vacío</small>Escala y silencio</p>
       <p class="gw-note">El Fuji diminuto frente a la ola colosal: el contraste de tamaño y el espacio vacío que el manga usa para medir el tiempo y la emoción.</p>
     </li>
     <li class="mb-gw-item">
-      <div class="gw-plate"><span class="gw-seal">04</span><img src="img/gw-barca.jpg" width="372" height="212" loading="lazy" alt="Detalle: los remeros agachados en la barca"><div class="gw-cap">La barca · los remeros</div></div>
+      <div class="gw-plate"><span class="gw-seal">04</span><img src="img/gw-barca.jpg" width="372" height="212" loading="lazy" alt="Detalle: los remeros agachados en la barca" decoding="async"><div class="gw-cap">La barca · los remeros</div></div>
       <p class="gw-concept"><small>Encuadre</small>Punto de vista</p>
       <p class="gw-note">El encuadre nos sitúa a ras de agua, junto a los remeros agachados. El manga elige siempre dónde colocar al lector dentro de la escena.</p>
     </li>
     <li class="mb-gw-item">
-      <div class="gw-plate"><span class="gw-seal">05</span><img src="img/gw-cartela.jpg" width="152" height="224" loading="lazy" alt="Detalle: el cartucho del título y la firma de Hokusai"><div class="gw-cap">El cartucho · título y firma</div></div>
+      <div class="gw-plate"><span class="gw-seal">05</span><img src="img/gw-cartela.jpg" width="152" height="224" loading="lazy" alt="Detalle: el cartucho del título y la firma de Hokusai" decoding="async"><div class="gw-cap">El cartucho · título y firma</div></div>
       <p class="gw-concept"><small>Texto + imagen</small>La palabra en la viñeta</p>
       <p class="gw-note">El título integrado en la propia estampa, dentro de su cartucho: el antecedente del bocadillo y la cartela, texto que vive en la imagen.</p>
     </li>
   </ol>
   <p class="mb-gw-foot">Cinco detalles · un mismo grabado de dominio público · recortes de la lámina del encabezado</p>
   <figure class="mb-raices-banner">
-    <div class="mb-rp-plate"><span class="mb-seal">Edo · musha-e</span><img src="img/kuniyoshi-esqueleto.jpg" width="1200" height="590" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto"><figcaption class="mb-cartela">Utagawa Kuniyoshi · «Takiyasha la hechicera y el espectro esqueleto» · c. 1844 · Dominio público — Wikimedia Commons</figcaption></div>
+    <div class="mb-rp-plate"><span class="mb-seal">Edo · musha-e</span><img src="img/kuniyoshi-esqueleto.jpg" width="1200" height="590" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto" decoding="async"><figcaption class="mb-cartela">Utagawa Kuniyoshi · «Takiyasha la hechicera y el espectro esqueleto» · c. 1844 · Dominio público — Wikimedia Commons</figcaption></div>
     <p class="mb-rp-tag"><b>Escala y composición dramática.</b> El esqueleto que invade los tres paneles</p>
     <p class="mb-rp-desc">Una sola imagen sostiene una escena entera y rompe el marco para imponer su tamaño —exactamente lo que hace una <i>splash page</i> de shōnen cuando detiene la acción para un golpe de efecto.</p>
   </figure>
   <div class="mb-raices-pair">
-    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · fukei-ga</span><img src="img/hiroshige-lluvia.jpg" width="1200" height="1818" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake"><figcaption class="mb-cartela">Utagawa Hiroshige · «Chaparrón sobre Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Líneas cinéticas.</b> La lluvia como trazo de velocidad</p><p class="mb-rp-desc">Las finas líneas paralelas que cruzan la estampa son el mismo recurso gráfico que el manga usa para fijar movimiento, dirección y atmósfera.</p></figure>
-    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · yakusha-e</span><img src="img/sharaku-actor.jpg" width="1200" height="1866" loading="lazy" alt="Sharaku: el actor Ōtani Oniji II"><figcaption class="mb-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji II como Yakko Edobei» · 1794 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Expresión al límite.</b> El primer plano del rostro y el gesto</p><p class="mb-rp-desc">Ceño, mirada y manos abiertas llevados a la caricatura: el retrato de kabuki anticipa el gran plano emocional con el que el manga marca cada clímax.</p></figure>
+    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · fukei-ga</span><img src="img/hiroshige-lluvia.jpg" width="1200" height="1818" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake" decoding="async"><figcaption class="mb-cartela">Utagawa Hiroshige · «Chaparrón sobre Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Líneas cinéticas.</b> La lluvia como trazo de velocidad</p><p class="mb-rp-desc">Las finas líneas paralelas que cruzan la estampa son el mismo recurso gráfico que el manga usa para fijar movimiento, dirección y atmósfera.</p></figure>
+    <figure class="mb-rp"><div class="mb-rp-plate"><span class="mb-seal">Edo · yakusha-e</span><img src="img/sharaku-actor.jpg" width="1200" height="1866" loading="lazy" alt="Sharaku: el actor Ōtani Oniji II" decoding="async"><figcaption class="mb-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji II como Yakko Edobei» · 1794 · Dominio público</figcaption></div><p class="mb-rp-tag"><b>Expresión al límite.</b> El primer plano del rostro y el gesto</p><p class="mb-rp-desc">Ceño, mirada y manos abiertas llevados a la caricatura: el retrato de kabuki anticipa el gran plano emocional con el que el manga marca cada clímax.</p></figure>
   </div>
 
       <!-- ===== Raíces ampliada · «Tres maestros, leídos de cerca» + «El cuaderno que dio nombre» (imágenes externas en img/raices-atlas/) ===== -->
@@ -711,24 +720,24 @@
       <div class="mb-atlas-grid">
         <figure class="mb-atlas-anchor">
           <span class="ad-seal">Lámina</span>
-          <img src="img/kuniyoshi-esqueleto.jpg" width="1280" height="629" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto">
+          <img src="img/kuniyoshi-esqueleto.jpg" width="1280" height="629" loading="lazy" alt="Tríptico de Utagawa Kuniyoshi: Takiyasha la hechicera y el espectro esqueleto" decoding="async">
           <figcaption class="mb-atlas-cartela">Utagawa Kuniyoshi · «Takiyasha la hechicera y el espectro esqueleto» · c. 1844 · Dominio público — Wikimedia Commons<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
         </figure>
         <div class="mb-atlas-details">
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/kuniyoshi-craneo.jpg" width="360" height="330" loading="lazy" alt="Detalle: el cráneo gigante del espectro en primer plano"><div class="ad-cap">El cráneo · panel central</div></div>
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/kuniyoshi-craneo.jpg" width="360" height="330" loading="lazy" alt="Detalle: el cráneo gigante del espectro en primer plano" decoding="async"><div class="ad-cap">El cráneo · panel central</div></div>
             <p class="ad-dev"><small>Primer plano</small>El gran plano monstruoso</p>
             <p class="ad-note">El cráneo ocupa casi un panel entero. Lo descomunal en una sola imagen: el manga marca así sus momentos de máxima tensión.</p>
             <span class="ad-her">splash page</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/kuniyoshi-pergamino.jpg" width="268" height="372" loading="lazy" alt="Detalle: Takiyasha leyendo un pergamino dibujado dentro de la escena"><div class="ad-cap">El pergamino · panel izquierdo</div></div>
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/kuniyoshi-pergamino.jpg" width="268" height="372" loading="lazy" alt="Detalle: Takiyasha leyendo un pergamino dibujado dentro de la escena" decoding="async"><div class="ad-cap">El pergamino · panel izquierdo</div></div>
             <p class="ad-dev"><small>Texto en la escena</small>La palabra que se lee dentro</p>
             <p class="ad-note">Takiyasha lee un pergamino dibujado en la propia estampa. Texto integrado en la imagen: el antecedente del bocadillo y la cartela.</p>
             <span class="ad-her">cartela · bocadillo</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/kuniyoshi-costillar.jpg" width="402" height="392" loading="lazy" alt="Detalle: el costillar del esqueleto resuelto con líneas limpias y rítmicas"><div class="ad-cap">El costillar · panel derecho</div></div>
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/kuniyoshi-costillar.jpg" width="402" height="392" loading="lazy" alt="Detalle: el costillar del esqueleto resuelto con líneas limpias y rítmicas" decoding="async"><div class="ad-cap">El costillar · panel derecho</div></div>
             <p class="ad-dev"><small>Estructura como dibujo</small>La anatomía hecha línea</p>
             <p class="ad-note">El costillar, de trazo limpio y rítmico, vuelve legible una anatomía compleja con economía de línea — la claridad gráfica del manga.</p>
             <span class="ad-her">línea clara</span>
@@ -750,24 +759,24 @@
       <div class="mb-atlas-grid">
         <figure class="mb-atlas-anchor">
           <span class="ad-seal">Lámina</span>
-          <img src="img/hiroshige-lluvia.jpg" width="1280" height="1939" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake">
+          <img src="img/hiroshige-lluvia.jpg" width="1280" height="1939" loading="lazy" alt="Hiroshige: chaparrón repentino sobre el puente Shin-Ōhashi y Atake" decoding="async">
           <figcaption class="mb-atlas-cartela">Utagawa Hiroshige · «Chaparrón repentino sobre el puente Shin-Ōhashi y Atake», de <i>Cien vistas de Edo</i> · 1857 · Dominio público<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
         </figure>
         <div class="mb-atlas-details">
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/hiroshige-lineas.jpg" width="624" height="624" loading="lazy" alt="Detalle: las líneas paralelas de la lluvia cruzando el cielo"><div class="ad-cap">La lluvia · sobre el río</div></div>
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/hiroshige-lineas.jpg" width="624" height="624" loading="lazy" alt="Detalle: las líneas paralelas de la lluvia cruzando el cielo" decoding="async"><div class="ad-cap">La lluvia · sobre el río</div></div>
             <p class="ad-dev"><small>Líneas cinéticas</small>El aire hecho textura</p>
             <p class="ad-note">Finas líneas paralelas, grabadas en dos planchas cruzadas, convierten la lluvia en trazo. El manga hereda el recurso exacto para marcar velocidad y dirección.</p>
             <span class="ad-her">líneas de velocidad</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/hiroshige-figuras.jpg" width="530" height="430" loading="lazy" alt="Detalle: figuras encorvadas bajo paraguas y esteras cruzando el puente"><div class="ad-cap">Los viandantes · sobre el puente</div></div>
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/hiroshige-figuras.jpg" width="530" height="430" loading="lazy" alt="Detalle: figuras encorvadas bajo paraguas y esteras cruzando el puente" decoding="async"><div class="ad-cap">Los viandantes · sobre el puente</div></div>
             <p class="ad-dev"><small>Lenguaje corporal</small>La postura que cuenta</p>
             <p class="ad-note">Cuerpos encorvados, paraguas inclinados, pasos apretados: la silueta narra el temporal. El manga lee la emoción en la pose antes que en el rostro.</p>
             <span class="ad-her">pose · silueta</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/hiroshige-vigas.jpg" width="632" height="408" loading="lazy" alt="Detalle: el armazón de vigas en diagonal bajo el puente"><div class="ad-cap">El armazón · bajo el tablero</div></div>
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/hiroshige-vigas.jpg" width="632" height="408" loading="lazy" alt="Detalle: el armazón de vigas en diagonal bajo el puente" decoding="async"><div class="ad-cap">El armazón · bajo el tablero</div></div>
             <p class="ad-dev"><small>Encuadre geométrico</small>La diagonal que ordena</p>
             <p class="ad-note">La rejilla de vigas en diagonal corta la imagen y crea profundidad. Líneas estructurales que dirigen la mirada — composición de viñeta avant la lettre.</p>
             <span class="ad-her">composición</span>
@@ -789,24 +798,24 @@
       <div class="mb-atlas-grid">
         <figure class="mb-atlas-anchor">
           <span class="ad-seal">Lámina</span>
-          <img src="img/sharaku-actor.jpg" width="1280" height="1991" loading="lazy" alt="Sharaku: el actor Ōtani Oniji en el papel de Yakko Edobei">
+          <img src="img/sharaku-actor.jpg" width="1280" height="1991" loading="lazy" alt="Sharaku: el actor Ōtani Oniji en el papel de Yakko Edobei" decoding="async">
           <figcaption class="mb-atlas-cartela">Tōshūsai Sharaku · «El actor Ōtani Oniji III en el papel de Yakko Edobei» · 1794 · Dominio público<span class="mb-atlas-whole">La lámina entera · los tres recortes salen de aquí</span></figcaption>
         </figure>
         <div class="mb-atlas-details">
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/sharaku-rostro.jpg" width="528" height="612" loading="lazy" alt="Detalle: el rostro de gesto crispado, cejas quebradas y ojos bizcos"><div class="ad-cap">El rostro · gesto crispado</div></div>
+            <div class="ad-plate"><span class="ad-seal">A</span><img src="img/raices-atlas/sharaku-rostro.jpg" width="528" height="612" loading="lazy" alt="Detalle: el rostro de gesto crispado, cejas quebradas y ojos bizcos" decoding="async"><div class="ad-cap">El rostro · gesto crispado</div></div>
             <p class="ad-dev"><small>Expresión al límite</small>El gran plano emocional</p>
             <p class="ad-note">Cejas quebradas, mirada bizca, boca tensa: el gesto llevado a la caricatura. El manga marca cada clímax con un rostro deformado por la emoción.</p>
             <span class="ad-her">gran plano</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/sharaku-manos.jpg" width="720" height="372" loading="lazy" alt="Detalle: las dos manos abiertas y crispadas en tensión"><div class="ad-cap">Las manos · abiertas en tensión</div></div>
+            <div class="ad-plate"><span class="ad-seal">B</span><img src="img/raices-atlas/sharaku-manos.jpg" width="720" height="372" loading="lazy" alt="Detalle: las dos manos abiertas y crispadas en tensión" decoding="async"><div class="ad-cap">Las manos · abiertas en tensión</div></div>
             <p class="ad-dev"><small>El gesto congelado</small>Las manos como signo</p>
             <p class="ad-note">Las manos crispadas detienen un instante de máxima tensión. El manga congela la acción en una pose que lo dice todo, sin texto.</p>
             <span class="ad-her">pose dramática</span>
           </div>
           <div class="ad-card">
-            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/sharaku-kimono.jpg" width="426" height="486" loading="lazy" alt="Detalle: las rayas del kimono y el blasón (mon) como patrón gráfico"><div class="ad-cap">El kimono · rayas y blasón</div></div>
+            <div class="ad-plate"><span class="ad-seal">C</span><img src="img/raices-atlas/sharaku-kimono.jpg" width="426" height="486" loading="lazy" alt="Detalle: las rayas del kimono y el blasón (mon) como patrón gráfico" decoding="async"><div class="ad-cap">El kimono · rayas y blasón</div></div>
             <p class="ad-dev"><small>Textura y patrón</small>Tinta plana, repetida</p>
             <p class="ad-note">Las rayas del traje y el blasón (<i>mon</i>) son patrón puro. El manga rellena ropas y fondos con tramas que funcionan exactamente igual.</p>
             <span class="ad-her">screentone</span>
@@ -826,7 +835,7 @@
 
     <figure class="mb-hm-hero">
       <span class="hm-seal">Hokusai Manga · página de rostros</span>
-      <img src="img/raices-atlas/hokusai-manga-rostros.jpg" width="2312" height="1488" loading="lazy" alt="Doble página del Hokusai Manga con decenas de rostros y expresiones">
+      <img src="img/raices-atlas/hokusai-manga-rostros.jpg" width="2312" height="1488" loading="lazy" alt="Doble página del Hokusai Manga con decenas de rostros y expresiones" decoding="async">
       <div class="mb-hm-herobody">
         <p class="mb-hm-concept"><b>Decenas de expresiones en una sola página.</b> El repertorio de rostros que todo dibujante de manga aprende a construir — el estudio sistemático del gesto, dos siglos antes de las hojas de modelos de personaje.</p>
         <p class="mb-hm-cartela">Katsushika Hokusai<br>«Hokusai Manga» · 1814–1878<br>Dominio público — Wikimedia Commons</p>
@@ -835,25 +844,25 @@
 
     <div class="mb-hm-grid">
       <div class="hm-card">
-        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-sumo.jpg" width="1040" height="1504" loading="lazy" alt="Página del Hokusai Manga: luchadores de sumo en sucesión de posturas"><div class="hm-cap">Luchadores de sumo</div></div>
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-sumo.jpg" width="1040" height="1504" loading="lazy" alt="Página del Hokusai Manga: luchadores de sumo en sucesión de posturas" decoding="async"><div class="hm-cap">Luchadores de sumo</div></div>
         <p class="hm-theme"><small>El cuerpo en movimiento</small>La acción, descompuesta</p>
         <p class="hm-note">Sumo trabado en posturas sucesivas. Hokusai captura «la esencia del cuerpo en movimiento»: la base misma del manga de acción.</p>
         <span class="hm-her">acción · secuencia</span>
       </div>
       <div class="hm-card">
-        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-figurillas.jpg" width="1055" height="1470" loading="lazy" alt="Página del Hokusai Manga: figurillas cómicas en muchas poses"><div class="hm-cap">Figurillas y poses</div></div>
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-figurillas.jpg" width="1055" height="1470" loading="lazy" alt="Página del Hokusai Manga: figurillas cómicas en muchas poses" decoding="async"><div class="hm-cap">Figurillas y poses</div></div>
         <p class="hm-theme"><small>Gesto y caricatura</small>El cuerpo deformado</p>
         <p class="hm-note">Decenas de figurillas cómicas exageradas. La deformación expresiva: antecedente directo del personaje <i>chibi</i> y del humor visual.</p>
         <span class="hm-her">caricatura · chibi</span>
       </div>
       <div class="hm-card">
-        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-espectro.jpg" width="927" height="1309" loading="lazy" alt="Página del Hokusai Manga: un espectro de larga melena ante un hombre"><div class="hm-cap">Lo sobrenatural</div></div>
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-espectro.jpg" width="927" height="1309" loading="lazy" alt="Página del Hokusai Manga: un espectro de larga melena ante un hombre" decoding="async"><div class="hm-cap">Lo sobrenatural</div></div>
         <p class="hm-theme"><small>Fantasmas y yōkai</small>Lo fantástico cotidiano</p>
         <p class="hm-note">Un espectro de larga melena surge ante un hombre. Lo sobrenatural tratado con naturalidad: el linaje del manga de terror y de <i>yōkai</i>.</p>
         <span class="hm-her">yōkai · terror</span>
       </div>
       <div class="hm-card">
-        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-cargadores.jpg" width="1080" height="1504" loading="lazy" alt="Página del Hokusai Manga: cargadores, paraguas y escenas de la vida cotidiana"><div class="hm-cap">La vida cotidiana</div></div>
+        <div class="hm-plate"><span class="hm-seal">Tema</span><img src="img/raices-atlas/hokusai-manga-cargadores.jpg" width="1080" height="1504" loading="lazy" alt="Página del Hokusai Manga: cargadores, paraguas y escenas de la vida cotidiana" decoding="async"><div class="hm-cap">La vida cotidiana</div></div>
         <p class="hm-theme"><small>Oficios y costumbres</small>El Japón de a pie</p>
         <p class="hm-note">Cargadores, paraguas, gente trabajando: el retrato costumbrista del día a día. La mirada que el manga <i>slice-of-life</i> heredó.</p>
         <span class="hm-her">costumbrismo</span>
@@ -874,7 +883,7 @@
 <section class="ed-block" id="garantia-primaria">
   <div class="ed-block-header">
     <div class="ed-block-num">
-      <small>Recomendación · Etapas bajas</small>
+      <small>Recomendación · Primeras etapas</small>
       V
     </div>
     <div>
@@ -1019,7 +1028,7 @@
 <section class="ed-block" id="como-elegir">
   <div class="ed-block-header">
     <div class="ed-block-num">
-      <small>Microguía · Etapas bajas</small>
+      <small>Microguía · Primeras etapas</small>
       VI
     </div>
     <div>
@@ -1208,7 +1217,7 @@
 <section class="ed-block" id="protocolo-primaria">
   <div class="ed-block-header">
     <div class="ed-block-num">
-      <small>Protocolo · Etapas bajas</small>
+      <small>Protocolo · Primeras etapas</small>
       VII
     </div>
     <div>
@@ -1292,7 +1301,7 @@
 <section class="ed-block" id="errores-primaria">
   <div class="ed-block-header">
     <div class="ed-block-num">
-      <small>Honestidad · Etapas bajas</small>
+      <small>Honestidad · Primeras etapas</small>
       VIII
     </div>
     <div>
@@ -3335,8 +3344,8 @@
 <section aria-labelledby="situaciones-heading" class="sa-section" id="situaciones">
   <h2 id="situaciones-heading">⊕ Situaciones de aprendizaje</h2>
   <p>Propuestas diseñadas conforme al marco competencial de la LOMLOE (Ley Orgánica 3/2020) y sus reales decretos
-  de desarrollo: RD 95/2022 (Educación Infantil), RD 157/2022 (Educación Primaria) y RD 217/2022 (ESO y
-  Bachillerato). Cada situación incluye su contexto, competencias clave, competencias específicas, saberes básicos
+  de desarrollo: RD 95/2022 (Educación Infantil), RD 157/2022 (Educación Primaria), RD 217/2022 (ESO)
+  y RD 243/2022 (Bachillerato). Cada situación incluye su contexto, competencias clave, competencias específicas, saberes básicos
   movilizados, descripción de la tarea y criterios de evaluación.
   &nbsp;·&nbsp;
   <a href="ficha_trabajo_manga.pdf" target="_blank" rel="noopener noreferrer"
@@ -3344,6 +3353,12 @@
             color:#2a3a7a; border:1.5px solid #2a3a7a; border-radius:3px;
             padding:3px 10px; text-decoration:none; white-space:nowrap;">
     ↓ Descargar ficha de trabajo (PDF)
+  </a>
+  <a href="ficha-trabajo-manga.html"
+     style="font-family:'Cinzel',serif; font-size:.8rem; font-weight:700;
+            color:#2a3a7a; border:1.5px solid #2a3a7a; border-radius:3px;
+            padding:3px 10px; text-decoration:none; white-space:nowrap; margin-left:4px;">
+    Abrir ficha accesible (HTML)
   </a></p>
 
   <div class="sa-tabs" role="tablist" aria-label="Situaciones de aprendizaje por nivel">
@@ -3664,7 +3679,7 @@
             <li><strong>Acción y expresión (el cómo):</strong> Crear las viñetas a mano o con herramientas digitales; entregar el análisis en texto, audio o vídeo.</li>
           </ul>
           <p><strong>Elementos transversales:</strong> Coeducación (revisión de estereotipos en el manga) y respeto a la diversidad cultural.</p>
-          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 217/2022, de 29 de marzo (ESO); Decreto 30/2023, de 16 de marzo (currículo de ESO y Bachillerato de Canarias).</p>
+          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 217/2022, de 29 de marzo (ESO); Decreto 30/2023, de 16 de marzo (currículo de ESO en Canarias).</p>
         </div>
 </div>
     </div>
@@ -3762,7 +3777,7 @@
             <li><strong>Acción y expresión (el cómo):</strong> Ofrecer distintos productos finales a elección: ensayo, presentación, pódcast o cómic histórico.</li>
           </ul>
           <p><strong>Elementos transversales:</strong> Educación para la paz, memoria histórica y perspectiva de género en la interpretación de las fuentes.</p>
-          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 217/2022, de 29 de marzo (ESO); Decreto 30/2023, de 16 de marzo (currículo de ESO y Bachillerato de Canarias).</p>
+          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 217/2022, de 29 de marzo (ESO); Decreto 30/2023, de 16 de marzo (currículo de ESO en Canarias).</p>
         </div>
 </div>
     </div>
@@ -3863,7 +3878,7 @@
             <li><strong>Acción y expresión (el cómo):</strong> Admitir disertación escrita, vídeo-ensayo, prototipo o cómic argumentativo como evidencia de aprendizaje.</li>
           </ul>
           <p><strong>Elementos transversales:</strong> Educación en valores éticos, ciudadanía digital e igualdad.</p>
-          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 243/2022, de 5 de abril (Bachillerato); Decreto 30/2023, de 16 de marzo (currículo de ESO y Bachillerato de Canarias).</p>
+          <p class="sa-norm"><strong>Marco normativo:</strong> LOMLOE; RD 243/2022, de 5 de abril (Bachillerato); Decreto 30/2023, de 16 de marzo (currículo de Bachillerato en Canarias).</p>
         </div>
 </div>
     </div>
@@ -4245,9 +4260,14 @@
         <div class="rec-desc">Define competencias específicas, saberes básicos y criterios de evaluación de cada área en Primaria.</div>
       </div>
       <div class="rec-item">
-        <a class="rec-link" href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-5146" target="_blank" rel="noopener noreferrer">RD 217/2022 — Currículo de ESO y Bachillerato (BOE)</a>
+        <a class="rec-link" href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-4975" target="_blank" rel="noopener noreferrer">RD 217/2022 — Currículo de ESO (BOE)</a>
         <span class="rec-lang es">ES</span><span class="rec-lic pd">Dominio público</span>
-        <div class="rec-desc">Incluye comunicación multimodal (Lengua Castellana) y memoria democrática (CCSS). Base normativa para situaciones de aprendizaje de secundaria.</div>
+        <div class="rec-desc">Incluye comunicación multimodal (Lengua Castellana) y memoria democrática (CCSS). Base normativa estatal para situaciones de aprendizaje de Educación Secundaria Obligatoria.</div>
+      </div>
+      <div class="rec-item">
+        <a class="rec-link" href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521" target="_blank" rel="noopener noreferrer">RD 243/2022 — Currículo de Bachillerato (BOE)</a>
+        <span class="rec-lang es">ES</span><span class="rec-lic pd">Dominio público</span>
+        <div class="rec-desc">Establece la ordenación y las enseñanzas mínimas del Bachillerato. Base estatal para las situaciones de aprendizaje de esta etapa.</div>
       </div>
       <div class="rec-item">
         <a class="rec-link" href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-1654" target="_blank" rel="noopener noreferrer">RD 95/2022 — Currículo de Educación Infantil (BOE)</a>
@@ -4410,11 +4430,11 @@
 
         <div class="ficha-implicacion">
           <span class="ficha-implicacion-label">Implicación del grupo</span>
-          <button type="button" class="ficha-star" data-val="1" title="Muy baja">★</button>
-          <button type="button" class="ficha-star" data-val="2" title="Baja">★</button>
-          <button type="button" class="ficha-star" data-val="3" title="Media">★</button>
-          <button type="button" class="ficha-star" data-val="4" title="Alta">★</button>
-          <button type="button" class="ficha-star" data-val="5" title="Muy alta">★</button>
+          <button type="button" class="ficha-star" data-val="1" title="Muy baja" aria-label="Marcar implicación muy baja">★</button>
+          <button type="button" class="ficha-star" data-val="2" title="Baja" aria-label="Marcar implicación baja">★</button>
+          <button type="button" class="ficha-star" data-val="3" title="Media" aria-label="Marcar implicación media">★</button>
+          <button type="button" class="ficha-star" data-val="4" title="Alta" aria-label="Marcar implicación alta">★</button>
+          <button type="button" class="ficha-star" data-val="5" title="Muy alta" aria-label="Marcar implicación muy alta">★</button>
           <span class="ficha-star-hint" id="fichaStarHint"></span>
         </div>
 
@@ -4554,6 +4574,21 @@
       <button type="button" class="rubrica-gen-btn" id="rubricaGenBtn" data-action="generarRubrica">
         Generar rúbrica ✦
       </button>
+      <div class="gen-key-wrap" data-key-panel>
+        <div class="gen-key-head">
+          <button type="button" class="gen-key-toggle" data-action="toggleGeneratorKeyPanel" aria-expanded="false">⚙ Gemini/API</button>
+          <span class="gen-key-indicator" data-key-status-text>Modo local</span>
+        </div>
+        <div class="gen-key-panel" hidden>
+          <p class="gen-key-help">Clave opcional de Google AI Studio. Si no la añades, la rúbrica se genera con plantilla local.</p>
+          <div class="gen-key-row">
+            <input type="password" class="gen-key-input" placeholder="AIza…" autocomplete="off" aria-label="Clave API Gemini">
+            <button type="button" class="gen-key-save" data-action="saveGeneratorKey">Activar Gemini</button>
+            <button type="button" class="gen-key-clear" data-action="clearGeneratorKey">Quitar</button>
+          </div>
+          <div class="gen-key-status" role="status">Sin clave: se usará el modo local.</div>
+        </div>
+      </div>
     </div>
     <div class="rubrica-body" id="rubricaBody">
       <p class="rubrica-placeholder">Elige un título y etapa, y el asistente IA generará una rúbrica de evaluación LOMLOE lista para usar.</p>
@@ -4614,6 +4649,21 @@
       <button type="button" class="sec-gen-btn" id="secGenBtn" data-action="generarSecuencia">
         Generar secuencia ✦
       </button>
+      <div class="gen-key-wrap" data-key-panel>
+        <div class="gen-key-head">
+          <button type="button" class="gen-key-toggle" data-action="toggleGeneratorKeyPanel" aria-expanded="false">⚙ Gemini/API</button>
+          <span class="gen-key-indicator" data-key-status-text>Modo local</span>
+        </div>
+        <div class="gen-key-panel" hidden>
+          <p class="gen-key-help">Clave opcional de Google AI Studio. Si no la añades, la secuencia se genera con plantilla local.</p>
+          <div class="gen-key-row">
+            <input type="password" class="gen-key-input" placeholder="AIza…" autocomplete="off" aria-label="Clave API Gemini">
+            <button type="button" class="gen-key-save" data-action="saveGeneratorKey">Activar Gemini</button>
+            <button type="button" class="gen-key-clear" data-action="clearGeneratorKey">Quitar</button>
+          </div>
+          <div class="gen-key-status" role="status">Sin clave: se usará el modo local.</div>
+        </div>
+      </div>
     </div>
     <div class="sec-body" id="secBody">
       <p class="sec-placeholder">Elige un título, la etapa, el número de sesiones y la competencia principal.
@@ -4629,7 +4679,7 @@
 </div>
 
 <!-- ══ MAPA DE CONEXIONES ══════════════════════════════════════ -->
-<div id="mapaOverlay" role="dialog" aria-modal="true" aria-labelledby="mapaTitle">
+<div id="mapaOverlay" role="dialog" aria-modal="true" aria-labelledby="mapaTitle" data-close-action="closeMapa">
   <div id="mapaModal">
     <div class="mapa-header">
       <h2 id="mapaTitle">⊕ Mapa de conexiones entre títulos</h2>
@@ -4693,6 +4743,9 @@
 <div id="tools-fab" role="toolbar" aria-label="Herramientas">
   <div class="fab-items" id="fabItems">
     <div class="fab-item">
+      <button type="button" class="fab-action modo-lectura-btn" id="modoLecturaBtn" aria-pressed="false" aria-label="Activar modo lectura accesible">Aa</button>
+    </div>
+    <div class="fab-item">
       <button type="button" class="fab-action" data-action="openSec" aria-label="Generador de secuencia didáctica" title="Secuencia didáctica">✦</button>
       <button type="button" class="fab-action" data-action="openGuia" aria-label="Generador de guía didáctica" title="Guía didáctica">⊞</button>
     </div>
@@ -4727,7 +4780,7 @@
       <button type="button" class="fab-action" data-action="openExpo" aria-label="Panel de reflexión para la exposición" title="Reflexión de la exposición">❝</button>
     </div>
   </div>
-  <button type="button" id="tools-fab-toggle" aria-label="Abrir herramientas" aria-expanded="false" title="Herramientas">+</button>
+  <button type="button" id="tools-fab-toggle" aria-label="Abrir herramientas" aria-expanded="false" aria-controls="fabItems" title="Herramientas">+</button>
 </div>
 
 <!-- ══ COMP DRAWER ══════════════════════════════════════════ -->
@@ -4772,13 +4825,19 @@
      Grafo de dependencias:
        d3.min.js        -> (base de visualizaciones)
        datos.min.js     -> define window.CATALOGO, window.USO_COLORES
-       app.min.js       -> nucleo; usa d3 y datos; expone window.* (API)
+       core/config.js   -> define window.MANGA_APP_CONFIG
+       core/utils.js    -> define window.MangaUtils
+       core/curriculo.js -> define window.MANGA_CURRICULO_NORMATIVO
+       app.min.js       -> nucleo; usa d3, datos, utilidades y matriz normativa; expone window.* (API)
        modulos js/*.js   -> consumen la API de app via DOM/eventos
        timeline-jump.js -> navegacion temporal (consume app)
      ============================================================ -->
-<script defer src="assets/libs/d3.min.js?v=5.51.0"></script>
-<script defer src="js/datos.min.js?v=5.51.0"></script>
-<script defer src="js/app.min.js?v=5.51.0"></script>
+<script defer src="assets/libs/d3.min.js?v=5.56.1"></script>
+<script defer src="js/datos.min.js?v=5.56.1"></script>
+<script defer src="js/core/config.js?v=5.56.1"></script>
+<script defer src="js/core/utils.js?v=5.56.1"></script>
+<script defer src="js/core/curriculo.js?v=5.56.1"></script>
+<script defer src="js/app.min.js?v=5.56.1"></script>
 <script defer src="js/vinetas-generator.js"></script>
 <script defer src="js/catalog-collapse.js"></script>
 <script defer src="js/etapa-selector.js"></script>
@@ -4797,9 +4856,11 @@
 <script defer src="js/planificador.js"></script>
 <script defer src="js/preferencias.js"></script><!-- G2 -->
 <script defer src="js/andamiaje-lectura.js"></script><!-- D1 -->
-<script defer src="js/v551-reveal.js?v=5.51.0"></script><!-- v5.51: revelado sobrio -->
+<script defer src="js/v551-reveal.js?v=5.56.1"></script><!-- v5.51: revelado sobrio -->
+<script defer src="js/orden-lectura.js?v=5.56.1"></script><!-- v5.53: orden de lectura -->
+<script defer src="js/guia-fix.js?v=5.56.1"></script><!-- Correccion robusta guia didactica -->
 
-<div id="lecturaOverlay" role="dialog" aria-modal="true" aria-labelledby="lecturaTitleEl">
+<div id="lecturaOverlay" role="dialog" aria-modal="true" aria-labelledby="lecturaTitleEl" data-close-action="closeLectura">
   <div id="lecturaModal">
     <div class="lectura-header">
       <span class="lectura-label">⊕ Ficha de lectura guiada — Biblioteca Campus del Obelisco · ULPGC</span>
@@ -4817,7 +4878,7 @@
 </div>
 
 
-<div id="histOverlay" role="dialog" aria-modal="true" aria-labelledby="histTitle">
+<div id="histOverlay" role="dialog" aria-modal="true" aria-labelledby="histTitle" data-close-action="closeHist">
   <div id="histModal">
     <div class="hist-header"><h2 id="histTitle">Historial</h2>
       <button type="button" class="hist-close" data-action="closeHist">Cerrar ✕</button></div>
@@ -4846,17 +4907,19 @@
 <!-- ══ ASISTENTE IA RENOVADO — Mejora 4 ═══════════════════════ -->
 <button type="button" id="aiFloatingBtn"
         aria-label="Abrir asistente pedagógico IA"
+        aria-controls="asistPanel"
+        aria-expanded="false"
         title="Asistente IA · Gemini"
         data-action="toggleAsistPanel">
   ✧<span class="ai-pulse"></span>
 </button>
 
-<div id="asistPanel" role="dialog" aria-modal="true" aria-label="Asistente pedagógico IA">
+<div id="asistPanel" role="dialog" aria-modal="true" aria-label="Asistente pedagógico IA" data-close-action="toggleAsistPanel">
   <div class="asist-hd">
     <span class="asist-hd-icon">✦</span>
     <span class="asist-hd-title">Asistente Pedagógico</span>
     <span class="asist-hd-model">Gemini 2.5 Flash</span>
-    <button type="button" class="asist-hd-close" data-action="toggleAsistPanel">✕</button>
+    <button type="button" class="asist-hd-close" data-action="toggleAsistPanel" aria-label="Cerrar asistente pedagógico IA">✕</button>
   </div>
   <!-- Badge de modo sin conexión: oculto por defecto, visible en offline -->
   <div id="asist-offline-badge" role="status" aria-live="polite"
@@ -5008,8 +5071,8 @@
     </div>
   </div>
 </div>
-  <script defer src="js/timeline-jump.js?v=5.51.0"></script>
-  <script src="sw-register.js"></script>
+  <script defer src="js/timeline-jump.js?v=5.56.1"></script>
+  <script defer src="js/modo-lectura.js"></script>
+  <script defer src="sw-register.js?v=5.56.1"></script>
 </body>
 </html>
-
