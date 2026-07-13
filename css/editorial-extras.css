@@ -2602,7 +2602,7 @@ body.has-overlay #catalogo-novedad-banner {
   position: relative;
 }
 .filter-bar.is-compact::after {
-  content: 'â‹®  toca para expandir';
+  content: '⋮  toca para expandir';
   position: absolute;
   right: 1rem;
   top: 50%;
@@ -3998,3 +3998,93 @@ body.modo-consulta .mb-hm-grid, body.modo-consulta .mb-hm-hero{display:none;}
   #sc .era-name { font-size: .92rem !important; }
 }
 
+.gen-key-wrap {
+  flex-basis: 100%;
+  border: 1px solid rgba(148, 112, 35, .28);
+  border-radius: 8px;
+  background: rgba(255, 250, 238, .78);
+  padding: .55rem .7rem;
+}
+
+.gen-key-head,
+.gen-key-row {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  flex-wrap: wrap;
+}
+
+.gen-key-toggle,
+.gen-key-save,
+.gen-key-clear {
+  border: 1px solid rgba(92, 65, 19, .22);
+  border-radius: 6px;
+  background: #fffaf0;
+  color: #442f11;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 34px;
+  padding: .38rem .65rem;
+}
+
+.gen-key-save {
+  background: #4c6b48;
+  border-color: #4c6b48;
+  color: #fff;
+}
+
+.gen-key-clear {
+  background: transparent;
+}
+
+.gen-key-toggle[aria-expanded="true"] {
+  background: #f2e1bd;
+}
+
+.gen-key-indicator {
+  border-radius: 999px;
+  background: rgba(76, 107, 72, .12);
+  color: #3f5c39;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .18rem .55rem;
+}
+
+.gen-key-panel {
+  margin-top: .55rem;
+}
+
+.gen-key-panel[hidden] {
+  display: none !important;
+}
+
+.gen-key-help,
+.gen-key-status {
+  color: #5e513d;
+  font-size: .88rem;
+  line-height: 1.35;
+  margin: 0 0 .45rem;
+}
+
+.gen-key-input {
+  flex: 1 1 260px;
+  min-height: 34px;
+  min-width: min(100%, 220px);
+  border: 1px solid rgba(92, 65, 19, .24);
+  border-radius: 6px;
+  padding: .38rem .55rem;
+}
+
+.gen-key-status {
+  margin: .45rem 0 0;
+}
+
+.gen-key-status.ok {
+  color: #2f6334;
+  font-weight: 700;
+}
+
+.gen-key-status.err {
+  color: #9b2f24;
+  font-weight: 700;
+}

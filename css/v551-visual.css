@@ -189,6 +189,29 @@
   .rv-armed .rv { opacity: 1; transform: none; transition: none; }
 }
 
+/* ── 6 · Fluidez del carril de la línea del tiempo en táctil ──── */
+/* Diagnóstico (v5.55): en móvil cada columna mide ~82vw y declara
+   scroll-snap-align:start con proximity (estilos.css y
+   editorial-extras.css, con !important). Con columnas casi tan
+   anchas como la pantalla, casi toda posición queda «cerca» de un
+   punto de snap: el navegador captura la inercia del gesto y la
+   frena en el inicio de columna, de modo que los deslizamientos
+   largos mueren a mitad de camino («se atasca»). El snap aporta
+   poco aquí (el eje dorado es continuo, no un carrusel de páginas),
+   así que se desactiva SOLO en punteros táctiles; en escritorio
+   nunca se aplicaba (las reglas viven en media queries móviles).
+   Esta hoja carga la última: mismo selector + !important posterior
+   gana la cascada sobre los !important heredados.                  */
+@media (pointer: coarse), (max-width: 760px) {
+  #sc.scroll {
+    scroll-snap-type: none !important;
+    will-change: scroll-position;
+  }
+  #sc .col {
+    scroll-snap-align: none !important;
+  }
+}
+
 /* Impresión: tablas con bordes plenos y sin sombras */
 @media print {
   .tabla-editorial { box-shadow: none; }

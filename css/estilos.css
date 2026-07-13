@@ -1470,6 +1470,27 @@ body.filtering-ods #odsCounter { display:inline-block; }
   outline: 3px solid var(--gold);
   outline-offset: 2px;
 }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.fab-action:focus-visible,
+#tools-fab-toggle:focus-visible,
+#gtt-btn:focus-visible,
+#aiFloatingBtn:focus-visible,
+.ficha-star:focus-visible {
+  box-shadow: 0 0 0 3px rgba(184,134,11,.35);
+}
+.vitrina-related-item:focus-visible,
+.grp-item:focus-visible {
+  outline-offset: -2px;
+}
 /* Skip link */
 .skip-link {
   position: absolute; top: -100px; left: 1rem;
@@ -7858,3 +7879,18 @@ body.modo-proyeccion .emocion-bar { display: none; }
     font-size: .9rem;
   }
 }
+
+
+/* ══ MODO LECTURA ACCESIBLE — v5.11 ══════════════════════════════
+   Vista plana + alto contraste + sin animaciones. Toggle #modoLecturaBtn
+   (js/modo-lectura.js), persiste en SafeStorage 'manga_modo_lectura'. */
+html.modo-lectura { font-size: 112.5%; }
+html.modo-lectura *, html.modo-lectura *::before, html.modo-lectura *::after {
+  animation: none !important; transition: none !important;
+}
+html.modo-lectura .cur-panel, html.modo-lectura .sa-panel,
+html.modo-lectura .itin-panel, html.modo-lectura .univ-panel,
+html.modo-lectura .rec-panel { display: block !important; }
+html.modo-lectura body { --grey: #4a3a2c; --rule: #8a7a5f; }
+html.modo-lectura .ac { background: #f5efe0; box-shadow: none; }
+html.modo-lectura .modo-lectura-btn.active { background: var(--gold, #a8852d); color: #fff; }

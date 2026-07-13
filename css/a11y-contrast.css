@@ -225,3 +225,147 @@ body.modo-proyeccion header {
 [style*="color:var(--gold)"] {
   color: var(--gold-text) !important;
 }
+
+/* Correcciones de legibilidad y controles en modales/listados v5.55 */
+#mapaAdaptWrap {
+  background: #f7f0e2 !important;
+  color: #1a1008 !important;
+}
+
+#mapaAdaptWrap .adapt-grafo-controls {
+  background: #efe3cc !important;
+  border-bottom-color: #b9aa91 !important;
+}
+
+#mapaAdaptWrap .adapt-grafo-hint,
+#mapaAdaptWrap .adapt-empty,
+#mapaAdaptWrap .adapt-manga-ka,
+#mapaAdaptWrap .adapt-relacion,
+#mapaAdaptWrap .adapt-orig-autor,
+#mapaAdaptWrap .adapt-card-nota,
+#mapaAdaptWrap .adapt-curriculo {
+  color: #4f4638 !important;
+  opacity: 1 !important;
+}
+
+#mapaAdaptWrap .adapt-card {
+  background: #fffaf0 !important;
+  border-color: #d8c8ad !important;
+  box-shadow: 0 1px 0 rgba(26, 16, 8, .06) !important;
+}
+
+#mapaAdaptWrap .adapt-card:hover,
+#mapaAdaptWrap .adapt-card:focus-within {
+  background: #fff4da !important;
+  border-color: #a9852e !important;
+}
+
+#mapaAdaptWrap .adapt-manga-title,
+#mapaAdaptWrap .adapt-orig-title {
+  color: #1a1008 !important;
+  text-shadow: none !important;
+}
+
+#mapaAdaptWrap .adapt-orig-label,
+#mapaAdaptWrap .adapt-card-arrow {
+  color: #7a4f00 !important;
+  opacity: 1 !important;
+}
+
+#mapaAdaptWrap .adapt-filtro-btn {
+  background: #fffaf0 !important;
+  color: #1a1008 !important;
+  border-width: 2px !important;
+  min-height: 34px !important;
+}
+
+#mapaAdaptWrap .adapt-filtro-btn.active,
+#mapaAdaptWrap .adapt-filtro-btn:hover,
+#mapaAdaptWrap .adapt-filtro-btn:focus-visible {
+  color: #fff !important;
+  outline: 2px solid #1a1008 !important;
+  outline-offset: 2px !important;
+}
+
+#guiaModal {
+  color: #1a1008 !important;
+}
+
+#guiaModal .guia-body {
+  min-height: min(560px, calc(90vh - 64px)) !important;
+}
+
+#guiaModal .guia-picker-item {
+  color: #1a1008 !important;
+  border-bottom: 1px solid rgba(26, 16, 8, .08) !important;
+  min-height: 46px !important;
+}
+
+#guiaModal .guia-picker-item:hover,
+#guiaModal .guia-picker-item:focus-within,
+#guiaModal .guia-picker-item:focus-visible {
+  background: #fff0c9 !important;
+  outline: 2px solid #7a4f00 !important;
+  outline-offset: -2px !important;
+}
+
+#guiaModal .guia-picker-title,
+#guiaModal .guia-options label,
+#guiaModal .guia-chip {
+  color: #1a1008 !important;
+}
+
+#guiaModal .guia-picker-author,
+#guiaModal .guia-config-label {
+  color: #4f4638 !important;
+}
+
+#guiaModal input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  cursor: pointer !important;
+}
+
+#guiaModal .guia-config {
+  overflow-y: auto !important;
+  padding-bottom: .8rem !important;
+}
+
+#guiaModal .guia-generate-btn {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 2 !important;
+  min-height: 46px !important;
+  margin-top: 1rem !important;
+  color: #ffe39a !important;
+  border-color: #b8860b !important;
+  box-shadow: 0 -8px 18px rgba(247, 240, 226, .9) !important;
+}
+
+#guiaModal .guia-generate-btn:not(:disabled) {
+  background: #241506 !important;
+  color: #ffe39a !important;
+}
+
+#guiaModal .guia-generate-btn:disabled {
+  background: #e2d7c4 !important;
+  color: #5a5144 !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 760px) {
+  #guiaModal .guia-body {
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  #guiaModal .guia-picker,
+  #guiaModal .guia-config {
+    width: 100% !important;
+    min-height: 0 !important;
+  }
+  #guiaModal .guia-picker {
+    max-height: 46vh !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #cdbb9c !important;
+  }
+}

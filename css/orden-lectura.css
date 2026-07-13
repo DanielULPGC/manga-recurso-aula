@@ -1,0 +1,156 @@
+/* ══════════════════════════════════════════════════════════════
+   orden-lectura.css — «¿En qué orden se lee?»
+   Página esquemática: viñetas blancas con borde de tinta sobre el
+   pergamino del recurso; el medianil visible hace de ma. Los
+   números aparecen como sellos de tinta al pulsar cada viñeta.
+   ══════════════════════════════════════════════════════════════ */
+
+#orden-lectura-root { max-width: 560px; }
+
+.ol-tabs { display: flex; gap: .5rem; margin-bottom: .6rem; }
+.ol-tab {
+  font-family: 'Cinzel', serif;
+  font-size: .62rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--grey);
+  background: transparent;
+  border: 1px solid rgba(184,134,11,.45);
+  border-radius: 999px;
+  padding: .35rem .85rem;
+  cursor: pointer;
+}
+.ol-tab[aria-pressed="true"] {
+  color: var(--paper, #f5efe0);
+  background: var(--ink, #1a1008);
+  border-color: var(--ink, #1a1008);
+}
+.ol-tab:focus-visible,
+.ol-btn:focus-visible,
+.ol-panel:focus-visible {
+  outline: 3px solid var(--gold, #b8860b);
+  outline-offset: 2px;
+}
+
+.ol-desc {
+  font-size: .9rem; font-style: italic; color: var(--grey);
+  margin: 0 0 .8rem; line-height: 1.5;
+}
+
+/* La «página»: lámina blanca sobre paspartú de tinta suave */
+.ol-marco {
+  background: rgba(26,16,8,.06);
+  border: 1px solid rgba(26,16,8,.18);
+  padding: 14px;
+}
+.ol-pagina {
+  display: grid;
+  gap: 10px;            /* el medianil: el ma hecho visible */
+  aspect-ratio: 5 / 6;
+  background: transparent;
+}
+.ol-panel {
+  position: relative;
+  background: #fffdf6;
+  border: 2px solid var(--ink, #1a1008);
+  border-radius: 1px;
+  cursor: pointer;
+  min-height: 56px;
+  transition: transform .12s ease-out, box-shadow .12s ease-out;
+}
+.ol-panel:hover:not(.ol-elegida) {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(26,16,8,.18);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ol-panel, .ol-panel:hover:not(.ol-elegida) { transition: none; transform: none; }
+}
+
+/* Detalles esquemáticos (decorativos, aria-hidden) */
+.ol-fukidashi {
+  position: absolute; top: 10%; right: 12%;
+  width: 38%; max-width: 72px; aspect-ratio: 3 / 2;
+  border: 2px solid var(--ink, #1a1008);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; color: var(--ink, #1a1008);
+  background: #fff;
+}
+.ol-kakimoji {
+  position: absolute; bottom: 8%; left: 10%;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 700; font-size: 1.15rem;
+  color: var(--ink, #1a1008);
+  transform: rotate(-8deg);
+  letter-spacing: .08em;
+}
+.ol-lineas {
+  background:
+    repeating-linear-gradient(115deg,
+      transparent 0 9px,
+      rgba(26,16,8,.16) 9px 10px),
+    #fffdf6;
+}
+
+/* Sello de número al pulsar */
+.ol-num {
+  position: absolute; top: 6px; right: 6px;
+  width: 26px; height: 26px;
+  display: none;
+  align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif; font-weight: 700; font-size: .85rem;
+  color: var(--paper, #f5efe0);
+  background: var(--ink, #1a1008);
+  border-radius: 50%;
+}
+.ol-elegida .ol-num { display: flex; }
+.ol-elegida { cursor: default; }
+
+/* Evaluación */
+.ol-bien { border-color: var(--gold, #b8860b); box-shadow: inset 0 0 0 2px rgba(184,134,11,.35); }
+.ol-bien .ol-num { background: var(--gold, #b8860b); color: var(--ink, #1a1008); }
+.ol-mal  { border-style: dashed; border-color: #8b1a1a; }
+.ol-mal .ol-num { background: #8b1a1a; }
+.ol-esperado {
+  position: absolute; bottom: 6px; right: 8px;
+  font-family: 'EB Garamond', serif; font-weight: 700;
+  font-size: .85rem; color: #8b1a1a;
+}
+.ol-solucion .ol-num { background: var(--gold, #b8860b); color: var(--ink, #1a1008); }
+
+/* Acciones y realimentación */
+.ol-acciones { display: flex; gap: .6rem; margin-top: .9rem; }
+.ol-btn {
+  font-family: 'Cinzel', serif; font-size: .66rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--paper, #f5efe0);
+  background: var(--ink, #1a1008);
+  border: 1px solid var(--ink, #1a1008);
+  padding: .5rem 1rem; cursor: pointer;
+}
+.ol-btn-sec {
+  color: var(--ink, #1a1008);
+  background: transparent;
+  border-color: rgba(26,16,8,.45);
+}
+.ol-feedback {
+  min-height: 1.4em;
+  margin: .8rem 0 0;
+  font-size: .92rem; line-height: 1.55;
+}
+.ol-fb-bien { color: #6b5500; }
+.ol-fb-mal  { color: #8b1a1a; }
+
+@media print {
+  .ol-tabs, .ol-acciones { display: none; }
+}
+
+/* Móviles estrechos: garantizar área táctil cómoda y que las
+   decoraciones no compriman la viñeta (objetivo >=44px de alto). */
+@media (max-width: 480px) {
+  #orden-lectura-root { max-width: 100%; }
+  .ol-panel { min-height: 64px; }
+  .ol-num { width: 24px; height: 24px; font-size: .8rem; }
+  .ol-fukidashi { max-width: 54px; }
+  .ol-tab { padding: .45rem .7rem; }
+  .ol-btn { padding: .6rem .9rem; }
+}
