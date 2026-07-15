@@ -5783,7 +5783,7 @@ document.addEventListener('DOMContentLoaded', function() {
     'Les envahisseurs':                  [9,16],  // ciencia ficción, paz
     'Big X':                             [16,9],  // guerra, experimentos
     'Dark Angel':                        [9,16],  // ciencia ficción, futuro
-    'Leviathan':                         [13,16], // ecología y conflicto
+    'Leviatán':                          [13,16], // ecología y conflicto
     'Adam y Eve':                        [9,3],   // clonación, bioética
     'Mundo salvaje':                     [15,13], // naturaleza, ecosistemas
     'Mundo perdido':                     [15,13], // naturaleza, biodiversidad
@@ -5836,6 +5836,14 @@ document.addEventListener('DOMContentLoaded', function() {
     'La Bestia':                         [16,10], // violencia, justicia
     'Grand dolls':                       [10,16], // desigualdad, género
 
+    // ── ESTUDIOS Y ADAPTACIONES LITERARIAS ─────────────────────
+    'Manga : the Citi exhibition':       [4,11],  // alfabetización, patrimonio
+    'El Sabueso y otros relatos':        [4],     // lectura crítica
+    'La sombra sobre Innsmouth':         [4,10],  // lectura crítica, alteridad
+    'El color que cayó del cielo':       [3,4,15],// salud, educación, ambiente
+    'El horror de Dunwich nº 01/03':     [4],     // lectura crítica
+    'El morador de las tinieblas':       [4],     // lectura crítica
+
     // ── EDUCACIÓN EMOCIONAL ───────────────────────────────────
     'Solanin : Integral':                [3,10],  // salud mental, juventud
     'Tengo cáncer terminal, pero estoy bien': [3,10],
@@ -5843,6 +5851,8 @@ document.addEventListener('DOMContentLoaded', function() {
     'Hirayasumi':                        [3,11],  // bienestar, comunidad
     'La calma después de la tormenta':   [3,10],  // duelo, amistad
     'After School Dice Club':            [4,10],  // educación, inclusión
+    'La barca de los cinco colores':     [4,10],  // educación, desigualdades
+    'Historias con aroma a café':        [3,4],   // bienestar, educación
     'La pequeña forastera : Siúil, a Rún': [10,4],
     'Amor es cuando cesa la lluvia':     [3,5],   // bienestar, relaciones
     'Los años dulces':                   [3,5],   // bienestar, identidad
@@ -6390,6 +6400,7 @@ function renderCatalog() {
   const fragment = document.createDocumentFragment();
 
   catalogo.forEach(t => {
+    const isPending = t.estado_catalogo === 'pendiente_revision';
     // ── Contenedor principal ───────────────────────────────────────
     const card = document.createElement('div');
     card.className = 'cat-card';
@@ -6424,19 +6435,26 @@ function renderCatalog() {
     // Badges de uso
     const badgesDiv = document.createElement('div');
     badgesDiv.className = 'cat-badges';
-    t.badges.forEach(b => {
+    (t.badges || []).forEach(b => {
       const s = document.createElement('span');
       s.className = 'cat-badge';
       s.style.background = t.color;
       s.textContent = b;
       badgesDiv.appendChild(s);
     });
+    if (isPending) {
+      const status = document.createElement('span');
+      status.className = 'cat-badge';
+      status.style.background = t.color;
+      status.textContent = 'Pendiente de revisión didáctica';
+      badgesDiv.appendChild(status);
+    }
     body.appendChild(badgesDiv);
 
     // Badges de nivel
     const nivelDiv = document.createElement('div');
     nivelDiv.className = 'cat-nivel';
-    t.niveles.forEach(n => {
+    (t.niveles || []).forEach(n => {
       const s = document.createElement('span');
       s.className = 'niv-badge';
       s.textContent = n;
@@ -6478,23 +6496,25 @@ function renderCatalog() {
     }
 
     // Acciones (botones)
-    const actions = document.createElement('div');
-    actions.className = 'cat-card-actions';
-    actions.innerHTML =
-      `<button type="button" class="cat-comp-btn"
-               data-action="toggleCompCard"
-               title="Añadir al comparador">⊕ Comparar</button>` +
-      `<button type="button" class="cat-ficha-btn"
-               data-action="openFichaCard"
-               title="Ver ficha de aula">Ficha aula</button>` +
-      `<button type="button" class="cat-ficha-btn"
-               style="background:rgba(42,58,122,.08);border-color:rgba(42,58,122,.3)"
-               data-action="openRubricaCard"
-               title="Generar rúbrica IA">Rúbrica IA</button>` +
-      `<button type="button" class="cat-lectura-btn"
-               data-action="openLecturaCard"
-               title="Ficha de lectura guiada">Lectura</button>`;
-    body.appendChild(actions);
+    if (!isPending) {
+      const actions = document.createElement('div');
+      actions.className = 'cat-card-actions';
+      actions.innerHTML =
+        `<button type="button" class="cat-comp-btn"
+                 data-action="toggleCompCard"
+                 title="Añadir al comparador">⊕ Comparar</button>` +
+        `<button type="button" class="cat-ficha-btn"
+                 data-action="openFichaCard"
+                 title="Ver ficha de aula">Ficha aula</button>` +
+        `<button type="button" class="cat-ficha-btn"
+                 style="background:rgba(42,58,122,.08);border-color:rgba(42,58,122,.3)"
+                 data-action="openRubricaCard"
+                 title="Generar rúbrica IA">Rúbrica IA</button>` +
+        `<button type="button" class="cat-lectura-btn"
+                 data-action="openLecturaCard"
+                 title="Ficha de lectura guiada">Lectura</button>`;
+      body.appendChild(actions);
+    }
 
     // Enlace OPAC (opcional)
     if (t.opac) {
@@ -6561,6 +6581,7 @@ const ValidadorEsquema = (() => {
   function _validateEntry(entry, idx) {
     const errors = [];
     const ref = `[${idx}] «${entry.titulo || '(sin título)'}»`;
+    const isPending = entry.estado_catalogo === 'pendiente_revision';
 
     // ── Campos obligatorios ──────────────────────────────────
     if (!entry.titulo || typeof entry.titulo !== 'string' || !entry.titulo.trim()) {
@@ -6572,7 +6593,7 @@ const ValidadorEsquema = (() => {
     if (!entry.tip || typeof entry.tip !== 'string') {
       errors.push(`${ref} — OBLIGATORIO: 'tip' ausente`);
     }
-    if (!entry.uso || typeof entry.uso !== 'string') {
+    if (!isPending && (!entry.uso || typeof entry.uso !== 'string')) {
       errors.push(`${ref} — OBLIGATORIO: 'uso' ausente`);
     }
 
