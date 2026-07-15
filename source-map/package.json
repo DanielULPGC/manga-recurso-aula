@@ -1,68 +1,73 @@
 {
-  "name": "@jridgewell/source-map",
-  "version": "0.3.11",
-  "description": "Packages @jridgewell/trace-mapping and @jridgewell/gen-mapping into the familiar source-map API",
-  "keywords": [
-    "sourcemap",
-    "source",
-    "map"
+  "name": "source-map",
+  "description": "Generates and consumes source maps",
+  "version": "0.6.1",
+  "homepage": "https://github.com/mozilla/source-map",
+  "author": "Nick Fitzgerald <nfitzgerald@mozilla.com>",
+  "contributors": [
+    "Tobias Koppers <tobias.koppers@googlemail.com>",
+    "Duncan Beevers <duncan@dweebd.com>",
+    "Stephen Crane <scrane@mozilla.com>",
+    "Ryan Seddon <seddon.ryan@gmail.com>",
+    "Miles Elam <miles.elam@deem.com>",
+    "Mihai Bazon <mihai.bazon@gmail.com>",
+    "Michael Ficarra <github.public.email@michael.ficarra.me>",
+    "Todd Wolfson <todd@twolfson.com>",
+    "Alexander Solovyov <alexander@solovyov.net>",
+    "Felix Gnass <fgnass@gmail.com>",
+    "Conrad Irwin <conrad.irwin@gmail.com>",
+    "usrbincc <usrbincc@yahoo.com>",
+    "David Glasser <glasser@davidglasser.net>",
+    "Chase Douglas <chase@newrelic.com>",
+    "Evan Wallace <evan.exe@gmail.com>",
+    "Heather Arthur <fayearthur@gmail.com>",
+    "Hugh Kennedy <hughskennedy@gmail.com>",
+    "David Glasser <glasser@davidglasser.net>",
+    "Simon Lydell <simon.lydell@gmail.com>",
+    "Jmeas Smith <jellyes2@gmail.com>",
+    "Michael Z Goddard <mzgoddard@gmail.com>",
+    "azu <azu@users.noreply.github.com>",
+    "John Gozde <john@gozde.ca>",
+    "Adam Kirkton <akirkton@truefitinnovation.com>",
+    "Chris Montgomery <christopher.montgomery@dowjones.com>",
+    "J. Ryan Stinnett <jryans@gmail.com>",
+    "Jack Herrington <jherrington@walmartlabs.com>",
+    "Chris Truter <jeffpalentine@gmail.com>",
+    "Daniel Espeset <daniel@danielespeset.com>",
+    "Jamie Wong <jamie.lf.wong@gmail.com>",
+    "Eddy Bruël <ejpbruel@mozilla.com>",
+    "Hawken Rives <hawkrives@gmail.com>",
+    "Gilad Peleg <giladp007@gmail.com>",
+    "djchie <djchie.dev@gmail.com>",
+    "Gary Ye <garysye@gmail.com>",
+    "Nicolas Lalevée <nicolas.lalevee@hibnet.org>"
   ],
-  "main": "dist/source-map.umd.js",
-  "module": "dist/source-map.mjs",
-  "types": "types/source-map.d.cts",
-  "files": [
-    "dist",
-    "src",
-    "types"
-  ],
-  "exports": {
-    ".": [
-      {
-        "import": {
-          "types": "./types/source-map.d.mts",
-          "default": "./dist/source-map.mjs"
-        },
-        "default": {
-          "types": "./types/source-map.d.cts",
-          "default": "./dist/source-map.umd.js"
-        }
-      },
-      "./dist/source-map.umd.js"
-    ],
-    "./package.json": "./package.json"
-  },
-  "scripts": {
-    "benchmark": "run-s build:code benchmark:*",
-    "benchmark:install": "cd benchmark && npm install",
-    "benchmark:only": "node --expose-gc benchmark/index.js",
-    "build": "run-s -n build:code build:types",
-    "build:code": "node ../../esbuild.mjs source-map.ts",
-    "build:types": "run-s build:types:force build:types:emit build:types:mts",
-    "build:types:force": "rimraf tsconfig.build.tsbuildinfo",
-    "build:types:emit": "tsc --project tsconfig.build.json",
-    "build:types:mts": "node ../../mts-types.mjs",
-    "clean": "run-s -n clean:code clean:types",
-    "clean:code": "tsc --build --clean tsconfig.build.json",
-    "clean:types": "rimraf dist types",
-    "test": "run-s -n test:types test:only test:format",
-    "test:format": "prettier --check '{src,test}/**/*.ts'",
-    "test:only": "mocha",
-    "test:types": "eslint '{src,test}/**/*.ts'",
-    "lint": "run-s -n lint:types lint:format",
-    "lint:format": "npm run test:format -- --write",
-    "lint:types": "npm run test:types -- --fix",
-    "prepublishOnly": "npm run-s -n build test"
-  },
-  "homepage": "https://github.com/jridgewell/sourcemaps/tree/main/packages/source-map",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jridgewell/sourcemaps.git",
-    "directory": "packages/source-map"
+    "url": "http://github.com/mozilla/source-map.git"
   },
-  "author": "Justin Ridgewell <justin@ridgewell.name>",
-  "license": "MIT",
-  "dependencies": {
-    "@jridgewell/gen-mapping": "^0.3.5",
-    "@jridgewell/trace-mapping": "^0.3.25"
-  }
+  "main": "./source-map.js",
+  "files": [
+    "source-map.js",
+    "source-map.d.ts",
+    "lib/",
+    "dist/source-map.debug.js",
+    "dist/source-map.js",
+    "dist/source-map.min.js",
+    "dist/source-map.min.js.map"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "npm run build && node test/run-tests.js",
+    "build": "webpack --color",
+    "toc": "doctoc --title '## Table of Contents' README.md && doctoc --title '## Table of Contents' CONTRIBUTING.md"
+  },
+  "devDependencies": {
+    "doctoc": "^0.15.0",
+    "webpack": "^1.12.0"
+  },
+  "typings": "source-map"
 }
