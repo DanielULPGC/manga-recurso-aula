@@ -6,6 +6,7 @@ import { failWithFindings, ok, readText, sitePath } from './check-utils.mjs';
 
 const REPORT = join(sitePath('..'), 'reports', 'catalogo-validacion.md');
 const REQUIRED = ['titulo', 'autor', 'uso', 'nivel', 'color', 'tip', 'periodo', 'badges', 'niveles', 'ods', 'opac'];
+const PENDING_PEDAGOGICAL_FIELDS = new Set(['uso', 'nivel', 'periodo', 'badges', 'niveles', 'ods']);
 const ALLOWED_LEVEL_TOKENS = new Set(['primaria', 'secundaria', 'bachillerato', 'universidad']);
 const ALLOWED_USE_TOKENS = new Set(['ciencia', 'historia', 'filosofia', 'lenguas', 'emocional', 'genero', 'inclusion', 'visual']);
 const EXPECTED_BADGE_BY_USE = {
@@ -41,6 +42,17 @@ function itemLabel(item, index) {
   return `${index + 1}. ${item?.titulo || '(sin titulo)'}`;
 }
 
+function isValidIsbn13(value) {
+  const digits = String(value || '').replace(/[-\s]/g, '');
+  if (!/^\d{13}$/.test(digits)) return false;
+
+  const sum = [...digits.slice(0, 12)].reduce(
+    (total, digit, index) => total + Number(digit) * (index % 2 === 0 ? 1 : 3),
+    0,
+  );
+  return (10 - (sum % 10)) % 10 === Number(digits[12]);
+}
+
 const source = await readText(sitePath('js', 'datos.js'));
 const catalog = loadCatalog(source);
 const errors = [];
@@ -50,8 +62,10 @@ const seenTitles = new Map();
 
 catalog.forEach((item, index) => {
   const label = itemLabel(item, index);
+  const isPending = item.estado_catalogo === 'pendiente_revision';
 
   for (const field of REQUIRED) {
+    if (isPending && PENDING_PEDAGOGICAL_FIELDS.has(field)) continue;
     const value = item[field];
     if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) {
       errors.push(`${label}: campo obligatorio ausente o vacio: ${field}`);
@@ -122,6 +136,27 @@ catalog.forEach((item, index) => {
   }
   if (item.sens_label && item.sensitive !== true) {
     warnings.push(`${label}: sens_label informado sin sensitive=true`);
+  }
+
+  if (item.estado_catalogo != null && !isPending) {
+    errors.push(`${label}: estado_catalogo no reconocido: ${item.estado_catalogo}`);
+  }
+  if (isPending && (!Array.isArray(item.pendiente_revision) || item.pendiente_revision.length === 0)) {
+    errors.push(`${label}: pendiente_revision debe enumerar los campos pendientes`);
+  }
+
+  if (item.bibliografia != null) {
+    if (typeof item.bibliografia !== 'object' || Array.isArray(item.bibliografia)) {
+      errors.push(`${label}: bibliografia debe ser un objeto`);
+    } else {
+      const { anio, isbn } = item.bibliografia;
+      if (anio != null && (!Number.isInteger(anio) || anio < 1000 || anio > 9999)) {
+        errors.push(`${label}: bibliografia.anio debe ser un año de cuatro cifras`);
+      }
+      if (isbn != null && (!Array.isArray(isbn) || isbn.length === 0 || isbn.some(value => !isValidIsbn13(value)))) {
+        errors.push(`${label}: bibliografia.isbn debe contener ISBN-13 válidos`);
+      }
+    }
   }
 });
 
