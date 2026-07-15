@@ -1,7 +1,12 @@
 {
-  "version": "5.56.1",
+  "version": "5.57.0",
   "nota": "Fuente unica de version. Editar SOLO este fichero y ejecutar: npm run build",
   "historial": [
+    {
+      "version": "5.57.0",
+      "fecha": "2026-07-15",
+      "cambio": "Evaluacion didactica trazable de las ocho fichas nuevas: niveles recomendados, usos pedagogicos, ODS, periodizacion, alertas de contenido y orientaciones de mediacion. Se mantiene separada la revision bibliografica pendiente de tres extensiones discrepantes."
+    },
     {
       "version": "5.56.1",
       "fecha": "2026-07-13",
